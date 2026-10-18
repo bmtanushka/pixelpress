@@ -1,4 +1,4 @@
-# PixelPress — private, in-browser image compressor
+# CompressZone — private, in-browser image compressor
 
 A fast static web app that compresses JPG, PNG, WebP, GIF, BMP, AVIF and SVG images and converts them to WebP. All processing happens in the visitor's browser: images are never uploaded.
 
@@ -15,22 +15,29 @@ A fast static web app that compresses JPG, PNG, WebP, GIF, BMP, AVIF and SVG ima
 ## Run locally
 
 ```bash
-cd pixelpress
+cd compresszone   # this repo
 npx http-server -p 8080 -c-1 .     # or: python3 -m http.server 8080
 ```
 Open http://localhost:8080. A web server is required because Web Workers don't run from `file://`.
 
-## Deploy to Railway (from GitHub)
+## Deploy
 
-The repo includes a `Dockerfile` and `Caddyfile`, so Railway serves the site with Caddy, which gives gzip/zstd compression, cache headers and security headers. `railway.json` tells Railway to build from that Dockerfile.
+Live at **https://compresszone.com**. The repo deploys automatically on every push to `main`, to either of two hosts. Only one of them should serve the `compresszone.com` domain; the other can stay on its free subdomain.
 
-1. In Railway, click **New Project → Deploy from GitHub repo** and pick this repository. The first time, Railway asks you to install its GitHub app and give it access to the repo.
-2. Railway builds and deploys automatically. Every push to `main` redeploys.
-3. Open the service → **Settings → Networking → Generate Domain** for a free `*.up.railway.app` URL, or click **Custom Domain** to add your own.
+### Cloudflare Workers (static assets)
+- `wrangler.jsonc` publishes the folder as static assets. No server code runs.
+- `.assetsignore` keeps config and docs files private.
+- `_headers` sets the cache and security headers.
+- Unknown URLs get the branded `404.html`.
+- The `name` in `wrangler.jsonc` **must match the Worker's name** in the Cloudflare dashboard, or Workers Builds will fail.
+- The build command can be left empty. The deploy command is `npx wrangler deploy`.
 
-You can also upload the folder to any other static host, such as Netlify, Vercel, Cloudflare Pages or GitHub Pages. HTTPS is required for the service worker.
+### Railway (Docker + Caddy)
+- The `Dockerfile` and `Caddyfile` serve the same files with gzip/zstd compression, the same headers, clean URLs and the 404 page.
+- `railway.json` tells Railway to build from that Dockerfile.
 
-Then replace `https://www.example.com/` with your domain in `index.html` (the canonical and og:url tags), `robots.txt` and `sitemap.xml`. Also update the contact email in `privacy.html`.
+### Test locally
+`npx wrangler dev` runs the Cloudflare version, and `docker build -t cz . && docker run -p 8080:8080 cz` runs the Railway version.
 
 ## Set up Google AdSense
 

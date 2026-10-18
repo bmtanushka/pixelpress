@@ -1,4 +1,4 @@
-/* PixelPress — minimal, fast, no external fonts */
+/* CompressZone — minimal, fast, no external fonts */
 :root {
   --bg: #f6f6fa;
   --surface: #ffffff;
@@ -64,7 +64,9 @@ h1, h2, h3 { line-height: 1.15; letter-spacing: -.02em; margin: 0; }
 .site-header { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid transparent; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; letter-spacing: -.01em; font-size: 17px; }
-.brand-mark { width: 28px; height: 28px; color: var(--accent); }
+.brand-mark { width: 30px; height: 30px; flex: none; }
+.wordmark { font-weight: 800; letter-spacing: -.025em; }
+.wordmark b { font-weight: 800; background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .nav { display: flex; gap: 4px; }
 .nav a { text-decoration: none; color: var(--muted); font-size: 14px; padding: 6px 10px; border-radius: 8px; }
 .nav a:hover { color: var(--text); background: var(--surface-2); }

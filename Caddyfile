@@ -6,6 +6,7 @@
 # Railway provides $PORT; HTTPS is handled by Railway's edge.
 :{$PORT:8080} {
 	root * /srv
+	try_files {path} {path}.html
 	encode zstd gzip
 
 	header {
@@ -17,10 +18,18 @@
 
 	# HTML and the service worker must always be fresh; other assets cache for an hour
 	# (the service worker also refreshes them in the background).
-	@fresh path / /*.html /sw.js /manifest.webmanifest
+	@fresh path / /privacy /terms /*.html /sw.js /manifest.webmanifest
 	header @fresh Cache-Control "no-cache"
 	@assets path /css/* /js/* /icon.svg
 	header @assets Cache-Control "public, max-age=3600"
 
+	@img path /img/*
+	header @img Cache-Control "public, max-age=86400"
+
 	file_server
+
+	handle_errors 404 {
+		rewrite * /404.html
+		file_server
+	}
 }

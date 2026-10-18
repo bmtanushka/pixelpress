@@ -1,0 +1,12 @@
+// Cloudflare Workers (static assets only — no server code; images are processed in the browser).
+// "name" must match the Worker's name in the Cloudflare dashboard, or Workers Builds will fail.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pixelpress",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": ".",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

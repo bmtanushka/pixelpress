@@ -1,10 +1,14 @@
 {
-  "name": "PixelPress — Private Image Compressor",
-  "short_name": "PixelPress",
+  "name": "CompressZone — Private Image Compressor",
+  "short_name": "CompressZone",
   "description": "Compress images and convert to WebP in your browser. Nothing is uploaded.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f6f6fa",
   "theme_color": "#5b5bf6",
-  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
 }

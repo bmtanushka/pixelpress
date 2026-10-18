@@ -1,4 +1,4 @@
-/* PixelPress encoder — shared by the Web Worker and the main-thread fallback.
+/* CompressZone encoder — shared by the Web Worker and the main-thread fallback.
    Exposes self.PPEncoder = { encode(source, srcW, srcH, opts) -> Promise<Blob> } */
 (function (g) {
   'use strict';

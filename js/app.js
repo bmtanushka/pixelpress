@@ -1,4 +1,4 @@
-/* PixelPress — client-side image compressor. Nothing is ever uploaded. */
+/* CompressZone — client-side image compressor. Nothing is ever uploaded. */
 (function () {
   'use strict';
 
@@ -401,7 +401,7 @@
       .then(function (blob) {
         var a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'pixelpress-images.zip';
+        a.download = 'compresszone-images.zip';
         document.body.appendChild(a); a.click(); a.remove();
         setTimeout(function () { URL.revokeObjectURL(a.href); }, 10000);
       })

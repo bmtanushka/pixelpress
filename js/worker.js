@@ -1,4 +1,4 @@
-/* PixelPress worker: decode → resize → encode, off the main thread. */
+/* CompressZone worker: decode → resize → encode, off the main thread. */
 importScripts('encoder.js');
 
 self.onmessage = async function (e) {

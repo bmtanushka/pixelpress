@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PixelPress — Free Private Image Compressor &amp; WebP Converter</title>
+  <title>CompressZone — Free Private Image Compressor &amp; WebP Converter</title>
   <meta name="description" content="Compress JPG, PNG, WebP, GIF, BMP and AVIF images and convert them to WebP for free. Everything runs in your browser — your images are never uploaded.">
   <meta name="theme-color" content="#5b5bf6" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0e0e14" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
-  <link rel="canonical" href="https://www.example.com/">
+  <link rel="canonical" href="https://compresszone.com/">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
 
   <!-- Google AdSense site verification: replace with your publisher ID -->
@@ -17,16 +18,22 @@
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="PixelPress — Private Image Compressor">
+  <meta property="og:title" content="CompressZone — Private Image Compressor">
   <meta property="og:description" content="Shrink images and convert to WebP right in your browser. No uploads, no sign-up.">
-  <meta property="og:url" content="https://www.example.com/">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:url" content="https://compresszone.com/">
+  <meta property="og:site_name" content="CompressZone">
+  <meta property="og:image" content="https://compresszone.com/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://compresszone.com/img/og-image.png">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "PixelPress",
+    "name": "CompressZone",
+    "url": "https://compresszone.com/",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "Any",
     "browserRequirements": "Requires a modern web browser",
@@ -43,14 +50,14 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="./" aria-label="PixelPress home">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="currentColor"/><path d="M9 21.5 14 15l3.5 4.2L20 16l3 5.5H9Z" fill="#fff"/><circle cx="20.5" cy="11" r="2.2" fill="#fff"/></svg>
-        <span>PixelPress</span>
+      <a class="brand" href="./" aria-label="CompressZone home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="cz-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b5bf6"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#cz-g)"/><path d="M8.5 8.5 14 14m0-5v5H9M23.5 23.5 18 18m0 5v-5h5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="wordmark">Compress<b>Zone</b></span>
       </a>
       <nav class="nav" aria-label="Main">
         <a href="#how">How it works</a>
         <a href="#faq">FAQ</a>
-        <a href="privacy.html">Privacy</a>
+        <a href="/privacy">Privacy</a>
       </nav>
     </div>
   </header>
@@ -153,7 +160,7 @@
       <div class="feature-grid">
         <div class="feature"><strong>Private by design</strong><span>Compression happens on your device using your browser's built-in image engine. Nothing is uploaded.</span></div>
         <div class="feature"><strong>Fast</strong><span>Multi-threaded processing with Web Workers keeps the page smooth, even with large batches.</span></div>
-        <div class="feature"><strong>Works offline</strong><span>After the first visit, PixelPress keeps working without an internet connection.</span></div>
+        <div class="feature"><strong>Works offline</strong><span>After the first visit, CompressZone keeps working without an internet connection.</span></div>
         <div class="feature"><strong>Never bigger</strong><span>If an image is already well optimised, we keep your original instead of making it larger.</span></div>
       </div>
     </section>
@@ -166,7 +173,7 @@
       <h2>Frequently asked questions</h2>
       <details>
         <summary>Are my images uploaded to a server?</summary>
-        <p>No. PixelPress runs entirely in your browser. Your images are read, compressed and saved on your own device — they are never sent anywhere.</p>
+        <p>No. CompressZone runs entirely in your browser. Your images are read, compressed and saved on your own device — they are never sent anywhere.</p>
       </details>
       <details>
         <summary>What quality should I choose?</summary>
@@ -178,7 +185,7 @@
       </details>
       <details>
         <summary>How does PNG compression work?</summary>
-        <p>PNG is lossless, so PixelPress reduces the number of colours (smart quantisation) to shrink the file — often by 50–80% — while keeping transparency. At 95%+ quality, PNGs are re-encoded losslessly.</p>
+        <p>PNG is lossless, so CompressZone reduces the number of colours (smart quantisation) to shrink the file — often by 50–80% — while keeping transparency. At 95%+ quality, PNGs are re-encoded losslessly.</p>
       </details>
       <details>
         <summary>Is there a file size or count limit?</summary>
@@ -193,10 +200,10 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p>© <span id="year">2026</span> PixelPress. Free, private image compression.</p>
+      <p>© <span id="year">2026</span> CompressZone. Free, private image compression.</p>
       <nav aria-label="Footer">
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms</a>
       </nav>
     </div>
   </footer>
@@ -218,6 +225,6 @@
     </div>
   </dialog>
 
-  <noscript><p class="noscript">PixelPress needs JavaScript to compress images in your browser.</p></noscript>
+  <noscript><p class="noscript">CompressZone needs JavaScript to compress images in your browser.</p></noscript>
 </body>
 </html>

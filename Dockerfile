@@ -2,4 +2,4 @@
 FROM caddy:2.8-alpine
 COPY Caddyfile /etc/caddy/Caddyfile
 COPY . /srv
-RUN rm -f /srv/Dockerfile /srv/Caddyfile /srv/railway.json /srv/README.md
+RUN rm -rf /srv/Dockerfile /srv/Caddyfile /srv/railway.json /srv/README.md /srv/wrangler.jsonc /srv/_headers /srv/.assetsignore

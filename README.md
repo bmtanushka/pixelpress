@@ -42,14 +42,14 @@ Live at **https://compresszone.com**. The repo deploys automatically on every pu
 ## Set up Google AdSense
 
 1. Sign up at https://adsense.google.com and add your site.
-2. Replace `ca-pub-XXXXXXXXXXXXXXXX` with your publisher ID in:
+2. The publisher ID `ca-pub-3088214716790750` is already set in:
    - `index.html`: the `google-adsense-account` meta tag
    - `js/app.js`: `CONFIG.adsense.client`
-   - `ads.txt`: use `pub-…`, without the `ca-` prefix
-3. Create two **Display → Responsive** ad units and put their slot IDs in `CONFIG.adsense.slots` (`top`, `middle`).
+   - `ads.txt` (as `pub-…`, without the `ca-` prefix)
+3. The site works with **Auto ads** (AdSense → Ads → turn on Auto ads for compresszone.com). For fixed placements, create two **Display → Responsive** ad units and put their slot IDs in `CONFIG.adsense.slots` (`top`, `middle`).
 4. **EU, EEA, UK and Switzerland visitors:** Google requires a certified consent banner (CMP). The easiest option is AdSense → Privacy & messaging → enable the Google CMP.
 
-Until you add a real publisher ID, the ad slots show an "Advertisement" placeholder. The AdSense script loads only after the page becomes idle, so it never slows down the tool. Ad slots reserve their height to prevent layout shift.
+Fixed ad slots stay collapsed until they have a unit ID. The AdSense script loads only after the page becomes idle, so it never slows down the tool. Ad slots reserve their height to prevent layout shift.
 
 ## How compression works
 

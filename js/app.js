@@ -6,8 +6,9 @@
   var CONFIG = {
     adsense: {
       // Replace with your AdSense publisher ID and ad unit slot IDs.
-      client: 'ca-pub-XXXXXXXXXXXXXXXX',
-      slots: { top: '0000000000', middle: '0000000000' }
+      client: 'ca-pub-3088214716790750',
+      // Ad unit slot IDs from AdSense → Ads → By ad unit. Leave empty to rely on Auto ads.
+      slots: { top: '', middle: '' }
     },
     defaultQuality: 80 // industry-standard balance of size vs. quality
   };
@@ -458,7 +459,7 @@
     document.head.appendChild(s);
     slots.forEach(function (slot) {
       var id = CONFIG.adsense.slots[slot.dataset.adSlotName];
-      if (!id) return;
+      if (!/^\d{6,}$/.test(id || '')) { slot.parentNode.hidden = true; return; } // no unit yet: collapse
       var ins = document.createElement('ins');
       ins.className = 'adsbygoogle';
       ins.style.display = 'block';

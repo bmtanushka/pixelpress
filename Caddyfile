@@ -1,0 +1,26 @@
+{
+	admin off
+	auto_https off
+}
+
+# Railway provides $PORT; HTTPS is handled by Railway's edge.
+:{$PORT:8080} {
+	root * /srv
+	encode zstd gzip
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+
+	# HTML and the service worker must always be fresh; other assets cache for an hour
+	# (the service worker also refreshes them in the background).
+	@fresh path / /*.html /sw.js /manifest.webmanifest
+	header @fresh Cache-Control "no-cache"
+	@assets path /css/* /js/* /icon.svg
+	header @assets Cache-Control "public, max-age=3600"
+
+	file_server
+}

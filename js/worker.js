@@ -13,7 +13,7 @@ self.onmessage = async function (e) {
   }
   try {
     var out = await self.PPEncoder.encode(bitmap, bitmap.width, bitmap.height, job.opts);
-    self.postMessage({ id: job.id, version: job.version, blob: out.blob, width: out.width, height: out.height, srcW: bitmap.width, srcH: bitmap.height });
+    self.postMessage({ id: job.id, version: job.version, blob: out.blob, width: out.width, height: out.height, srcW: bitmap.width, srcH: bitmap.height, reachedTarget: out.reachedTarget });
   } catch (err) {
     self.postMessage({ id: job.id, version: job.version, error: String(err && err.message || err) });
   } finally {

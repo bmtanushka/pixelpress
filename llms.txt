@@ -1,31 +1,68 @@
 # CompressZone
 
-> CompressZone (https://compresszone.com) is a free online image compressor and converter that runs entirely in the web browser. It reduces the file size of JPG, PNG, WebP, GIF, BMP, AVIF and SVG images and converts them to WebP, JPG, PNG or AVIF. Images are never uploaded to a server.
+> CompressZone (https://compresszone.com) is a free collection of image and PDF tools that run entirely in the web browser. It compresses, resizes, converts and edits images (JPG, PNG, WebP, HEIC, AVIF, GIF, BMP, SVG) and merges, splits, rotates and converts PDFs. Files are never uploaded to a server.
 
 Key facts:
 
-- Price: free. No account, sign-up or watermark.
-- Privacy: all processing happens locally on the user's device (Web Workers, WebAssembly). Images are never uploaded, stored or seen by the site.
-- Default quality: 80%, adjustable from 10% to 100%. Presets are Smallest (60%), Balanced (80%) and High quality (92%).
-- Typical savings: 50–80% smaller files at the default setting.
+- Price: free. No account, sign-up, watermark or usage limits.
+- Privacy: all processing happens locally on the user's device (Web Workers, WebAssembly, pdf-lib and Mozilla PDF.js). Files are never uploaded, stored or seen by the site.
+- Image compression: the default quality is 80%, adjustable from 10% to 100%. Typical savings are 50–80%. If re-encoding would make a file bigger, the original is kept.
+- Target file size: an image can be compressed to under an exact size in KB (e.g. 20 KB, 50 KB, 100 KB, 200 KB). The tool searches for the highest quality that fits and reduces the dimensions only if necessary.
+- Resize: by maximum dimension, or to exact pixel dimensions with crop-to-fill or fit-with-padding. Presets include passport photos (600×600 px for 2×2 in, 413×531 px for 35×45 mm), Instagram (1080×1080, 1080×1350, 1080×1920), YouTube thumbnails (1280×720) and more.
+- HEIC (iPhone) photos open in every modern browser, not only Safari, using a built-in libheif decoder.
 - PNG compression uses color quantization and keeps transparency. A quality of 95% or higher gives lossless PNG.
-- Optional resize to a maximum dimension (3840, 2560, 1920, 1280 or 800 px), keeping the aspect ratio and never upscaling.
-- Batch processing with a "Download all" ZIP, plus a before/after comparison slider.
-- Never makes files bigger: if re-encoding would increase the size, the original is kept.
-- Removes EXIF and GPS metadata. Works offline after the first visit and can be installed as an app (PWA).
-- Works in Chrome, Edge, Firefox and Safari on desktop and mobile.
-- Limits: no file size or count limits other than device memory. Animated GIFs are converted using the first frame only. HEIC input works only in Safari.
+- Metadata: the EXIF viewer shows camera, settings, date and GPS location. The EXIF remover strips EXIF, GPS, XMP and IPTC losslessly from JPG, PNG and WebP (the image data is not re-compressed) and keeps the orientation.
+- PDF tools: JPG/PNG/HEIC to PDF (A4, Letter, Legal or image size), PDF to JPG/PNG/WebP at 72–300 DPI, merge, split (selected pages, ranges or every page), rotate, reorder and delete pages. Pages are copied without quality loss. Password-protected PDFs can be opened for conversion to images.
+- Other tools: crop, rotate and flip images; image to Base64 and Base64 to image; favicon generator (favicon.ico, Apple and Android icons, web manifest).
+- Works offline after the first visit and can be installed as an app (PWA). Works in Chrome, Edge, Firefox and Safari on desktop and mobile.
+- Limits: no file size or count limits other than device memory. Animated GIFs are converted using the first frame only.
 
-## Tools
+## Compress & resize
 
 - [Image compressor](https://compresszone.com/): Compress JPG, PNG, WebP, GIF and AVIF images online for free, or convert them to WebP. Runs 100% in your browser — your images are never uploaded.
+- [Compress to exact KB](https://compresszone.com/compress-image-to-kb): Compress an image to an exact file size in KB, like 20 KB, 50 KB or 100 KB. The highest quality that fits is chosen for you. Free, private, no uploads.
 - [Compress JPEG](https://compresszone.com/compress-jpeg): Compress JPEG and JPG photos online for free. Reduce file size by up to 80% with adjustable quality. Private — runs in your browser, no uploads.
 - [Compress PNG](https://compresszone.com/compress-png): Compress PNG images online for free and keep transparency. Smart color reduction makes PNGs 50–80% smaller. Runs in your browser — no uploads.
-- [JPG to WebP](https://compresszone.com/jpg-to-webp): Convert JPG and JPEG images to WebP online for free. WebP files are typically 25–34% smaller. Batch convert in your browser — no uploads.
-- [PNG to WebP](https://compresszone.com/png-to-webp): Convert PNG images to WebP online for free and keep transparency. Much smaller files for faster websites. Runs in your browser — no uploads.
+- [Compress to 100 KB](https://compresszone.com/compress-image-to-100kb): Reduce any image to under 100 KB online for free. Ideal for application forms, email and profile photos. Private — runs in your browser, no uploads.
+- [Compress to 20 KB](https://compresszone.com/compress-image-to-20kb): Reduce a photo or signature to under 20 KB for exam, admission and government forms. Free, instant and private — your image is never uploaded.
+- [Compress to 50 KB](https://compresszone.com/compress-image-to-50kb): Compress a photo to under 50 KB for job portals, visa forms and online applications. Keeps the best possible quality. Free and private — no uploads.
+- [Passport photo resizer](https://compresszone.com/passport-photo-size): Resize a photo to passport and visa sizes: 2×2 inch (600×600 px) or 35×45 mm (413×531 px). Set a KB limit too. Free and private — no uploads.
 - [Resize image](https://compresszone.com/resize-image): Resize images online for free. Shrink photos to 1920, 1280 or 800 px and compress them in one step. Private — works in your browser, no uploads.
+- [Resize to exact pixels](https://compresszone.com/resize-image-to-pixels): Resize an image to exact pixel dimensions, like 600 × 600 or 1920 × 1080. Crop to fill or fit with padding. Free, private — runs in your browser.
+- [Compress to 200 KB](https://compresszone.com/compress-image-to-200kb): Compress photos to under 200 KB while keeping them sharp — great for websites, blogs, marketplaces and upload forms. Free, private, no uploads.
+- [Instagram resizer](https://compresszone.com/instagram-image-resizer): Resize photos for Instagram: portrait 1080×1350, square 1080×1080 and stories 1080×1920. Crop to fill or add padding. Free, private, no uploads.
+
+## Convert images
+
+- [HEIC to JPG](https://compresszone.com/heic-to-jpg): Convert HEIC and HEIF iPhone photos to JPG online for free, in batches. Works in Chrome, Edge, Firefox and Safari. Private — photos are never uploaded.
+- [JPG to WebP](https://compresszone.com/jpg-to-webp): Convert JPG and JPEG images to WebP online for free. WebP files are typically 25–34% smaller. Batch convert in your browser — no uploads.
+- [PNG to JPG](https://compresszone.com/png-to-jpg): Convert PNG images to JPG online for free. Get much smaller files for photos and screenshots. Batch convert in your browser — no uploads.
+- [PNG to WebP](https://compresszone.com/png-to-webp): Convert PNG images to WebP online for free and keep transparency. Much smaller files for faster websites. Runs in your browser — no uploads.
 - [WebP to JPG](https://compresszone.com/webp-to-jpg): Convert WebP images to JPG online for free. Open WebP files anywhere by saving them as standard JPEGs. Private — runs in your browser, no uploads.
+- [Image to Base64](https://compresszone.com/image-to-base64): Convert an image to a Base64 string or data URI, with ready-to-paste HTML and CSS. Also decode Base64 back to an image. Free, private, no uploads.
+- [JPG to PNG](https://compresszone.com/jpg-to-png): Convert JPG and JPEG images to PNG online for free. Choose optimized or lossless PNG output. Runs in your browser — no uploads, no sign-up.
 - [WebP to PNG](https://compresszone.com/webp-to-png): Convert WebP images to PNG online for free and keep transparency. Works in your browser — no uploads, no sign-up, no limits.
+- [Base64 to image](https://compresszone.com/base64-to-image): Decode a Base64 string or data URI into an image and download it. Detects PNG, JPG, GIF, WebP, SVG and more automatically. Free, private, no uploads.
+
+## Edit & inspect
+
+- [Crop image](https://compresszone.com/crop-image): Crop images online for free with a drag-and-drop crop box. Choose free crop or ratios like 1:1, 4:5, 3:2 and 16:9. Private — runs in your browser.
+- [Remove EXIF data](https://compresszone.com/remove-exif): Remove EXIF, GPS location and other metadata from photos in bulk. JPG, PNG and WebP are cleaned losslessly — no quality loss. Private, no uploads.
+- [EXIF viewer](https://compresszone.com/exif-viewer): View hidden photo metadata: camera, lens, settings, date taken and GPS location. Remove it in one click. Free and private — photos never leave your device.
+- [Favicon generator](https://compresszone.com/favicon-generator): Generate favicon.ico, PNG favicons, Apple touch and Android icons plus a web manifest from one image. Download as a ZIP. Free, private, no uploads.
+- [Rotate image](https://compresszone.com/rotate-image): Rotate images 90° left or right online for free and fix sideways photos. Crop and flip too. Private — your photos are never uploaded.
+- [Flip image](https://compresszone.com/flip-image): Flip or mirror an image horizontally or vertically online for free. Rotate and crop too. Runs in your browser — your images are never uploaded.
+
+## PDF tools
+
+- [JPG to PDF](https://compresszone.com/jpg-to-pdf): Convert JPG, PNG, HEIC and other images to PDF for free. Reorder pages, choose A4 or Letter and margins. Private — images are never uploaded.
+- [Merge PDF](https://compresszone.com/merge-pdf): Merge multiple PDF files into one PDF online for free. Drag to set the order. Private — files are combined in your browser and never uploaded.
+- [PDF to JPG](https://compresszone.com/pdf-to-jpg): Convert PDF pages to JPG images online for free, at 72 to 300 DPI. Download single pages or all as a ZIP. Private — your PDF is never uploaded.
+- [Split PDF](https://compresszone.com/split-pdf): Split a PDF into separate files or extract selected pages online for free. Split by ranges like 1-3, 5. Private — your PDF is never uploaded.
+- [Delete PDF pages](https://compresszone.com/delete-pdf-pages): Remove unwanted pages from a PDF online for free. Click to delete, preview, and save a new PDF. Private — your file is never uploaded.
+- [Organize PDF](https://compresszone.com/organize-pdf): Rearrange PDF pages by drag and drop, rotate them and delete the ones you don't need — then save. Free and private, no uploads.
+- [PDF to PNG](https://compresszone.com/pdf-to-png): Convert PDF pages to lossless PNG images online for free. Crisp text and diagrams at up to 300 DPI. Private — your PDF is never uploaded.
+- [Rotate PDF](https://compresszone.com/rotate-pdf): Rotate PDF pages online for free — all at once or one by one — and save permanently. Private — your PDF is never uploaded.
 
 ## Guides
 
@@ -33,6 +70,8 @@ Key facts:
 
 ## About and policies
 
-- [About CompressZone](https://compresszone.com/about): CompressZone is a free image compressor that runs entirely in your browser. Learn how it works, the technology behind it, and why your images stay private.
-- [Privacy Policy](https://compresszone.com/privacy): CompressZone processes images entirely in your browser — images are never uploaded. Read how we handle preferences, cookies and advertising.
-- [Terms of Use](https://compresszone.com/terms): The terms for using CompressZone, the free in-browser image compressor and converter.
+- [Image tools](https://compresszone.com/image-tools): All CompressZone image tools in one place: compress, resize, convert HEIC, PNG, JPG and WebP, crop, rotate, remove EXIF and make favicons. Free and private.
+- [PDF tools](https://compresszone.com/pdf-tools): Free, private PDF tools that run in your browser: merge, split, rotate, organize and delete pages, and convert between PDF and JPG or PNG. No uploads.
+- [About CompressZone](https://compresszone.com/about): CompressZone is a free set of image and PDF tools that run in your browser. Learn how it works, the technology behind it, and why your files stay private.
+- [Privacy Policy](https://compresszone.com/privacy): CompressZone processes images and PDFs entirely in your browser — files are never uploaded. Read how we handle preferences, cookies and advertising.
+- [Terms of Use](https://compresszone.com/terms): The terms for using CompressZone, the free image and PDF tools that run entirely in your browser without uploading your files.

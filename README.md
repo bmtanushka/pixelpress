@@ -1,16 +1,20 @@
-# CompressZone — private, in-browser image compressor
+# CompressZone — private, in-browser image & PDF tools
 
-A fast static web app that compresses JPG, PNG, WebP, GIF, BMP, AVIF and SVG images and converts them to WebP. All processing happens in the visitor's browser: images are never uploaded.
+A fast static website with 35 free image and PDF tools at https://compresszone.com. Everything runs in the visitor's browser: files are never uploaded.
 
-- **No build step, no framework.** Plain HTML, CSS and JS. The first load is about 15 KB gzipped, and the encoders load only when needed.
-- **Default quality is 80%**, the standard balance. Presets are 60 / 80 / 92, plus a free slider.
-- **Output formats:** Same as input, WebP, JPG, PNG, and AVIF where the browser supports it.
-- **Optional resize** to a maximum dimension.
-- **Never bigger:** if a re-encode would grow the file, the original is kept.
-- **Batch processing** on a Web Worker pool, with "Download all" as a ZIP.
-- **Before/after slider** to compare quality.
-- **Works offline** through a service worker, and can be installed as a PWA.
-- **Light and dark mode**, responsive and keyboard accessible.
+**Image tools.** Image compressor, plus:
+- **Compress to an exact size:** a target in KB, with pages for 20, 50, 100 and 200 KB.
+- **Resize:** by maximum dimension, to exact pixels, passport photo sizes or Instagram sizes.
+- **Convert:** HEIC→JPG (in every browser), JPG/PNG/WebP in every direction, and image ⇄ Base64.
+- **Edit:** crop, rotate and flip.
+- **Other:** favicon generator, EXIF viewer and lossless EXIF/GPS remover.
+
+**PDF tools.** JPG→PDF, PDF→JPG/PNG, merge, split, rotate, organize and delete pages.
+
+**How it's built**
+- **No framework and no build step on the host.** Plain HTML, CSS and JS. A page's first load is about 20 KB gzipped, and heavy libraries load only on the page that needs them.
+- **Compressor:** default quality 80%; never makes a file bigger; batch processing on a Web Worker pool, with ZIP download and a before/after slider.
+- **Everywhere:** works offline (service worker and PWA), light and dark mode, responsive and keyboard accessible.
 
 ## Run locally
 
@@ -60,9 +64,9 @@ To add a page, copy a file in `src/pages/`, change its front matter and content,
 
 | What | Where |
 |---|---|
-| One page per search intent (compress JPEG/PNG, resize, JPG/PNG→WebP, WebP→JPG/PNG) with the tool preset | `src/pages/` |
+| One page per search intent (35 tools) with the tool preset, plus `/image-tools` and `/pdf-tools` hub pages | `src/pages/` |
 | Unique title, meta description, canonical URL, Open Graph and Twitter tags on every page | `src/layout.html` |
-| JSON-LD `@graph`: Organization, WebSite, WebPage, BreadcrumbList, WebApplication, FAQPage, HowTo, Article | `scripts/build.py` |
+| JSON-LD `@graph`: Organization, WebSite, WebPage/CollectionPage, BreadcrumbList, WebApplication, FAQPage, HowTo, ItemList, Article | `scripts/build.py` |
 | Visible breadcrumbs, related-tool links and a footer sitemap for internal linking | layout and build |
 | A format comparison guide with a short "answer box" and tables (often quoted by AI answers) | `/image-formats-guide` |
 | `llms.txt`: a plain-text site summary for AI assistants | generated |
@@ -88,21 +92,29 @@ After deploying:
 
 Fixed ad slots stay collapsed until they have a unit ID. The AdSense script loads only after the page becomes idle, so it never slows down the tool. Ad slots reserve their height to prevent layout shift.
 
-## How compression works
+## How the tools work
 
-| Output | Engine |
-|---|---|
-| JPG / WebP / AVIF | The browser's native encoder (`OffscreenCanvas.convertToBlob`) in a Web Worker |
-| WebP on Safari | A WASM libwebp encoder (`js/vendor/webp-wasm`, lazy-loaded) |
-| PNG | Colour quantisation with UPNG.js (`js/vendor/upng-bundle.js`). At 95% quality and above, it is lossless |
+Each tool page names an `engine` in its front matter. `ENGINES` in `scripts/build.py` maps that engine to a UI partial in `src/partials/` and its scripts.
 
-EXIF and GPS metadata are removed. Orientation is applied.
+| Engine | Pages | How |
+|---|---|---|
+| `compressor` (`js/app.js`, `worker.js`, `encoder.js`) | compress, compress to KB, resize, exact pixels, passport, Instagram, all image conversions, HEIC | The browser's native encoders in Web Workers. UPNG.js for PNG. WASM libwebp for WebP on Safari. heic2any/libheif for HEIC outside Safari. Target size uses a binary search over quality, then shrinks the dimensions only if needed. |
+| `img2pdf` | JPG to PDF | Images are drawn to a canvas, saved as JPEG and placed on pages with pdf-lib |
+| `pdf2img` | PDF to JPG/PNG | Mozilla PDF.js renders each page to a canvas |
+| `pdfmerge` | Merge PDF | pdf-lib `copyPages` (lossless) |
+| `pdfpages` (`data-mode` organize / rotate / delete / split) | Organize, rotate, delete pages, split | PDF.js thumbnails, pdf-lib output (lossless, rotation via `setRotation`) |
+| `editor` | Crop, rotate, flip | Canvas with a draggable crop box |
+| `base64` | Image ⇄ Base64 | FileReader / atob, with the image type detected from its first bytes |
+| `favicon` | Favicon generator | Canvas renders, a hand-written multi-size ICO, manifest and ZIP |
+| `exif` | EXIF viewer / remover | exifr to read. Lossless removal by dropping JPEG APP1/APP13/COM segments, PNG text/eXIf chunks and WebP EXIF/XMP chunks. The orientation is kept. |
+
+`js/tools/common.js` holds the shared helpers: drop/paste, downloads, ZIP, image decoding, PDF loaders and drag-to-reorder.
 
 ## Files
 
 ```
 src/, scripts/build.py  Page sources and the build script (see above)
-*.html                Generated pages: home, 7 tool pages, guide, about, privacy, terms, 404
+*.html                Generated pages: 35 tools, 2 hubs, guide, about, privacy, terms, 404
 llms.txt, sitemap.xml Generated
 css/styles.css
 js/site.js            Every page: AdSense, service worker, footer year
@@ -110,7 +122,10 @@ js/app.js             Tool pages: UI, queue, settings and landing-page presets
 js/worker.js          Worker: decode → resize → encode
 js/encoder.js         Shared encoder (worker and main-thread fallback)
 js/zip.js             Tiny ZIP writer (loads on demand)
-js/vendor/            UPNG.js + pako (MIT), libwebp WASM (Apache-2.0)
+js/tools/             Image and PDF tool engines (see above)
+js/vendor/            UPNG.js + pako (MIT), libwebp WASM (Apache-2.0), pdf-lib 1.17.1 (MIT),
+                      PDF.js 5.7.284 legacy build (Apache-2.0), heic2any 0.0.4 (MIT, bundles libheif LGPL-3.0),
+                      exifr 7.1.3 (MIT)
 sw.js, manifest.webmanifest, icon.svg, ads.txt, robots.txt, sitemap.xml
 ```
 

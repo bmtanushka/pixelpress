@@ -1,0 +1,47 @@
+    <section class="container tool" aria-label="PDF to image converter">
+      <label class="dropzone" id="dropzone" tabindex="0">
+        <input type="file" id="file-input" accept="application/pdf,.pdf" hidden>
+        <span class="dz-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        <span class="dz-title">Drop a PDF here or <u>browse</u></span>
+        <span class="dz-sub">Every page is converted on your device · Password-protected PDFs supported</span>
+      </label>
+
+      <div class="settings" role="group" aria-label="Image settings">
+        <div class="field">
+          <span class="field-label" id="fmt-label">Image format</span>
+          <div class="segmented" role="radiogroup" aria-labelledby="fmt-label">
+            <label><input type="radio" name="format" value="image/jpeg" checked><span>JPG</span></label>
+            <label><input type="radio" name="format" value="image/png"><span>PNG</span></label>
+            <label><input type="radio" name="format" value="image/webp"><span>WebP</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="dpi">Resolution</label>
+          <select id="dpi">
+            <option value="72">72 DPI (screen, smallest)</option>
+            <option value="150" selected>150 DPI (recommended)</option>
+            <option value="220">220 DPI (sharp)</option>
+            <option value="300">300 DPI (print)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="img-quality">JPG / WebP quality</label>
+          <select id="img-quality">
+            <option value="0.92">High</option>
+            <option value="0.85" selected>Balanced</option>
+            <option value="0.7">Small file</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results" id="results" hidden>
+        <div class="summary">
+          <div class="summary-stats" aria-live="polite" id="summary-stats"></div>
+          <div class="summary-actions">
+            <button type="button" class="btn btn-ghost" id="clear-btn">Clear</button>
+            <button type="button" class="btn btn-primary" id="zip-btn" disabled>Download all (ZIP)</button>
+          </div>
+        </div>
+        <ul class="page-grid" id="page-grid"></ul>
+      </div>
+    </section>

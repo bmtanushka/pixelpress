@@ -1,0 +1,37 @@
+    <section class="container tool" aria-label="Base64 image converter">
+      <div class="tabs" role="tablist" aria-label="Direction">
+        <button type="button" role="tab" id="tab-encode" aria-controls="panel-encode" aria-selected="true">Image → Base64</button>
+        <button type="button" role="tab" id="tab-decode" aria-controls="panel-decode" aria-selected="false">Base64 → Image</button>
+      </div>
+
+      <div id="panel-encode" role="tabpanel" aria-labelledby="tab-encode">
+        <label class="dropzone" id="dropzone" tabindex="0">
+          <input type="file" id="file-input" accept="image/*" hidden>
+          <span class="dz-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <span class="dz-title">Drop an image here or <u>browse</u></span>
+          <span class="dz-sub">PNG, JPG, WebP, GIF, SVG, ICO · Best for small images and icons</span>
+        </label>
+        <div class="b64-result" id="encode-result" hidden>
+          <div class="b64-head">
+            <img id="enc-preview" alt="Preview">
+            <div><strong id="enc-name"></strong><p id="enc-info"></p></div>
+          </div>
+          <div class="b64-outputs" id="enc-outputs"></div>
+        </div>
+      </div>
+
+      <div id="panel-decode" role="tabpanel" aria-labelledby="tab-decode" hidden>
+        <label class="field-label" for="b64-input">Paste a Base64 string or data URI</label>
+        <textarea id="b64-input" class="code-area" rows="7" spellcheck="false" placeholder="data:image/png;base64,iVBORw0KGgo…  or just  iVBORw0KGgo…"></textarea>
+        <div class="b64-actions">
+          <button type="button" class="btn btn-ghost" id="b64-clear">Clear</button>
+          <button type="button" class="btn btn-primary" id="b64-decode">Convert to image</button>
+        </div>
+        <div class="b64-result" id="decode-result" hidden>
+          <div class="b64-head">
+            <img id="dec-preview" alt="Decoded image">
+            <div><strong id="dec-type"></strong><p id="dec-info"></p><a class="dl-btn" id="dec-download">Download image</a></div>
+          </div>
+        </div>
+      </div>
+    </section>

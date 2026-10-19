@@ -1,0 +1,55 @@
+    <section class="container tool" aria-label="Image to PDF converter">
+      <label class="dropzone" id="dropzone" tabindex="0">
+        <input type="file" id="file-input" accept="image/*,.heic,.heif" multiple hidden>
+        <span class="dz-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        <span class="dz-title">Drop images here or <u>browse</u></span>
+        <span class="dz-sub">JPG, PNG, WebP, HEIC, GIF, BMP · Drag to reorder pages</span>
+      </label>
+
+      <div class="settings" role="group" aria-label="PDF settings">
+        <div class="field">
+          <label class="field-label" for="page-size">Page size</label>
+          <select id="page-size">
+            <option value="a4" selected>A4 (210 × 297 mm)</option>
+            <option value="letter">US Letter (8.5 × 11 in)</option>
+            <option value="legal">US Legal (8.5 × 14 in)</option>
+            <option value="fit">Same as image</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="orientation">Orientation</label>
+          <select id="orientation">
+            <option value="auto" selected>Automatic</option>
+            <option value="portrait">Portrait</option>
+            <option value="landscape">Landscape</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="margin">Margin</label>
+          <select id="margin">
+            <option value="0">None</option>
+            <option value="18" selected>Small</option>
+            <option value="40">Large</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="img-quality">Image quality</label>
+          <select id="img-quality">
+            <option value="high">High (larger file)</option>
+            <option value="balanced" selected>Balanced</option>
+            <option value="small">Small file</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results" id="results" hidden>
+        <div class="summary">
+          <div class="summary-stats" aria-live="polite" id="summary-stats"></div>
+          <div class="summary-actions">
+            <button type="button" class="btn btn-ghost" id="clear-btn">Clear</button>
+            <button type="button" class="btn btn-primary" id="make-btn" disabled>Create PDF</button>
+          </div>
+        </div>
+        <ul class="page-grid" id="page-grid"></ul>
+      </div>
+    </section>

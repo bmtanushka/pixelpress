@@ -27,7 +27,7 @@
   <meta property="og:image" content="https://compresszone.com/img/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="CompressZone — compress images and convert to WebP, free and private">
+  <meta property="og:image:alt" content="CompressZone — free, private image and PDF tools">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="CompressZone — Free, Private Image Compressor &amp; WebP Converter">
@@ -54,7 +54,7 @@
    "@id": "https://compresszone.com/#website",
    "name": "CompressZone",
    "url": "https://compresszone.com/",
-   "description": "Free, private, in-browser image compressor and WebP converter.",
+   "description": "Free, private image and PDF tools that run in the browser: compress, resize, convert and edit images; merge, split and convert PDFs.",
    "publisher": {
     "@id": "https://compresszone.com/#org"
    },
@@ -95,10 +95,10 @@
     "priceCurrency": "USD"
    },
    "featureList": [
-    "Compress JPG, PNG, WebP, GIF, BMP, AVIF and SVG images",
+    "Compress JPG, PNG, WebP, HEIC, GIF, BMP, AVIF and SVG images",
     "Convert images to WebP, JPG, PNG or AVIF",
-    "Adjustable quality (default 80%)",
-    "Optional resize to a maximum dimension",
+    "Adjustable quality (default 80%) or an exact target file size in KB",
+    "Resize to a maximum dimension or exact pixel size",
     "Batch processing and ZIP download",
     "Runs 100% in the browser; images are never uploaded",
     "Works offline after the first visit"
@@ -224,8 +224,8 @@
         <span class="wordmark">Compress<b>Zone</b></span>
       </a>
       <nav class="nav" aria-label="Main">
-        <a href="/compress-png">Compress PNG</a>
-        <a href="/jpg-to-webp">JPG to WebP</a>
+        <a href="/image-tools">Image tools</a>
+        <a href="/pdf-tools">PDF tools</a>
         <a href="/image-formats-guide">Guide</a>
       </nav>
     </div>
@@ -245,7 +245,7 @@
           <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </span>
         <span class="dz-title">Drop images here or <u>browse</u></span>
-        <span class="dz-sub">You can also paste with <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>V</kbd> · JPG, PNG, WebP, GIF, BMP, AVIF, SVG</span>
+        <span class="dz-sub">You can also paste with <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>V</kbd> · JPG, PNG, WebP, HEIC, GIF, BMP, AVIF, SVG</span>
       </label>
 
       <div class="settings" role="group" aria-label="Compression settings">
@@ -266,7 +266,7 @@
             <output id="quality-out" for="quality">80%</output>
           </div>
           <input type="range" id="quality" min="10" max="100" step="1" value="80">
-          <div class="presets" role="group" aria-label="Quality presets">
+          <div class="presets quality-presets" role="group" aria-label="Quality presets">
             <button type="button" data-q="60">Smallest</button>
             <button type="button" data-q="80" class="active">Balanced <small>(recommended)</small></button>
             <button type="button" data-q="92">High quality</button>
@@ -282,7 +282,53 @@
             <option value="1920">1920 px (Full HD)</option>
             <option value="1280">1280 px</option>
             <option value="800">800 px</option>
+            <option value="exact">Exact size (W × H)…</option>
           </select>
+        </div>
+
+        <div class="field field-wide exact-panel" id="exact-panel" hidden>
+          <div class="exact-row">
+            <label class="mini-field"><span>Width</span><input type="number" id="exact-w" min="1" max="10000" inputmode="numeric" value="1080"></label>
+            <span class="times" aria-hidden="true">×</span>
+            <label class="mini-field"><span>Height</span><input type="number" id="exact-h" min="1" max="10000" inputmode="numeric" value="1080"></label>
+            <span class="unit">px</span>
+            <label class="mini-field grow"><span>Fit</span>
+              <select id="exact-fit">
+                <option value="cover">Crop to fill</option>
+                <option value="contain">Fit inside (add padding)</option>
+              </select>
+            </label>
+            <label class="mini-field grow"><span>Common sizes</span>
+              <select id="exact-preset">
+                <option value="">Choose…</option>
+                <option value="600x600">Passport / visa 2×2 in (600×600)</option>
+                <option value="413x531">Passport 35×45 mm (413×531)</option>
+                <option value="1080x1080">Instagram square (1080×1080)</option>
+                <option value="1080x1350">Instagram portrait (1080×1350)</option>
+                <option value="1080x1920">Story / Reel (1080×1920)</option>
+                <option value="1280x720">YouTube thumbnail (1280×720)</option>
+                <option value="1200x630">Facebook / link preview (1200×630)</option>
+                <option value="1500x500">X / Twitter header (1500×500)</option>
+                <option value="1920x1080">Full HD (1920×1080)</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="field field-wide target-panel">
+          <label class="switch"><input type="checkbox" id="target-on"><span class="switch-ui" aria-hidden="true"></span><span class="switch-label">Target file size</span></label>
+          <div class="target-row" id="target-row" hidden>
+            <label class="mini-field"><span>Max size</span><span class="kb-input"><input type="number" id="target-kb" min="5" max="50000" step="1" inputmode="numeric" value="100"><b>KB</b></span></label>
+            <div class="presets" role="group" aria-label="Target size presets">
+              <button type="button" data-kb="20">20 KB</button>
+              <button type="button" data-kb="50">50 KB</button>
+              <button type="button" data-kb="100">100 KB</button>
+              <button type="button" data-kb="200">200 KB</button>
+              <button type="button" data-kb="500">500 KB</button>
+              <button type="button" data-kb="1024">1 MB</button>
+            </div>
+            <p class="hint">Quality is chosen automatically — the highest that fits. Very small targets may also reduce the dimensions.</p>
+          </div>
         </div>
       </div>
 
@@ -400,17 +446,55 @@
       </details>
     </section>
 
-    <section class="container content" aria-labelledby="related-h">
-      <h2 id="related-h">More free image tools</h2>
-      <nav class="tool-links" aria-label="Image tools">
-        <a href="/compress-jpeg">Compress JPEG</a>
-        <a href="/compress-png">Compress PNG</a>
-        <a href="/jpg-to-webp">JPG to WebP</a>
-        <a href="/png-to-webp">PNG to WebP</a>
-        <a href="/resize-image">Resize image</a>
-        <a href="/webp-to-jpg">WebP to JPG</a>
-        <a href="/webp-to-png">WebP to PNG</a>
-      </nav>
+    <section class="container content hub" id="tools">
+      <h2>All free tools</h2>
+      <h3 class="hub-title">Compress & resize</h3>
+        <div class="tool-cards">
+          <a class="tool-card" href="/"><strong>Image compressor</strong><span>Compress JPG, PNG, WebP and HEIC — or convert to WebP.</span></a>
+          <a class="tool-card" href="/compress-image-to-kb"><strong>Compress to exact KB</strong><span>Shrink any image to a target size like 20 KB, 50 KB or 100 KB.</span></a>
+          <a class="tool-card" href="/compress-jpeg"><strong>Compress JPEG</strong><span>Make JPG photos up to 80% smaller with adjustable quality.</span></a>
+          <a class="tool-card" href="/compress-png"><strong>Compress PNG</strong><span>Shrink PNGs 50–80% and keep transparent backgrounds.</span></a>
+          <a class="tool-card" href="/compress-image-to-100kb"><strong>Compress to 100 KB</strong><span>Get photos under 100 KB for forms, email and profile pictures.</span></a>
+          <a class="tool-card" href="/compress-image-to-20kb"><strong>Compress to 20 KB</strong><span>For exam and government forms with a 20 KB photo or signature limit.</span></a>
+          <a class="tool-card" href="/compress-image-to-50kb"><strong>Compress to 50 KB</strong><span>Shrink photos below 50 KB for job portals and online applications.</span></a>
+          <a class="tool-card" href="/passport-photo-size"><strong>Passport photo resizer</strong><span>Resize photos to 2×2 in (600×600) or 35×45 mm passport sizes.</span></a>
+          <a class="tool-card" href="/resize-image"><strong>Resize image</strong><span>Scale photos down to 1920, 1280 or 800 px and compress.</span></a>
+          <a class="tool-card" href="/resize-image-to-pixels"><strong>Resize to exact pixels</strong><span>Set exact width and height in pixels, with crop-to-fill or padding.</span></a>
+          <a class="tool-card" href="/compress-image-to-200kb"><strong>Compress to 200 KB</strong><span>High-quality photos under 200 KB for websites and uploads.</span></a>
+          <a class="tool-card" href="/instagram-image-resizer"><strong>Instagram resizer</strong><span>Resize photos for Instagram posts, portraits, stories and reels.</span></a>
+        </div>
+      <h3 class="hub-title">Convert images</h3>
+        <div class="tool-cards">
+          <a class="tool-card" href="/heic-to-jpg"><strong>HEIC to JPG</strong><span>Convert iPhone HEIC photos to JPG — in any browser.</span></a>
+          <a class="tool-card" href="/jpg-to-webp"><strong>JPG to WebP</strong><span>Convert JPG to WebP — about a third smaller.</span></a>
+          <a class="tool-card" href="/png-to-jpg"><strong>PNG to JPG</strong><span>Convert PNG images to smaller JPG files.</span></a>
+          <a class="tool-card" href="/png-to-webp"><strong>PNG to WebP</strong><span>Convert PNG to WebP and keep transparency.</span></a>
+          <a class="tool-card" href="/webp-to-jpg"><strong>WebP to JPG</strong><span>Save WebP images as JPG that opens everywhere.</span></a>
+          <a class="tool-card" href="/image-to-base64"><strong>Image to Base64</strong><span>Encode images as Base64 data URIs for HTML, CSS and JSON.</span></a>
+          <a class="tool-card" href="/jpg-to-png"><strong>JPG to PNG</strong><span>Convert JPG photos to PNG format.</span></a>
+          <a class="tool-card" href="/webp-to-png"><strong>WebP to PNG</strong><span>Convert WebP to PNG with transparency.</span></a>
+          <a class="tool-card" href="/base64-to-image"><strong>Base64 to image</strong><span>Decode a Base64 string or data URI back into an image file.</span></a>
+        </div>
+      <h3 class="hub-title">Edit & inspect</h3>
+        <div class="tool-cards">
+          <a class="tool-card" href="/crop-image"><strong>Crop image</strong><span>Crop photos freely or to 1:1, 4:5, 16:9 and more.</span></a>
+          <a class="tool-card" href="/remove-exif"><strong>Remove EXIF data</strong><span>Strip GPS location and EXIF metadata from photos before sharing.</span></a>
+          <a class="tool-card" href="/exif-viewer"><strong>EXIF viewer</strong><span>See camera, date and GPS location hidden in your photos.</span></a>
+          <a class="tool-card" href="/favicon-generator"><strong>Favicon generator</strong><span>Create favicon.ico, Apple and Android icons from one image.</span></a>
+          <a class="tool-card" href="/rotate-image"><strong>Rotate image</strong><span>Rotate photos 90° left or right and fix sideways pictures.</span></a>
+          <a class="tool-card" href="/flip-image"><strong>Flip image</strong><span>Mirror images horizontally or vertically.</span></a>
+        </div>
+      <h3 class="hub-title">PDF tools</h3>
+        <div class="tool-cards">
+          <a class="tool-card" href="/jpg-to-pdf"><strong>JPG to PDF</strong><span>Combine JPG, PNG or HEIC photos into one PDF.</span></a>
+          <a class="tool-card" href="/merge-pdf"><strong>Merge PDF</strong><span>Combine multiple PDFs into one file, in any order.</span></a>
+          <a class="tool-card" href="/pdf-to-jpg"><strong>PDF to JPG</strong><span>Convert every PDF page to a high-quality JPG image.</span></a>
+          <a class="tool-card" href="/split-pdf"><strong>Split PDF</strong><span>Extract pages or split a PDF into separate files.</span></a>
+          <a class="tool-card" href="/delete-pdf-pages"><strong>Delete PDF pages</strong><span>Remove unwanted pages from a PDF.</span></a>
+          <a class="tool-card" href="/organize-pdf"><strong>Organize PDF</strong><span>Reorder, rotate and delete PDF pages visually.</span></a>
+          <a class="tool-card" href="/pdf-to-png"><strong>PDF to PNG</strong><span>Convert PDF pages to lossless PNG images.</span></a>
+          <a class="tool-card" href="/rotate-pdf"><strong>Rotate PDF</strong><span>Rotate all or individual PDF pages and save.</span></a>
+        </div>
     </section>
   </main>
 
@@ -422,21 +506,28 @@
             <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="url(#cz-g)"/><path d="M8.5 8.5 14 14m0-5v5H9M23.5 23.5 18 18m0 5v-5h5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span class="wordmark">Compress<b>Zone</b></span>
           </a>
-          <p>Free, private image compression and conversion. Your images never leave your device.</p>
+          <p>Free, private image &amp; PDF tools. Your files never leave your device.</p>
         </div>
-        <nav aria-label="Compress">
-          <h2>Compress</h2>
+        <nav aria-label="Image tools">
+          <h2>Image tools</h2>
           <a href="/">Image compressor</a>
-          <a href="/compress-jpeg">Compress JPEG</a>
-          <a href="/compress-png">Compress PNG</a>
+          <a href="/compress-image-to-kb">Compress to KB</a>
           <a href="/resize-image">Resize image</a>
-        </nav>
-        <nav aria-label="Convert">
-          <h2>Convert</h2>
+          <a href="/crop-image">Crop image</a>
+          <a href="/heic-to-jpg">HEIC to JPG</a>
           <a href="/jpg-to-webp">JPG to WebP</a>
-          <a href="/png-to-webp">PNG to WebP</a>
-          <a href="/webp-to-jpg">WebP to JPG</a>
-          <a href="/webp-to-png">WebP to PNG</a>
+          <a href="/remove-exif">Remove EXIF data</a>
+          <a href="/image-tools" class="more">All image tools →</a>
+        </nav>
+        <nav aria-label="PDF tools">
+          <h2>PDF tools</h2>
+          <a href="/jpg-to-pdf">JPG to PDF</a>
+          <a href="/pdf-to-jpg">PDF to JPG</a>
+          <a href="/merge-pdf">Merge PDF</a>
+          <a href="/split-pdf">Split PDF</a>
+          <a href="/rotate-pdf">Rotate PDF</a>
+          <a href="/organize-pdf">Organize PDF</a>
+          <a href="/pdf-tools" class="more">All PDF tools →</a>
         </nav>
         <nav aria-label="Learn">
           <h2>Learn</h2>
@@ -466,6 +557,6 @@
       <input type="range" id="cmp-range" min="0" max="100" value="50" aria-label="Drag to compare original and compressed">
     </div>
   </dialog>
-  <noscript><p class="noscript">The CompressZone tool needs JavaScript to compress images in your browser.</p></noscript>
+  <noscript><p class="noscript">CompressZone tools need JavaScript to process files in your browser.</p></noscript>
 </body>
 </html>

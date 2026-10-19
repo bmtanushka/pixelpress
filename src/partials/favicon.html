@@ -1,0 +1,49 @@
+    <section class="container tool" aria-label="Favicon generator">
+      <label class="dropzone" id="dropzone" tabindex="0">
+        <input type="file" id="file-input" accept="image/*" hidden>
+        <span class="dz-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        <span class="dz-title">Drop your logo here or <u>browse</u></span>
+        <span class="dz-sub">Square PNG or SVG works best (512 × 512 px or larger)</span>
+      </label>
+
+      <div class="settings" role="group" aria-label="Favicon settings">
+        <div class="field">
+          <span class="field-label" id="bg-label">Background</span>
+          <div class="segmented" role="radiogroup" aria-labelledby="bg-label">
+            <label><input type="radio" name="bg" value="transparent" checked><span>Transparent</span></label>
+            <label><input type="radio" name="bg" value="#ffffff"><span>White</span></label>
+            <label><input type="radio" name="bg" value="custom"><span>Color</span></label>
+          </div>
+          <input type="color" id="bg-color" value="#5b5bf6" aria-label="Background color" hidden>
+        </div>
+        <div class="field">
+          <label class="field-label" for="padding">Padding</label>
+          <select id="padding">
+            <option value="0" selected>None</option>
+            <option value="0.08">Small</option>
+            <option value="0.16">Medium</option>
+            <option value="0.24">Large</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="shape">Shape</label>
+          <select id="shape">
+            <option value="square" selected>Square</option>
+            <option value="rounded">Rounded</option>
+            <option value="circle">Circle</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results" id="results" hidden>
+        <div class="summary">
+          <div class="summary-stats" id="summary-stats"></div>
+          <div class="summary-actions"><button type="button" class="btn btn-primary" id="zip-btn">Download favicon package (ZIP)</button></div>
+        </div>
+        <div class="fav-previews" id="previews"></div>
+        <div class="fav-snippet">
+          <div class="b64-out-head"><label for="snippet">Add this to your site's &lt;head&gt;</label><button type="button" class="btn btn-ghost sm" id="copy-snippet">Copy</button></div>
+          <textarea id="snippet" class="code-area" rows="7" readonly spellcheck="false"></textarea>
+        </div>
+      </div>
+    </section>

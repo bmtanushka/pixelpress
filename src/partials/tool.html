@@ -5,7 +5,7 @@
           <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </span>
         <span class="dz-title">Drop images here or <u>browse</u></span>
-        <span class="dz-sub">You can also paste with <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>V</kbd> · JPG, PNG, WebP, GIF, BMP, AVIF, SVG</span>
+        <span class="dz-sub">You can also paste with <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>V</kbd> · JPG, PNG, WebP, HEIC, GIF, BMP, AVIF, SVG</span>
       </label>
 
       <div class="settings" role="group" aria-label="Compression settings">
@@ -26,7 +26,7 @@
             <output id="quality-out" for="quality">80%</output>
           </div>
           <input type="range" id="quality" min="10" max="100" step="1" value="80">
-          <div class="presets" role="group" aria-label="Quality presets">
+          <div class="presets quality-presets" role="group" aria-label="Quality presets">
             <button type="button" data-q="60">Smallest</button>
             <button type="button" data-q="80" class="active">Balanced <small>(recommended)</small></button>
             <button type="button" data-q="92">High quality</button>
@@ -42,7 +42,53 @@
             <option value="1920">1920 px (Full HD)</option>
             <option value="1280">1280 px</option>
             <option value="800">800 px</option>
+            <option value="exact">Exact size (W × H)…</option>
           </select>
+        </div>
+
+        <div class="field field-wide exact-panel" id="exact-panel" hidden>
+          <div class="exact-row">
+            <label class="mini-field"><span>Width</span><input type="number" id="exact-w" min="1" max="10000" inputmode="numeric" value="1080"></label>
+            <span class="times" aria-hidden="true">×</span>
+            <label class="mini-field"><span>Height</span><input type="number" id="exact-h" min="1" max="10000" inputmode="numeric" value="1080"></label>
+            <span class="unit">px</span>
+            <label class="mini-field grow"><span>Fit</span>
+              <select id="exact-fit">
+                <option value="cover">Crop to fill</option>
+                <option value="contain">Fit inside (add padding)</option>
+              </select>
+            </label>
+            <label class="mini-field grow"><span>Common sizes</span>
+              <select id="exact-preset">
+                <option value="">Choose…</option>
+                <option value="600x600">Passport / visa 2×2 in (600×600)</option>
+                <option value="413x531">Passport 35×45 mm (413×531)</option>
+                <option value="1080x1080">Instagram square (1080×1080)</option>
+                <option value="1080x1350">Instagram portrait (1080×1350)</option>
+                <option value="1080x1920">Story / Reel (1080×1920)</option>
+                <option value="1280x720">YouTube thumbnail (1280×720)</option>
+                <option value="1200x630">Facebook / link preview (1200×630)</option>
+                <option value="1500x500">X / Twitter header (1500×500)</option>
+                <option value="1920x1080">Full HD (1920×1080)</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="field field-wide target-panel">
+          <label class="switch"><input type="checkbox" id="target-on"><span class="switch-ui" aria-hidden="true"></span><span class="switch-label">Target file size</span></label>
+          <div class="target-row" id="target-row" hidden>
+            <label class="mini-field"><span>Max size</span><span class="kb-input"><input type="number" id="target-kb" min="5" max="50000" step="1" inputmode="numeric" value="100"><b>KB</b></span></label>
+            <div class="presets" role="group" aria-label="Target size presets">
+              <button type="button" data-kb="20">20 KB</button>
+              <button type="button" data-kb="50">50 KB</button>
+              <button type="button" data-kb="100">100 KB</button>
+              <button type="button" data-kb="200">200 KB</button>
+              <button type="button" data-kb="500">500 KB</button>
+              <button type="button" data-kb="1024">1 MB</button>
+            </div>
+            <p class="hint">Quality is chosen automatically — the highest that fits. Very small targets may also reduce the dimensions.</p>
+          </div>
         </div>
       </div>
 

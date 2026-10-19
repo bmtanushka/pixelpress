@@ -20,7 +20,14 @@ Each page starts with a front-matter block:
     updated: 2026-10-19
     ---
 
-Content placeholders: {{tool}}, {{ad:top}}, {{ad:middle}}, {{related}}.
+    engine: compressor                      (tool pages: which tool UI/script — see ENGINES)
+    mode: split                             (optional: passed to the tool as data-mode)
+    category: compress | convert | edit | pdf
+    card: Short text for the tool cards     (hub pages and the home page)
+    features: Feature one | Feature two     (WebApplication featureList; defaults per engine)
+
+Content placeholders: {{tool}}, {{ad:top}}, {{ad:middle}}, {{related}},
+{{hub:image}}, {{hub:pdf}}, {{hub:all}} (tool card grids).
 FAQ (<details>) and how-to (<article class="step">) blocks in the content are
 turned into FAQPage / HowTo structured data automatically.
 """
@@ -47,6 +54,47 @@ def parse(path):
     meta["body"] = text[m.end():]
     meta["src"] = path.name
     return meta
+
+
+# Tool engines: the UI partial in src/partials/ and the script(s) that drive it.
+ENGINES = {
+    "compressor": {"partial": "tool", "scripts": ["/js/app.js"], "dialog": True},
+    "img2pdf": {"partial": "img2pdf", "scripts": ["/js/tools/common.js", "/js/tools/img2pdf.js"]},
+    "pdf2img": {"partial": "pdf2img", "scripts": ["/js/tools/common.js", "/js/tools/pdf2img.js"]},
+    "pdfmerge": {"partial": "pdfmerge", "scripts": ["/js/tools/common.js", "/js/tools/pdfmerge.js"]},
+    "pdfpages": {"partial": "pdfpages", "scripts": ["/js/tools/common.js", "/js/tools/pdfpages.js"]},
+    "editor": {"partial": "editor", "scripts": ["/js/tools/common.js", "/js/tools/editor.js"]},
+    "base64": {"partial": "base64", "scripts": ["/js/tools/common.js", "/js/tools/base64.js"]},
+    "favicon": {"partial": "favicon", "scripts": ["/js/tools/common.js", "/js/tools/favicon.js"]},
+    "exif": {"partial": "exif", "scripts": ["/js/tools/common.js", "/js/tools/exif.js"]},
+}
+
+COMPRESSOR_FEATURES = [
+    "Compress JPG, PNG, WebP, HEIC, GIF, BMP, AVIF and SVG images",
+    "Convert images to WebP, JPG, PNG or AVIF",
+    "Adjustable quality (default 80%) or an exact target file size in KB",
+    "Resize to a maximum dimension or exact pixel size",
+    "Batch processing and ZIP download",
+    "Runs 100% in the browser; images are never uploaded",
+    "Works offline after the first visit",
+]
+
+CATEGORIES = [
+    ("compress", "Compress & resize"),
+    ("convert", "Convert images"),
+    ("edit", "Edit & inspect"),
+    ("pdf", "PDF tools"),
+]
+HUBS = {"image": ["compress", "convert", "edit"], "pdf": ["pdf"]}
+HUB_PATH = {"image": "/image-tools", "pdf": "/pdf-tools"}
+
+
+def engine_of(page):
+    return page.get("engine", "compressor") if page["type"] == "tool" else None
+
+
+def hub_of(page):
+    return "pdf" if page.get("category") == "pdf" else "image"
 
 
 def strip_tags(s):
@@ -77,7 +125,7 @@ def jsonld(page, pages):
         {"@type": "Organization", "@id": SITE + "/#org", "name": "CompressZone", "url": SITE + "/",
          "logo": {"@type": "ImageObject", "url": LOGO, "width": 512, "height": 512}},
         {"@type": "WebSite", "@id": SITE + "/#website", "name": "CompressZone", "url": SITE + "/",
-         "description": "Free, private, in-browser image compressor and WebP converter.",
+         "description": "Free, private image and PDF tools that run in the browser: compress, resize, convert and edit images; merge, split and convert PDFs.",
          "publisher": {"@id": SITE + "/#org"}, "inLanguage": "en"},
     ]
     webpage = {"@type": "WebPage", "@id": url + "#webpage", "url": url, "name": page["title"],
@@ -102,17 +150,19 @@ def jsonld(page, pages):
             "browserRequirements": "Requires JavaScript and a modern browser (Chrome, Edge, Firefox, Safari)",
             "isAccessibleForFree": True,
             "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
-            "featureList": [
-                "Compress JPG, PNG, WebP, GIF, BMP, AVIF and SVG images",
-                "Convert images to WebP, JPG, PNG or AVIF",
-                "Adjustable quality (default 80%)",
-                "Optional resize to a maximum dimension",
-                "Batch processing and ZIP download",
-                "Runs 100% in the browser; images are never uploaded",
-                "Works offline after the first visit",
-            ],
+            "featureList": ([f.strip() for f in page["features"].split("|")] if page.get("features")
+                            else COMPRESSOR_FEATURES if engine_of(page) == "compressor"
+                            else ["Runs 100% in the browser; files are never uploaded", "Free, no sign-up, no watermark"]),
             "publisher": {"@id": SITE + "/#org"},
         })
+    if page["type"] == "hub":
+        hub = "pdf" if "pdf" in page["path"] else "image"
+        tools = [p for p in pages if p["type"] == "tool" and p.get("category") in HUBS[hub]]
+        webpage["@type"] = "CollectionPage"
+        webpage["mainEntity"] = {"@id": url + "#tools"}
+        graph.append({"@type": "ItemList", "@id": url + "#tools", "numberOfItems": len(tools),
+                      "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": p["nav"], "url": url_of(p)}
+                                          for i, p in enumerate(tools)]})
     if page["type"] == "article":
         graph.append({
             "@type": "Article", "@id": url + "#article", "headline": page.get("headline", page["title"]),
@@ -136,12 +186,33 @@ def jsonld(page, pages):
 
 
 def related(page, pages):
-    links = [p for p in pages if p["type"] == "tool" and p["path"] != page["path"]]
+    hub = hub_of(page) if page["type"] == "tool" else "image"
+    cats = HUBS[hub]
+    links = [p for p in pages if p["type"] == "tool" and p.get("category") in cats and p["path"] != page["path"]]
+    other = "pdf" if hub == "image" else "image"
     items = "\n".join(f'        <a href="{p["path"]}">{html.escape(p["nav"])}</a>' for p in links)
+    items += (f'\n        <a class="more" href="{HUB_PATH[hub]}">All {"PDF" if hub == "pdf" else "image"} tools →</a>'
+              f'\n        <a class="more" href="{HUB_PATH[other]}">{"PDF" if other == "pdf" else "Image"} tools →</a>')
+    label = "PDF" if hub == "pdf" else "image"
     return ('    <section class="container content" aria-labelledby="related-h">\n'
-            '      <h2 id="related-h">More free image tools</h2>\n'
-            f'      <nav class="tool-links" aria-label="Image tools">\n{items}\n      </nav>\n'
+            f'      <h2 id="related-h">More free {label} tools</h2>\n'
+            f'      <nav class="tool-links" aria-label="More {label} tools">\n{items}\n      </nav>\n'
             '    </section>\n')
+
+
+def tool_cards(pages, cats):
+    out = []
+    for key, title in CATEGORIES:
+        if key not in cats:
+            continue
+        tools = [p for p in pages if p["type"] == "tool" and p.get("category") == key]
+        if not tools:
+            continue
+        cards = "\n".join(
+            f'          <a class="tool-card" href="{p["path"]}"><strong>{html.escape(p["nav"])}</strong>'
+            f'<span>{html.escape(p.get("card", p["description"]))}</span></a>' for p in tools)
+        out.append(f'      <h3 class="hub-title">{title}</h3>\n        <div class="tool-cards">\n{cards}\n        </div>')
+    return "\n".join(out)
 
 
 def ad(name):
@@ -151,7 +222,12 @@ def ad(name):
 
 def render(page, pages, layout, partials):
     body = page["body"]
-    body = body.replace("{{tool}}", partials["tool"])
+    eng = ENGINES[engine_of(page)] if engine_of(page) else None
+    if eng:
+        body = body.replace("{{tool}}", partials[eng["partial"]])
+    body = body.replace("{{hub:image}}", tool_cards(pages, HUBS["image"]))
+    body = body.replace("{{hub:pdf}}", tool_cards(pages, HUBS["pdf"]))
+    body = body.replace("{{hub:all}}", tool_cards(pages, [c for c, _ in CATEGORIES]))
     body = re.sub(r"\{\{ad:(\w+)\}\}", lambda m: ad(m.group(1)), body)
     body = body.replace("{{related}}", related(page, pages))
 
@@ -161,14 +237,23 @@ def render(page, pages, layout, partials):
                   '<li><a href="/">Home</a></li>'
                   f'<li aria-current="page">{html.escape(page["breadcrumb"])}</li></ol></nav>\n')
 
-    is_tool = page["type"] == "tool"
     scripts = '<script src="/js/site.js" defer></script>'
     attrs = ""
-    if is_tool:
-        scripts += '\n  <script src="/js/app.js" defer></script>'
-        attrs = f' data-format="{page.get("format", "original")}" data-maxdim="{page.get("maxdim", "0")}"'
-        if page["path"] == "/":
-            attrs = ""  # home page: remember the visitor's own choices
+    if eng:
+        scripts += "".join(f'\n  <script src="{src}" defer></script>' for src in eng["scripts"])
+        data = {}
+        if engine_of(page) == "compressor":
+            data = {"format": page.get("format", "original"), "maxdim": page.get("maxdim", "0")}
+            for k in ("exact", "fit", "target-kb"):
+                if page.get(k):
+                    data[k] = page[k]
+            if page["path"] == "/":
+                data = {}  # home page: remember the visitor's own choices
+        else:
+            for k in ("mode", "format"):
+                if page.get(k):
+                    data[k] = page[k]
+        attrs = "".join(f' data-{k}="{html.escape(v)}"' for k, v in data.items())
     values = {
         "title": html.escape(page["title"]),
         "description": html.escape(page["description"]),
@@ -181,7 +266,7 @@ def render(page, pages, layout, partials):
         "body_attrs": attrs,
         "breadcrumbs": crumbs,
         "content": body.rstrip("\n"),
-        "after": ("\n" + partials["compare"]) if is_tool else "",
+        "after": ("\n" + partials["compare"]) if eng and eng.get("dialog") else "",
     }
     out = layout
     for k, v in values.items():
@@ -204,12 +289,16 @@ def sitemap(pages):
 
 def llms(pages):
     intro = (SRC / "llms-intro.md").read_text().rstrip() + "\n"
-    groups = [("Tools", "tool"), ("Guides", "article"), ("About and policies", "page")]
     out = [intro.rstrip()]
-    for title, t in groups:
+    for key, title in CATEGORIES:
         out.append(f"\n## {title}\n")
         for p in pages:
-            if p["type"] == t and not p.get("noindex"):
+            if p["type"] == "tool" and p.get("category") == key:
+                out.append(f"- [{p.get('nav', p['title'])}]({url_of(p)}): {p['description']}")
+    for title, types in (("Guides", ("article",)), ("About and policies", ("hub", "page"))):
+        out.append(f"\n## {title}\n")
+        for p in pages:
+            if p["type"] in types and not p.get("noindex"):
                 out.append(f"- [{p.get('nav', p['title'])}]({url_of(p)}): {p['description']}")
     return "\n".join(out) + "\n"
 
@@ -218,8 +307,9 @@ def main():
     layout = (SRC / "layout.html").read_text()
     partials = {p.stem: p.read_text().rstrip("\n") for p in (SRC / "partials").glob("*.html")}
     pages = [parse(p) for p in sorted((SRC / "pages").glob("*.html"))]
-    order = {"tool": 0, "article": 1, "page": 2}
-    pages.sort(key=lambda p: (order[p["type"]], -float(p.get("priority", 0.5)), p["path"]))
+    order = {"tool": 0, "hub": 1, "article": 2, "page": 3}
+    cat_order = {c: i for i, (c, _) in enumerate(CATEGORIES)}
+    pages.sort(key=lambda p: (order[p["type"]], cat_order.get(p.get("category"), 9), -float(p.get("priority", 0.5)), p["path"]))
     for p in pages:
         p.setdefault("nav", p.get("breadcrumb", p["title"]))
         out_file(p).write_text(render(p, pages, layout, partials))

@@ -1,7 +1,7 @@
 ---
 path: /about
 title: About CompressZone – Private, In-Browser Image Compression
-description: CompressZone is a free image compressor that runs entirely in your browser. Learn how it works, the technology behind it, and why your images stay private.
+description: CompressZone is a free set of image and PDF tools that run in your browser. Learn how it works, the technology behind it, and why your files stay private.
 type: page
 breadcrumb: About
 nav: About CompressZone
@@ -12,7 +12,7 @@ updated: 2026-10-19
       <h1>About CompressZone</h1>
       <p class="updated">Updated October 19, 2026</p>
 
-      <p><strong>CompressZone is a free online tool for compressing, resizing and converting images, built so that your images never leave your device.</strong> Most online compressors upload your files to a server. CompressZone does all the work inside your web browser, so it's faster, works offline, and keeps your photos private.</p>
+      <p><strong>CompressZone is a free collection of online image and PDF tools, built so that your files never leave your device.</strong> Most online tools upload your files to a server. CompressZone does all the work inside your web browser, so it's faster, works offline, and keeps your photos and documents private.</p>
 
       <h2>How it works</h2>
       <ul>
@@ -21,17 +21,21 @@ updated: 2026-10-19
         <li><strong>PNG:</strong> optimized with color quantization (UPNG.js) and DEFLATE compression, keeping transparency.</li>
         <li><strong>WebP on Safari:</strong> Safari can't save WebP natively, so CompressZone uses Google's libwebp encoder compiled to WebAssembly.</li>
         <li><strong>Never bigger:</strong> if re-encoding would make a file larger, the original is kept.</li>
+        <li><strong>HEIC photos:</strong> decoded natively in Safari and with libheif (WebAssembly) in other browsers.</li>
+        <li><strong>PDFs:</strong> created, merged, split and rotated with the open-source pdf-lib library, and rendered to images with Mozilla's PDF.js — the engine used in Firefox.</li>
+        <li><strong>Metadata:</strong> read with exifr and removed losslessly by dropping metadata blocks from JPG, PNG and WebP files.</li>
       </ul>
 
       <h2>Privacy</h2>
-      <p>Images are processed in memory on your device and discarded when you close the page. They are never uploaded, stored or seen by us. The site is supported by advertising from Google AdSense, which never has access to your images. Read the full <a href="/privacy">privacy policy</a>.</p>
+      <p>Files are processed in memory on your device and discarded when you close the page. They are never uploaded, stored or seen by us. The site is supported by advertising from Google AdSense, which never has access to your files. Read the full <a href="/privacy">privacy policy</a>.</p>
 
       <h2>Key facts</h2>
       <ul>
         <li>Price: free, with no account or sign-up</li>
-        <li>Supported input: JPG, PNG, WebP, AVIF, GIF, BMP and SVG (HEIC in Safari)</li>
-        <li>Output: JPG, PNG, WebP, and AVIF where supported</li>
-        <li>Default quality: 80%</li>
+        <li>Image tools: compress, compress to a target KB, resize (including exact pixels and passport sizes), convert (HEIC, PNG, JPG, WebP, Base64), crop, rotate, flip, favicon generator, EXIF viewer and remover</li>
+        <li>PDF tools: JPG to PDF, PDF to JPG/PNG, merge, split, rotate, organize and delete pages</li>
+        <li>Supported images: JPG, PNG, WebP, HEIC, AVIF, GIF, BMP and SVG</li>
+        <li>Default compression quality: 80%</li>
         <li>Limits: none, apart from your device's memory</li>
         <li>Works on: Chrome, Edge, Firefox and Safari, on desktop and mobile</li>
       </ul>

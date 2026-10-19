@@ -15,6 +15,8 @@
   var $ = function (s) { return document.querySelector(s); };
   var dropzone = $('#dropzone'), input = $('#file-input');
   var qualityEl = $('#quality'), qualityOut = $('#quality-out'), resizeEl = $('#resize');
+  var exactPanel = $('#exact-panel'), exactW = $('#exact-w'), exactH = $('#exact-h'), exactFit = $('#exact-fit'), exactPreset = $('#exact-preset');
+  var targetOn = $('#target-on'), targetRow = $('#target-row'), targetKb = $('#target-kb');
   var resultsEl = $('#results'), listEl = $('#file-list'), statsEl = $('#summary-stats');
   var zipBtn = $('#zip-btn'), clearBtn = $('#clear-btn');
 
@@ -22,13 +24,22 @@
   var items = new Map();
   var nextId = 1;
   var support = { webp: true, avif: false, offscreen: typeof OffscreenCanvas !== 'undefined' && typeof Worker !== 'undefined' };
-  // Landing pages (e.g. /jpg-to-webp) preset the format and size via <body data-format data-maxdim>.
+  // Landing pages (e.g. /jpg-to-webp, /compress-image-to-50kb) preset the tool via <body data-*>:
+  // data-format, data-maxdim, data-exact="600x600", data-fit, data-target-kb.
   // There, only the quality is remembered, so a preset never leaks into the home page.
-  var preset = document.body.dataset.format ? { format: document.body.dataset.format, maxDim: Number(document.body.dataset.maxdim) || 0 } : null;
+  var preset = readPreset(document.body.dataset);
   var settings = loadSettings();
 
+  function readPreset(d) {
+    if (!d.format) return null;
+    var p = { format: d.format, maxDim: Number(d.maxdim) || 0, exact: null, targetKB: Number(d.targetKb) || 0 };
+    var m = /^(\d+)x(\d+)$/.exec(d.exact || '');
+    if (m) p.exact = { w: Number(m[1]), h: Number(m[2]), fit: d.fit || 'cover' };
+    return p;
+  }
+
   function loadSettings() {
-    var s = { format: 'original', quality: CONFIG.defaultQuality, maxDim: 0 };
+    var s = { format: 'original', quality: CONFIG.defaultQuality, maxDim: 0, exact: null, targetKB: 0 };
     try {
       var saved = JSON.parse(localStorage.getItem('pp-settings') || 'null');
       if (saved) Object.assign(s, saved);
@@ -130,7 +141,11 @@
 
   function jobOptions(item) {
     var type = outputType(item.file);
-    return { type: type, quality: settings.quality, maxDim: settings.maxDim, base: BASE, wasmWebp: type === 'image/webp' && !support.webp };
+    return {
+      type: type, quality: settings.quality, maxDim: settings.maxDim, exact: settings.exact,
+      targetBytes: settings.targetKB > 0 ? Math.floor(settings.targetKB * 1024) : 0,
+      base: BASE, wasmWebp: type === 'image/webp' && !support.webp
+    };
   }
 
   var mainBusy = false;
@@ -152,7 +167,7 @@
       queue.shift();
       w.busy = true;
       w.job = item.id;
-      w.worker.postMessage({ id: item.id, version: job.version, file: item.file, opts: opts });
+      w.worker.postMessage({ id: item.id, version: job.version, file: item.src || item.file, opts: opts });
     }
   }
 
@@ -161,7 +176,12 @@
     mainBusy = true;
     encoderReady = encoderReady || loadScript(BASE + 'encoder.js');
     encoderReady
-      .then(function () { return decodeWithImage(item.file); })
+      .then(function () { return decodeWithImage(item.src || item.file); })
+      .catch(function (err) {
+        // HEIC/HEIF (iPhone photos) only decode natively in Safari; elsewhere convert with libheif first.
+        if (!isHeic(item.file) || item.src) throw err;
+        return convertHeic(item.file).then(function (png) { item.src = png; item.mainOnly = false; refreshThumb(item); return decodeWithImage(png); });
+      })
       .then(function (img) {
         return self.PPEncoder.encode(img, img.naturalWidth || 1024, img.naturalHeight || 1024, opts).then(function (out) {
           out.srcW = img.naturalWidth; out.srcH = img.naturalHeight;
@@ -169,7 +189,7 @@
         });
       })
       .then(function (out) {
-        onResult({ id: item.id, version: version, blob: out.blob, width: out.width, height: out.height, srcW: out.srcW, srcH: out.srcH });
+        onResult({ id: item.id, version: version, blob: out.blob, width: out.width, height: out.height, srcW: out.srcW, srcH: out.srcH, reachedTarget: out.reachedTarget });
       }, function (err) {
         onResult({ id: item.id, version: version, error: err && err.message === 'decode' ? 'decode' : 'fail', final: true });
       })
@@ -185,6 +205,16 @@
       img.src = item_url(file);
     });
   }
+  function isHeic(file) { return /hei[cf]/i.test(file.type) || /\.(heic|heif)$/i.test(file.name); }
+  var heicReady = null;
+  function convertHeic(file) {
+    heicReady = heicReady || loadScript(BASE + 'vendor/heic2any.min.js');
+    return heicReady.then(function () { return window.heic2any({ blob: file, toType: 'image/png' }); })
+      .then(function (r) { return Array.isArray(r) ? r[0] : r; })
+      .catch(function () { throw new Error('decode'); });
+  }
+  function refreshThumb(item) { if (item.el) item.el.querySelector('.thumb').src = item_url(item.src); }
+
   var fileUrls = new WeakMap();
   function item_url(file) {
     if (!fileUrls.has(file)) fileUrls.set(file, URL.createObjectURL(file));
@@ -209,9 +239,12 @@
 
     var outType = r.blob.type || jobOptions(item).type;
     var resized = r.width !== r.srcW || r.height !== r.srcH;
-    // Never make a file bigger: keep the original if re-encoding didn't help.
+    // Never make a file bigger: keep the original if re-encoding didn't help
+    // (in target-size mode, only when the original already fits the target).
     var sameFormat = outType === item.file.type || settings.format === 'original';
-    if (!resized && sameFormat && r.blob.size >= item.file.size) {
+    var target = jobOptions(item).targetBytes;
+    var originalFits = !target || item.file.size <= target;
+    if (!resized && sameFormat && r.blob.size >= item.file.size && originalFits) {
       item.blob = item.file;
       item.kept = true;
     } else {
@@ -221,6 +254,8 @@
     item.outType = item.kept ? item.file.type : outType;
     item.outUrl = URL.createObjectURL(item.blob);
     item.dims = r.width + '×' + r.height;
+    item.target = target;
+    item.reachedTarget = target ? item.blob.size <= target : null;
     item.status = 'done';
     render(item);
     updateSummary();
@@ -298,6 +333,11 @@
       : saved > 0
         ? '<span class="badge">−' + Math.round(saved * 100) + '%</span>'
         : '<span class="badge neutral">+' + Math.round(-saved * 100) + '%</span>';
+    if (item.target) {
+      badge += item.reachedTarget
+        ? '<span class="badge">✓ Under ' + formatBytes(item.target) + '</span>'
+        : '<span class="badge error">Couldn\'t reach ' + formatBytes(item.target) + '</span>';
+    }
     sizes.innerHTML =
       '<span>' + orig + '</span><span class="arrow">→</span>' +
       '<span class="new">' + formatBytes(item.blob.size) + '</span>' + badge +
@@ -331,6 +371,7 @@
     if (!item) return;
     if (item.outUrl) URL.revokeObjectURL(item.outUrl);
     if (fileUrls.has(item.file)) URL.revokeObjectURL(fileUrls.get(item.file));
+    if (item.src && fileUrls.has(item.src)) URL.revokeObjectURL(fileUrls.get(item.src));
     item.el.remove();
     items.delete(id);
     updateSummary();
@@ -342,7 +383,7 @@
     $('#compare-title').textContent = item.file.name;
     $('#cmp-orig').textContent = formatBytes(item.file.size);
     $('#cmp-new').textContent = formatBytes(item.blob.size);
-    $('#cmp-img-before').src = item_url(item.file);
+    $('#cmp-img-before').src = item_url(item.src || item.file);
     $('#cmp-img-after').src = item.outUrl;
     range.value = 50;
     stage.style.setProperty('--pos', '50%');
@@ -422,9 +463,19 @@
   }, 250);
 
   function syncPresets() {
-    document.querySelectorAll('.presets button').forEach(function (b) {
+    document.querySelectorAll('.quality-presets button').forEach(function (b) {
       b.classList.toggle('active', Number(b.dataset.q) === settings.quality);
     });
+    document.querySelectorAll('[data-kb]').forEach(function (b) {
+      b.classList.toggle('active', Number(b.dataset.kb) === settings.targetKB);
+    });
+    var targeting = settings.targetKB > 0;
+    targetOn.checked = targeting;
+    targetRow.hidden = !targeting;
+    if (targeting) targetKb.value = settings.targetKB;
+    document.querySelector('.field-quality').classList.toggle('is-auto', targeting);
+    qualityEl.disabled = targeting;
+    document.querySelectorAll('.quality-presets button').forEach(function (b) { b.disabled = targeting; });
     qualityOut.textContent = settings.quality + '%';
     qualityEl.value = settings.quality;
     qualityEl.style.setProperty('--val', settings.quality);
@@ -432,9 +483,24 @@
   function applySettingsToUI() {
     var radio = document.querySelector('input[name="format"][value="' + settings.format + '"]');
     if (radio) radio.checked = true;
-    resizeEl.value = String(settings.maxDim);
+    resizeEl.value = settings.exact ? 'exact' : String(settings.maxDim);
     if (resizeEl.selectedIndex < 0) resizeEl.value = '0';
+    syncExact();
     syncPresets();
+  }
+  function syncExact() {
+    exactPanel.hidden = !settings.exact;
+    if (!settings.exact) return;
+    exactW.value = settings.exact.w;
+    exactH.value = settings.exact.h;
+    exactFit.value = settings.exact.fit;
+    exactPreset.value = settings.exact.w + 'x' + settings.exact.h;
+    if (exactPreset.selectedIndex < 0) exactPreset.value = '';
+  }
+  function readExact() {
+    var w = Math.min(10000, Math.max(1, Math.round(Number(exactW.value) || 0)));
+    var h = Math.min(10000, Math.max(1, Math.round(Number(exactH.value) || 0)));
+    settings.exact = { w: w, h: h, fit: exactFit.value };
   }
   applySettingsToUI();
 
@@ -444,8 +510,32 @@
   qualityEl.addEventListener('input', function () {
     settings.quality = Number(qualityEl.value); syncPresets(); saveSettings(); recompressAll();
   });
-  document.querySelectorAll('.presets button').forEach(function (b) {
+  document.querySelectorAll('.quality-presets button').forEach(function (b) {
     b.addEventListener('click', function () { settings.quality = Number(b.dataset.q); syncPresets(); saveSettings(); recompressAll(); });
   });
-  resizeEl.addEventListener('change', function () { settings.maxDim = Number(resizeEl.value); saveSettings(); recompressAll(); });
+  resizeEl.addEventListener('change', function () {
+    if (resizeEl.value === 'exact') { settings.maxDim = 0; readExact(); }
+    else { settings.exact = null; settings.maxDim = Number(resizeEl.value); }
+    syncExact(); saveSettings(); recompressAll();
+  });
+  [exactW, exactH, exactFit].forEach(function (el) {
+    el.addEventListener('input', function () { readExact(); syncExact(); saveSettings(); recompressAll(); });
+  });
+  exactPreset.addEventListener('change', function () {
+    var m = /^(\d+)x(\d+)$/.exec(exactPreset.value);
+    if (!m) return;
+    exactW.value = m[1]; exactH.value = m[2];
+    readExact(); saveSettings(); recompressAll();
+  });
+  targetOn.addEventListener('change', function () {
+    settings.targetKB = targetOn.checked ? (Number(targetKb.value) || 100) : 0;
+    syncPresets(); saveSettings(); recompressAll();
+  });
+  targetKb.addEventListener('input', function () {
+    var v = Number(targetKb.value);
+    if (v >= 1) { settings.targetKB = v; syncPresets(); saveSettings(); recompressAll(); }
+  });
+  document.querySelectorAll('[data-kb]').forEach(function (b) {
+    b.addEventListener('click', function () { settings.targetKB = Number(b.dataset.kb); syncPresets(); saveSettings(); recompressAll(); });
+  });
 })();

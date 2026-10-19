@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About CompressZone – Private, In-Browser Image Compression</title>
-  <meta name="description" content="CompressZone is a free image compressor that runs entirely in your browser. Learn how it works, the technology behind it, and why your images stay private.">
+  <meta name="description" content="CompressZone is a free set of image and PDF tools that run in your browser. Learn how it works, the technology behind it, and why your files stay private.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="theme-color" content="#5b5bf6" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0e0e14" media="(prefers-color-scheme: dark)">
@@ -22,16 +22,16 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="CompressZone">
   <meta property="og:title" content="About CompressZone – Private, In-Browser Image Compression">
-  <meta property="og:description" content="CompressZone is a free image compressor that runs entirely in your browser. Learn how it works, the technology behind it, and why your images stay private.">
+  <meta property="og:description" content="CompressZone is a free set of image and PDF tools that run in your browser. Learn how it works, the technology behind it, and why your files stay private.">
   <meta property="og:url" content="https://compresszone.com/about">
   <meta property="og:image" content="https://compresszone.com/img/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="CompressZone — compress images and convert to WebP, free and private">
+  <meta property="og:image:alt" content="CompressZone — free, private image and PDF tools">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="About CompressZone – Private, In-Browser Image Compression">
-  <meta name="twitter:description" content="CompressZone is a free image compressor that runs entirely in your browser. Learn how it works, the technology behind it, and why your images stay private.">
+  <meta name="twitter:description" content="CompressZone is a free set of image and PDF tools that run in your browser. Learn how it works, the technology behind it, and why your files stay private.">
   <meta name="twitter:image" content="https://compresszone.com/img/og-image.png">
 
   <script type="application/ld+json">{
@@ -54,7 +54,7 @@
    "@id": "https://compresszone.com/#website",
    "name": "CompressZone",
    "url": "https://compresszone.com/",
-   "description": "Free, private, in-browser image compressor and WebP converter.",
+   "description": "Free, private image and PDF tools that run in the browser: compress, resize, convert and edit images; merge, split and convert PDFs.",
    "publisher": {
     "@id": "https://compresszone.com/#org"
    },
@@ -83,7 +83,7 @@
    "@id": "https://compresszone.com/about#webpage",
    "url": "https://compresszone.com/about",
    "name": "About CompressZone – Private, In-Browser Image Compression",
-   "description": "CompressZone is a free image compressor that runs entirely in your browser. Learn how it works, the technology behind it, and why your images stay private.",
+   "description": "CompressZone is a free set of image and PDF tools that run in your browser. Learn how it works, the technology behind it, and why your files stay private.",
    "isPartOf": {
     "@id": "https://compresszone.com/#website"
    },
@@ -113,8 +113,8 @@
         <span class="wordmark">Compress<b>Zone</b></span>
       </a>
       <nav class="nav" aria-label="Main">
-        <a href="/compress-png">Compress PNG</a>
-        <a href="/jpg-to-webp">JPG to WebP</a>
+        <a href="/image-tools">Image tools</a>
+        <a href="/pdf-tools">PDF tools</a>
         <a href="/image-formats-guide">Guide</a>
       </nav>
     </div>
@@ -126,7 +126,7 @@
       <h1>About CompressZone</h1>
       <p class="updated">Updated October 19, 2026</p>
 
-      <p><strong>CompressZone is a free online tool for compressing, resizing and converting images, built so that your images never leave your device.</strong> Most online compressors upload your files to a server. CompressZone does all the work inside your web browser, so it's faster, works offline, and keeps your photos private.</p>
+      <p><strong>CompressZone is a free collection of online image and PDF tools, built so that your files never leave your device.</strong> Most online tools upload your files to a server. CompressZone does all the work inside your web browser, so it's faster, works offline, and keeps your photos and documents private.</p>
 
       <h2>How it works</h2>
       <ul>
@@ -135,17 +135,21 @@
         <li><strong>PNG:</strong> optimized with color quantization (UPNG.js) and DEFLATE compression, keeping transparency.</li>
         <li><strong>WebP on Safari:</strong> Safari can't save WebP natively, so CompressZone uses Google's libwebp encoder compiled to WebAssembly.</li>
         <li><strong>Never bigger:</strong> if re-encoding would make a file larger, the original is kept.</li>
+        <li><strong>HEIC photos:</strong> decoded natively in Safari and with libheif (WebAssembly) in other browsers.</li>
+        <li><strong>PDFs:</strong> created, merged, split and rotated with the open-source pdf-lib library, and rendered to images with Mozilla's PDF.js — the engine used in Firefox.</li>
+        <li><strong>Metadata:</strong> read with exifr and removed losslessly by dropping metadata blocks from JPG, PNG and WebP files.</li>
       </ul>
 
       <h2>Privacy</h2>
-      <p>Images are processed in memory on your device and discarded when you close the page. They are never uploaded, stored or seen by us. The site is supported by advertising from Google AdSense, which never has access to your images. Read the full <a href="/privacy">privacy policy</a>.</p>
+      <p>Files are processed in memory on your device and discarded when you close the page. They are never uploaded, stored or seen by us. The site is supported by advertising from Google AdSense, which never has access to your files. Read the full <a href="/privacy">privacy policy</a>.</p>
 
       <h2>Key facts</h2>
       <ul>
         <li>Price: free, with no account or sign-up</li>
-        <li>Supported input: JPG, PNG, WebP, AVIF, GIF, BMP and SVG (HEIC in Safari)</li>
-        <li>Output: JPG, PNG, WebP, and AVIF where supported</li>
-        <li>Default quality: 80%</li>
+        <li>Image tools: compress, compress to a target KB, resize (including exact pixels and passport sizes), convert (HEIC, PNG, JPG, WebP, Base64), crop, rotate, flip, favicon generator, EXIF viewer and remover</li>
+        <li>PDF tools: JPG to PDF, PDF to JPG/PNG, merge, split, rotate, organize and delete pages</li>
+        <li>Supported images: JPG, PNG, WebP, HEIC, AVIF, GIF, BMP and SVG</li>
+        <li>Default compression quality: 80%</li>
         <li>Limits: none, apart from your device's memory</li>
         <li>Works on: Chrome, Edge, Firefox and Safari, on desktop and mobile</li>
       </ul>
@@ -156,15 +160,36 @@
 
     <section class="container content" aria-labelledby="related-h">
       <h2 id="related-h">More free image tools</h2>
-      <nav class="tool-links" aria-label="Image tools">
+      <nav class="tool-links" aria-label="More image tools">
         <a href="/">Image compressor</a>
+        <a href="/compress-image-to-kb">Compress to exact KB</a>
         <a href="/compress-jpeg">Compress JPEG</a>
         <a href="/compress-png">Compress PNG</a>
-        <a href="/jpg-to-webp">JPG to WebP</a>
-        <a href="/png-to-webp">PNG to WebP</a>
+        <a href="/compress-image-to-100kb">Compress to 100 KB</a>
+        <a href="/compress-image-to-20kb">Compress to 20 KB</a>
+        <a href="/compress-image-to-50kb">Compress to 50 KB</a>
+        <a href="/passport-photo-size">Passport photo resizer</a>
         <a href="/resize-image">Resize image</a>
+        <a href="/resize-image-to-pixels">Resize to exact pixels</a>
+        <a href="/compress-image-to-200kb">Compress to 200 KB</a>
+        <a href="/instagram-image-resizer">Instagram resizer</a>
+        <a href="/heic-to-jpg">HEIC to JPG</a>
+        <a href="/jpg-to-webp">JPG to WebP</a>
+        <a href="/png-to-jpg">PNG to JPG</a>
+        <a href="/png-to-webp">PNG to WebP</a>
         <a href="/webp-to-jpg">WebP to JPG</a>
+        <a href="/image-to-base64">Image to Base64</a>
+        <a href="/jpg-to-png">JPG to PNG</a>
         <a href="/webp-to-png">WebP to PNG</a>
+        <a href="/base64-to-image">Base64 to image</a>
+        <a href="/crop-image">Crop image</a>
+        <a href="/remove-exif">Remove EXIF data</a>
+        <a href="/exif-viewer">EXIF viewer</a>
+        <a href="/favicon-generator">Favicon generator</a>
+        <a href="/rotate-image">Rotate image</a>
+        <a href="/flip-image">Flip image</a>
+        <a class="more" href="/image-tools">All image tools →</a>
+        <a class="more" href="/pdf-tools">PDF tools →</a>
       </nav>
     </section>
   </main>
@@ -177,21 +202,28 @@
             <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="url(#cz-g)"/><path d="M8.5 8.5 14 14m0-5v5H9M23.5 23.5 18 18m0 5v-5h5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span class="wordmark">Compress<b>Zone</b></span>
           </a>
-          <p>Free, private image compression and conversion. Your images never leave your device.</p>
+          <p>Free, private image &amp; PDF tools. Your files never leave your device.</p>
         </div>
-        <nav aria-label="Compress">
-          <h2>Compress</h2>
+        <nav aria-label="Image tools">
+          <h2>Image tools</h2>
           <a href="/">Image compressor</a>
-          <a href="/compress-jpeg">Compress JPEG</a>
-          <a href="/compress-png">Compress PNG</a>
+          <a href="/compress-image-to-kb">Compress to KB</a>
           <a href="/resize-image">Resize image</a>
-        </nav>
-        <nav aria-label="Convert">
-          <h2>Convert</h2>
+          <a href="/crop-image">Crop image</a>
+          <a href="/heic-to-jpg">HEIC to JPG</a>
           <a href="/jpg-to-webp">JPG to WebP</a>
-          <a href="/png-to-webp">PNG to WebP</a>
-          <a href="/webp-to-jpg">WebP to JPG</a>
-          <a href="/webp-to-png">WebP to PNG</a>
+          <a href="/remove-exif">Remove EXIF data</a>
+          <a href="/image-tools" class="more">All image tools →</a>
+        </nav>
+        <nav aria-label="PDF tools">
+          <h2>PDF tools</h2>
+          <a href="/jpg-to-pdf">JPG to PDF</a>
+          <a href="/pdf-to-jpg">PDF to JPG</a>
+          <a href="/merge-pdf">Merge PDF</a>
+          <a href="/split-pdf">Split PDF</a>
+          <a href="/rotate-pdf">Rotate PDF</a>
+          <a href="/organize-pdf">Organize PDF</a>
+          <a href="/pdf-tools" class="more">All PDF tools →</a>
         </nav>
         <nav aria-label="Learn">
           <h2>Learn</h2>
@@ -205,6 +237,6 @@
     </div>
   </footer>
 
-  <noscript><p class="noscript">The CompressZone tool needs JavaScript to compress images in your browser.</p></noscript>
+  <noscript><p class="noscript">CompressZone tools need JavaScript to process files in your browser.</p></noscript>
 </body>
 </html>

@@ -1,0 +1,68 @@
+    <section class="container tool" aria-label="Image editor">
+      <label class="dropzone" id="dropzone" tabindex="0">
+        <input type="file" id="file-input" accept="image/*,.heic,.heif" hidden>
+        <span class="dz-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        <span class="dz-title">Drop an image here or <u>browse</u></span>
+        <span class="dz-sub">JPG, PNG, WebP, HEIC, GIF, BMP, AVIF · You can also paste</span>
+      </label>
+
+      <div class="editor" id="editor" hidden>
+        <div class="editor-stage" id="stage">
+          <div class="editor-canvas-wrap" id="canvas-wrap">
+            <canvas id="ed-canvas"></canvas>
+            <div class="crop-box" id="crop-box" tabindex="0" role="group" aria-label="Crop area. Drag to move, or use the arrow keys">
+              <span class="h nw" data-h="nw"></span><span class="h n" data-h="n"></span><span class="h ne" data-h="ne"></span>
+              <span class="h e" data-h="e"></span><span class="h se" data-h="se"></span><span class="h s" data-h="s"></span>
+              <span class="h sw" data-h="sw"></span><span class="h w" data-h="w"></span>
+            </div>
+          </div>
+        </div>
+        <div class="editor-panel">
+          <div class="field">
+            <span class="field-label">Crop</span>
+            <div class="chips" id="ratios" role="group" aria-label="Aspect ratio">
+              <button type="button" data-r="free" class="active">Free</button>
+              <button type="button" data-r="orig">Original</button>
+              <button type="button" data-r="1">1:1</button>
+              <button type="button" data-r="0.8">4:5</button>
+              <button type="button" data-r="1.5">3:2</button>
+              <button type="button" data-r="1.3333">4:3</button>
+              <button type="button" data-r="1.7778">16:9</button>
+              <button type="button" data-r="0.5625">9:16</button>
+            </div>
+            <p class="crop-size" id="crop-size" aria-live="polite"></p>
+          </div>
+          <div class="field">
+            <span class="field-label">Rotate &amp; flip</span>
+            <div class="chips" role="group" aria-label="Rotate and flip">
+              <button type="button" data-t="rotl" title="Rotate left 90°">⟲ Left</button>
+              <button type="button" data-t="rotr" title="Rotate right 90°">⟳ Right</button>
+              <button type="button" data-t="fliph" title="Flip horizontally">⇋ Flip H</button>
+              <button type="button" data-t="flipv" title="Flip vertically">⇅ Flip V</button>
+            </div>
+          </div>
+          <div class="field two-col">
+            <label class="mini-field"><span>Format</span>
+              <select id="out-format">
+                <option value="same" selected>Same as original</option>
+                <option value="image/jpeg">JPG</option>
+                <option value="image/png">PNG</option>
+                <option value="image/webp">WebP</option>
+              </select>
+            </label>
+            <label class="mini-field"><span>Quality</span>
+              <select id="out-quality">
+                <option value="0.95">Best</option>
+                <option value="0.9" selected>High</option>
+                <option value="0.8">Balanced</option>
+              </select>
+            </label>
+          </div>
+          <div class="editor-actions">
+            <button type="button" class="btn btn-ghost" id="reset-btn">Reset</button>
+            <button type="button" class="btn btn-ghost" id="new-btn">New image</button>
+            <button type="button" class="btn btn-primary" id="save-btn">Download</button>
+          </div>
+        </div>
+      </div>
+    </section>

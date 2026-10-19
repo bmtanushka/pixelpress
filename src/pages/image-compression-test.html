@@ -1,0 +1,104 @@
+---
+path: /image-compression-test
+title: JPG vs WebP Compression Test: Size & Quality Results | CompressZone
+headline: JPG vs WebP: we measured file size and quality at every setting
+description: Our test of JPG and WebP at quality 30–95 on nine public-domain photos, measured with SSIM. WebP was 24% smaller at the same setting. Full data inside.
+type: article
+category: convert
+parent: /guides|Guides
+breadcrumb: JPG vs WebP compression test
+nav: JPG vs WebP compression test
+card: Our measured results: file size and SSIM quality for JPG and WebP.
+dataset: /data/compression-test-2026.csv|CompressZone JPG vs WebP compression test (2026)|File size and SSIM quality for JPG and WebP at quality 30–95 on public-domain test photos, encoded with Chromium 141.
+priority: 0.7
+published: 2026-10-19
+updated: 2026-10-19
+---
+    <article class="container content legal guide">
+      <h1>JPG vs WebP: we measured file size and quality at every setting</h1>
+      <p class="updated">Published October 19, 2026 · 4 min read · <a href="/data/compression-test-2026.csv">Download the data (CSV)</a></p>
+
+      <div class="answer-box">
+        <p><strong>Key findings:</strong> at the same quality setting, <strong>WebP files were 24% smaller than JPG</strong> on average at 80% quality, with equal or slightly better measured quality. Matched for visual quality (SSIM), the median saving was <strong>12–21%</strong> — and for a few images JPG was smaller. Raising JPG quality from 80% to 95% <strong>doubled the file size</strong> for a small quality gain.</p>
+      </div>
+
+      <h2>How we tested</h2>
+      <ul>
+        <li><strong>Images:</strong> nine photographs from the public-domain and openly licensed <a href="https://scikit-image.org/docs/stable/api/skimage.data.html">scikit-image sample images</a> (portraits, animals, objects, astronomy and microscopy), 451 to 1411 pixels wide.</li>
+        <li><strong>Encoders:</strong> the browser's built-in JPG and WebP encoders in Chromium 141 — the same encoders CompressZone uses in Chrome and Edge.</li>
+        <li><strong>Settings:</strong> every quality level from 30% to 95% in steps of 5 for both formats (252 photo encodes).</li>
+        <li><strong>Quality metric:</strong> SSIM (structural similarity) against the lossless original, where 1.0 means identical. Values above about 0.95 are generally hard to tell apart from the original on screen.</li>
+        <li><strong>File size:</strong> reported in bits per pixel (bpp) so images of different sizes can be averaged.</li>
+      </ul>
+
+      <h2>Results by quality setting</h2>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th scope="col">Quality</th><th scope="col">JPG (bpp)</th><th scope="col">WebP (bpp)</th><th scope="col">WebP vs JPG size</th><th scope="col">JPG SSIM</th><th scope="col">WebP SSIM</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">50%</th><td>0.82</td><td>0.66</td><td>-23%</td><td>0.891</td><td>0.900</td></tr>
+            <tr><th scope="row">60%</th><td>0.97</td><td>0.76</td><td>-25%</td><td>0.905</td><td>0.911</td></tr>
+            <tr><th scope="row">70%</th><td>1.16</td><td>0.88</td><td>-28%</td><td>0.920</td><td>0.920</td></tr>
+            <tr><th scope="row">80%</th><td>1.45</td><td>1.16</td><td>-24%</td><td>0.936</td><td>0.939</td></tr>
+            <tr><th scope="row">90%</th><td>2.14</td><td>1.90</td><td>-15%</td><td>0.956</td><td>0.964</td></tr>
+            <tr><th scope="row">95%</th><td>2.99</td><td>2.69</td><td>-12%</td><td>0.971</td><td>0.974</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">Averages over nine photos. Lower bpp = smaller file; higher SSIM = closer to the original.</p>
+
+      <h2>Every photo at 80% quality</h2>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th scope="col">Image</th><th scope="col">Pixels</th><th scope="col">Lossless PNG</th><th scope="col">JPG 80%</th><th scope="col">WebP 80%</th><th scope="col">WebP vs JPG</th><th scope="col">SSIM (JPG / WebP)</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Astronaut portrait (NASA)</th><td>512 × 512</td><td>415 KB</td><td>44.7 KB</td><td>31.4 KB</td><td>-30%</td><td>0.946 / 0.947</td></tr>
+            <tr><th scope="row">Cat (Chelsea)</th><td>451 × 300</td><td>216 KB</td><td>23.1 KB</td><td>17.0 KB</td><td>-26%</td><td>0.955 / 0.953</td></tr>
+            <tr><th scope="row">Cup of coffee</th><td>600 × 400</td><td>439 KB</td><td>46.6 KB</td><td>37.5 KB</td><td>-20%</td><td>0.919 / 0.931</td></tr>
+            <tr><th scope="row">Hubble Deep Field (NASA)</th><td>1000 × 872</td><td>1622 KB</td><td>149.7 KB</td><td>131.6 KB</td><td>-12%</td><td>0.837 / 0.858</td></tr>
+            <tr><th scope="row">Microscopy stain</th><td>512 × 512</td><td>458 KB</td><td>59.6 KB</td><td>48.7 KB</td><td>-18%</td><td>0.966 / 0.964</td></tr>
+            <tr><th scope="row">Motorcycle (stereo dataset)</th><td>741 × 500</td><td>627 KB</td><td>78.9 KB</td><td>59.7 KB</td><td>-24%</td><td>0.947 / 0.952</td></tr>
+            <tr><th scope="row">Retina scan</th><td>1411 × 1411</td><td>1359 KB</td><td>122.4 KB</td><td>53.2 KB</td><td>-57%</td><td>0.979 / 0.963</td></tr>
+            <tr><th scope="row">Rocket launch (NASA)</th><td>640 × 427</td><td>305 KB</td><td>31.4 KB</td><td>23.5 KB</td><td>-25%</td><td>0.920 / 0.932</td></tr>
+            <tr><th scope="row">Skin tissue microscopy</th><td>1280 × 960</td><td>2464 KB</td><td>333.8 KB</td><td>317.5 KB</td><td>-5%</td><td>0.951 / 0.947</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">At 80% quality, JPG files were a median of 11% of the size of the lossless PNG — roughly 89% smaller.</p>
+
+      <h2>What this means</h2>
+      <ol>
+        <li><strong>WebP is usually the better choice for the web.</strong> At the same setting it produced smaller files in every one of our photos, with equal or slightly higher measured quality.</li>
+        <li><strong>The real-world saving is smaller than "same setting" comparisons suggest.</strong> Because a quality of 80 doesn't mean the same thing in JPG and WebP, we also compared files of equal SSIM. The median saving was 12–21% depending on the quality level, and a few images were smaller as JPG.</li>
+        <li><strong>80% is a sensible default.</strong> Going from 80% to 95% roughly doubled the size of both JPG and WebP files, while average SSIM rose only from about 0.94 to 0.97.</li>
+        <li><strong>Never use PNG for photos on the web.</strong> Even high-quality JPG was around a tenth of the size.</li>
+      </ol>
+
+      <h2>Limitations</h2>
+      <p>This is a small, reproducible test, not a definitive study. The images are smaller than modern phone photos (usually 12 megapixels or more), where compression savings tend to be larger. SSIM is one of several quality metrics and doesn't capture every visual difference. AVIF isn't included because Chrome cannot encode AVIF from a web page. Results from other encoders, such as libwebp or mozjpeg on the command line, will differ.</p>
+
+{{ad:middle}}
+      <h2>Frequently asked questions</h2>
+      <details>
+        <summary>Is WebP always smaller than JPG?</summary>
+        <p>No. In our test WebP was smaller at the same quality setting for every photo, but when we matched the visual quality (SSIM), a few images came out smaller as JPG. On average, WebP still saved 12–21%.</p>
+      </details>
+      <details>
+        <summary>What quality setting should I use?</summary>
+        <p>80% gives a good balance for photos on screens. Higher settings grow the file quickly: 95% was about twice the size of 80% in our test.</p>
+      </details>
+      <details>
+        <summary>Can I use this data?</summary>
+        <p>Yes. The full results are available as a CSV file under the Creative Commons Attribution 4.0 license — please credit CompressZone and link to this page.</p>
+      </details>
+
+      <h2>Try it on your own images</h2>
+      <nav class="tool-links" aria-label="Related tools">
+        <a href="/jpg-to-webp">JPG to WebP</a>
+        <a href="/">Image compressor</a>
+        <a href="/image-formats-guide">JPG vs PNG vs WebP vs AVIF guide</a>
+      </nav>
+      <p class="cta-line"><a class="btn btn-primary" href="/jpg-to-webp">Compare JPG and WebP on your photos — free</a></p>
+    </article>
+
+{{related}}

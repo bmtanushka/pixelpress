@@ -62,7 +62,7 @@
     var zone = opts.zone, input = opts.input, depth = 0;
     var handle = function (list) {
       var files = Array.prototype.filter.call(list || [], opts.accept);
-      if (!files.length) { toast(opts.rejectMessage || 'Please choose a supported file'); return; }
+      if (!files.length) { toast(opts.rejectMessage || (window.czT ? window.czT('Please choose a supported file') : 'Please choose a supported file')); return; }
       opts.onFiles(opts.single ? files.slice(0, 1) : files);
     };
     input.addEventListener('change', function () { handle(input.files); input.value = ''; });

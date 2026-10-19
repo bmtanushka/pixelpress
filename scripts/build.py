@@ -86,6 +86,15 @@ CATEGORIES = [
     ("pdf", "PDF tools"),
 ]
 HUBS = {"image": ["compress", "convert", "edit"], "pdf": ["pdf"]}
+
+# Languages. Pages in src/pages/<lang>/ set `lang:` and `alt:` (the English page they translate);
+# hreflang links are generated in both directions.
+LANGS = {
+    "en": {"home": "/", "home_name": "Home", "locale": "en_US", "name": "English",
+           "skip": "Skip to content", "noscript": "CompressZone tools need JavaScript to process files in your browser."},
+    "hi": {"home": "/hi", "home_name": "होम", "locale": "hi_IN", "name": "हिन्दी",
+           "skip": "मुख्य सामग्री पर जाएँ", "noscript": "CompressZone टूल चलाने के लिए ब्राउज़र में JavaScript चालू होना ज़रूरी है।"},
+}
 HUB_PATH = {"image": "/image-tools", "pdf": "/pdf-tools"}
 
 
@@ -95,6 +104,23 @@ def engine_of(page):
 
 def hub_of(page):
     return "pdf" if page.get("category") == "pdf" else "image"
+
+
+def parents(page):
+    """Front matter `parent: /guides|Guides` → [("/guides", "Guides")]."""
+    if not page.get("parent"):
+        return []
+    u, n = page["parent"].split("|", 1)
+    return [(u.strip(), n.strip())]
+
+
+def og_slug(page):
+    return "home" if page["path"] == "/" else page["path"].strip("/").replace("/", "-")
+
+
+def og_image(page):
+    f = ROOT / "img" / "og" / (og_slug(page) + ".jpg")
+    return f"{SITE}/img/og/{og_slug(page)}.jpg" if f.exists() else OG_IMAGE
 
 
 def strip_tags(s):
@@ -121,6 +147,8 @@ def steps(body):
 
 def jsonld(page, pages):
     url = url_of(page)
+    lang = page["lang"]
+    L = LANGS[lang]
     graph = [
         {"@type": "Organization", "@id": SITE + "/#org", "name": "CompressZone", "url": SITE + "/",
          "logo": {"@type": "ImageObject", "url": LOGO, "width": 512, "height": 512}},
@@ -130,14 +158,14 @@ def jsonld(page, pages):
     ]
     webpage = {"@type": "WebPage", "@id": url + "#webpage", "url": url, "name": page["title"],
                "description": page["description"], "isPartOf": {"@id": SITE + "/#website"},
-               "inLanguage": "en", "primaryImageOfPage": {"@type": "ImageObject", "url": OG_IMAGE}}
+               "inLanguage": lang, "primaryImageOfPage": {"@type": "ImageObject", "url": og_image(page)}}
     if page.get("updated"):
         webpage["dateModified"] = page["updated"]
     if page.get("breadcrumb"):
         webpage["breadcrumb"] = {"@id": url + "#breadcrumb"}
+        trail = [(L["home_name"], SITE + L["home"])] + [(n, SITE + u) for u, n in parents(page)] + [(page["breadcrumb"], url)]
         graph.append({"@type": "BreadcrumbList", "@id": url + "#breadcrumb", "itemListElement": [
-            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
-            {"@type": "ListItem", "position": 2, "name": page["breadcrumb"], "item": url}]})
+            {"@type": "ListItem", "position": i + 1, "name": n, "item": u} for i, (n, u) in enumerate(trail)]})
     graph.append(webpage)
 
     if page["type"] == "tool":
@@ -153,25 +181,34 @@ def jsonld(page, pages):
             "featureList": ([f.strip() for f in page["features"].split("|")] if page.get("features")
                             else COMPRESSOR_FEATURES if engine_of(page) == "compressor"
                             else ["Runs 100% in the browser; files are never uploaded", "Free, no sign-up, no watermark"]),
-            "publisher": {"@id": SITE + "/#org"},
+            "publisher": {"@id": SITE + "/#org"}, "inLanguage": lang,
         })
     if page["type"] == "hub":
-        hub = "pdf" if "pdf" in page["path"] else "image"
-        tools = [p for p in pages if p["type"] == "tool" and p.get("category") in HUBS[hub]]
+        if page["path"].endswith("/guides"):
+            tools = [p for p in pages if p["type"] == "article"]
+        else:
+            hub = "pdf" if "pdf" in page["path"] else "image"
+            tools = [p for p in pages if p["type"] == "tool" and p.get("category") in HUBS[hub]]
         webpage["@type"] = "CollectionPage"
         webpage["mainEntity"] = {"@id": url + "#tools"}
         graph.append({"@type": "ItemList", "@id": url + "#tools", "numberOfItems": len(tools),
-                      "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": p["nav"], "url": url_of(p)}
+                      "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": p.get("headline", p["nav"]), "url": url_of(p)}
                                           for i, p in enumerate(tools)]})
     if page["type"] == "article":
         graph.append({
             "@type": "Article", "@id": url + "#article", "headline": page.get("headline", page["title"]),
-            "description": page["description"], "image": OG_IMAGE, "url": url,
+            "description": page["description"], "image": og_image(page), "url": url,
             "datePublished": page.get("published", page.get("updated")),
             "dateModified": page.get("updated"),
             "author": {"@id": SITE + "/#org"}, "publisher": {"@id": SITE + "/#org"},
-            "mainEntityOfPage": {"@id": url + "#webpage"}, "inLanguage": "en"})
+            "mainEntityOfPage": {"@id": url + "#webpage"}, "inLanguage": lang})
 
+    if page.get("dataset"):
+        durl, dname, ddesc = [x.strip() for x in page["dataset"].split("|", 2)]
+        graph.append({"@type": "Dataset", "@id": url + "#dataset", "name": dname, "description": ddesc,
+                      "url": url, "license": "https://creativecommons.org/licenses/by/4.0/",
+                      "creator": {"@id": SITE + "/#org"}, "datePublished": page.get("published"),
+                      "distribution": [{"@type": "DataDownload", "encodingFormat": "text/csv", "contentUrl": SITE + durl}]})
     f = faqs(page["body"])
     if f:
         graph.append({"@type": "FAQPage", "@id": url + "#faq", "mainEntity": [
@@ -186,13 +223,17 @@ def jsonld(page, pages):
 
 
 def related(page, pages):
-    hub = hub_of(page) if page["type"] == "tool" else "image"
+    hub = hub_of(page) if page.get("category") else "image"
     cats = HUBS[hub]
     links = [p for p in pages if p["type"] == "tool" and p.get("category") in cats and p["path"] != page["path"]]
     other = "pdf" if hub == "image" else "image"
     items = "\n".join(f'        <a href="{p["path"]}">{html.escape(p["nav"])}</a>' for p in links)
     items += (f'\n        <a class="more" href="{HUB_PATH[hub]}">All {"PDF" if hub == "pdf" else "image"} tools →</a>'
               f'\n        <a class="more" href="{HUB_PATH[other]}">{"PDF" if other == "pdf" else "Image"} tools →</a>')
+    titles = {p["path"]: p.get("headline", p["title"]) for p in pages}
+    for key in ("guide", "guide2"):
+        if page.get(key) in titles:
+            items = f'        <a class="more" href="{page[key]}">Guide: {html.escape(titles[page[key]])}</a>\n' + items
     if hub == "image" and page["path"] != "/image-formats-guide":
         items += '\n        <a class="more" href="/image-formats-guide">Guide: JPG vs PNG vs WebP vs AVIF</a>'
     if page["type"] == "tool" and page["path"] != "/about":
@@ -202,6 +243,25 @@ def related(page, pages):
             f'      <h2 id="related-h">More free {label} tools</h2>\n'
             f'      <nav class="tool-links" aria-label="More {label} tools">\n{items}\n      </nav>\n'
             '    </section>\n')
+
+
+def related_hi(page, pages):
+    links = [p for p in pages if p["type"] == "tool" and p["path"] != page["path"]]
+    items = "\n".join(f'        <a href="{p["path"]}">{html.escape(p["nav"])}</a>' for p in links)
+    items += ('\n        <a class="more" href="/image-tools" lang="en">All image tools (English) →</a>'
+              '\n        <a class="more" href="/pdf-tools" lang="en">PDF tools (English) →</a>'
+              '\n        <a class="more" href="/reduce-photo-size-for-online-forms" lang="en">Guide: photo size for online forms</a>')
+    return ('    <section class="container content" aria-labelledby="related-h">\n'
+            '      <h2 id="related-h">और मुफ़्त टूल</h2>\n'
+            f'      <nav class="tool-links" aria-label="और टूल">\n{items}\n      </nav>\n'
+            '    </section>\n')
+
+
+def guide_cards(pages):
+    guides = [p for p in pages if p["type"] == "article"]
+    return "\n".join(
+        f'          <a class="tool-card" href="{p["path"]}"><strong>{html.escape(p.get("headline", p["title"]))}</strong>'
+        f'<span>{html.escape(p.get("card", p["description"]))}</span></a>' for p in guides)
 
 
 def tool_cards(pages, cats):
@@ -224,21 +284,26 @@ def ad(name):
             f'      <div class="ad-slot" data-ad-slot-name="{name}"></div>\n    </aside>\n')
 
 
-def render(page, pages, layout, partials):
+def render(page, all_pages, layout, partials, snippets):
+    lang = page["lang"]
+    L = LANGS[lang]
+    pages = [p for p in all_pages if p["lang"] == lang]  # cards, hubs and related links stay in one language
     body = page["body"]
     eng = ENGINES[engine_of(page)] if engine_of(page) else None
     if eng:
-        body = body.replace("{{tool}}", partials[eng["partial"]])
+        body = body.replace("{{tool}}", partials.get(eng["partial"] + "." + lang, partials[eng["partial"]]))
     body = body.replace("{{hub:image}}", tool_cards(pages, HUBS["image"]))
     body = body.replace("{{hub:pdf}}", tool_cards(pages, HUBS["pdf"]))
     body = body.replace("{{hub:all}}", tool_cards(pages, [c for c, _ in CATEGORIES]))
+    body = body.replace("{{guides}}", '        <div class="tool-cards">\n' + guide_cards(pages) + '\n        </div>')
     body = re.sub(r"\{\{ad:(\w+)\}\}", lambda m: ad(m.group(1)), body)
-    body = body.replace("{{related}}", related(page, pages))
+    body = body.replace("{{related}}", related_hi(page, pages) if lang == "hi" else related(page, pages))
 
     crumbs = ""
     if page.get("breadcrumb"):
         crumbs = ('    <nav class="container breadcrumbs" aria-label="Breadcrumb"><ol>'
-                  '<li><a href="/">Home</a></li>'
+                  f'<li><a href="{L["home"]}">{html.escape(L["home_name"])}</a></li>'
+                  + "".join(f'<li><a href="{u}">{html.escape(n)}</a></li>' for u, n in parents(page)) +
                   f'<li aria-current="page">{html.escape(page["breadcrumb"])}</li></ol></nav>\n')
 
     scripts = '<script src="/js/site.js" defer></script>'
@@ -251,14 +316,31 @@ def render(page, pages, layout, partials):
             for k in ("exact", "fit", "target-kb"):
                 if page.get(k):
                     data[k] = page[k]
-            if page["path"] == "/":
-                data = {}  # home page: remember the visitor's own choices
+            if page.get("remember") or page["path"] == "/":
+                data = {}  # home pages: remember the visitor's own choices
         else:
             for k in ("mode", "format"):
                 if page.get(k):
                     data[k] = page[k]
         attrs = "".join(f' data-{k}="{html.escape(v)}"' for k, v in data.items())
+    alts = page.get("alts", {})
+    hreflang = ""
+    if alts:
+        links = {lang: url_of(page)}
+        links.update({l: SITE + (u if u != "/" else "/") for l, u in alts.items()})
+        hreflang = "".join(f'\n  <link rel="alternate" hreflang="{l}" href="{u}">' for l, u in sorted(links.items()))
+        hreflang += f'\n  <link rel="alternate" hreflang="x-default" href="{links["en"]}">'
+    switch = "".join(f' · <a href="{u}" hreflang="{l}" lang="{l}">{LANGS[l]["name"]}</a>' for l, u in alts.items())
     values = {
+        "lang": lang,
+        "og_locale": L["locale"],
+        "og_image": og_image(page),
+        "hreflang": hreflang,
+        "t_skip": L["skip"],
+        "t_noscript": L["noscript"],
+        "home": L["home"],
+        "nav": snippets["nav." + lang].rstrip("\n"),
+        "footer": snippets["footer." + lang].rstrip("\n").replace("{{lang_switch}}", switch),
         "title": html.escape(page["title"]),
         "description": html.escape(page["description"]),
         "og_title": html.escape(page.get("og_title", page["title"])),
@@ -268,9 +350,12 @@ def render(page, pages, layout, partials):
         "jsonld": jsonld(page, pages),
         "scripts": scripts,
         "body_attrs": attrs,
-        "breadcrumbs": crumbs,
+        "breadcrumbs": (f'    <div class="container lang-bar"><a href="{alts["hi"]}" hreflang="hi" lang="hi">हिन्दी में देखें</a></div>\n'
+                        if lang == "en" and "hi" in alts else
+                        f'    <div class="container lang-bar"><a href="{alts["en"]}" hreflang="en" lang="en">View in English</a></div>\n'
+                        if lang != "en" and "en" in alts else "") + crumbs,
         "content": body.rstrip("\n"),
-        "after": ("\n" + partials["compare"]) if eng and eng.get("dialog") else "",
+        "after": ("\n" + partials.get("compare." + lang, partials["compare"])) if eng and eng.get("dialog") else "",
     }
     out = layout
     for k, v in values.items():
@@ -291,7 +376,8 @@ def sitemap(pages):
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(rows) + "\n</urlset>\n")
 
 
-def llms(pages):
+def llms(all_pages):
+    pages = [p for p in all_pages if p["lang"] == "en"]
     intro = (SRC / "llms-intro.md").read_text().rstrip() + "\n"
     out = [intro.rstrip()]
     for key, title in CATEGORIES:
@@ -304,19 +390,34 @@ def llms(pages):
         for p in pages:
             if p["type"] in types and not p.get("noindex"):
                 out.append(f"- [{p.get('nav', p['title'])}]({url_of(p)}): {p['description']}")
+    hi = [p for p in all_pages if p["lang"] == "hi" and not p.get("noindex")]
+    if hi:
+        out.append("\n## हिन्दी (Hindi)\n")
+        for p in hi:
+            out.append(f"- [{p.get('nav', p['title'])}]({url_of(p)}): {p['description']}")
     return "\n".join(out) + "\n"
 
 
 def main():
     layout = (SRC / "layout.html").read_text()
     partials = {p.stem: p.read_text().rstrip("\n") for p in (SRC / "partials").glob("*.html")}
-    pages = [parse(p) for p in sorted((SRC / "pages").glob("*.html"))]
+    snippets = {p.stem: p.read_text() for p in SRC.glob("*.html") if p.name != "layout.html"}
+    pages = [parse(p) for p in sorted((SRC / "pages").rglob("*.html"))]
+    for p in pages:
+        p.setdefault("lang", "en")
+    by_path = {p["path"]: p for p in pages}
+    for p in pages:
+        if p.get("alt"):
+            en = by_path[p["alt"]]
+            en.setdefault("alts", {})[p["lang"]] = p["path"]
+            p.setdefault("alts", {})["en"] = en["path"]
     order = {"tool": 0, "hub": 1, "article": 2, "page": 3}
     cat_order = {c: i for i, (c, _) in enumerate(CATEGORIES)}
     pages.sort(key=lambda p: (order[p["type"]], cat_order.get(p.get("category"), 9), -float(p.get("priority", 0.5)), p["path"]))
     for p in pages:
         p.setdefault("nav", p.get("breadcrumb", p["title"]))
-        out_file(p).write_text(render(p, pages, layout, partials))
+        out_file(p).parent.mkdir(parents=True, exist_ok=True)
+        out_file(p).write_text(render(p, pages, layout, partials, snippets))
         print("wrote", out_file(p).relative_to(ROOT))
     (ROOT / "sitemap.xml").write_text(sitemap(pages))
     (ROOT / "llms.txt").write_text(llms(pages))

@@ -1,6 +1,7 @@
 /* CompressZone — images → PDF (pdf-lib). Images are drawn to a canvas, re-encoded as JPEG and placed one per page. */
 (function () {
   'use strict';
+  var t = window.czT || function (s) { return s; };
   var CZ = window.CZ, $ = CZ.$;
   var zone = $('#dropzone'), results = $('#results'), grid = $('#page-grid'), stats = $('#summary-stats');
   var makeBtn = $('#make-btn');
@@ -14,16 +15,16 @@
     zone.classList.toggle('compact', items.length > 0);
     makeBtn.disabled = !items.length;
     var total = items.reduce(function (s, it) { return s + it.file.size; }, 0);
-    stats.innerHTML = '<strong>' + items.length + ' image' + (items.length === 1 ? '' : 's') + '</strong> · ' + CZ.formatBytes(total) +
-      ' · <span class="muted">Drag thumbnails to reorder</span>';
+    stats.innerHTML = '<strong>' + items.length + ' ' + t(items.length === 1 ? 'image' : 'images') + '</strong> · ' + CZ.formatBytes(total) +
+      ' · <span class="muted">' + t('Drag thumbnails to reorder') + '</span>';
     grid.innerHTML = items.map(function (it, i) {
       return '<li class="page-card" draggable="true" data-index="' + i + '">' +
         '<div class="page-thumb"><img src="' + it.url + '" alt="" draggable="false"></div>' +
         '<div class="page-meta"><span class="page-num">' + (i + 1) + '</span><span class="page-name" title="' + CZ.escapeHtml(it.file.name) + '">' + CZ.escapeHtml(it.file.name) + '</span></div>' +
         '<div class="page-btns">' +
-          '<button type="button" class="icon-btn sm" data-act="left" aria-label="Move earlier" title="Move earlier"' + (i === 0 ? ' disabled' : '') + '>‹</button>' +
-          '<button type="button" class="icon-btn sm" data-act="right" aria-label="Move later" title="Move later"' + (i === items.length - 1 ? ' disabled' : '') + '>›</button>' +
-          '<button type="button" class="icon-btn sm" data-act="remove" aria-label="Remove" title="Remove">✕</button>' +
+          '<button type="button" class="icon-btn sm" data-act="left" aria-label="' + t('Move earlier') + '" title="' + t('Move earlier') + '"' + (i === 0 ? ' disabled' : '') + '>‹</button>' +
+          '<button type="button" class="icon-btn sm" data-act="right" aria-label="' + t('Move later') + '" title="' + t('Move later') + '"' + (i === items.length - 1 ? ' disabled' : '') + '>›</button>' +
+          '<button type="button" class="icon-btn sm" data-act="remove" aria-label="' + t('Remove') + '" title="' + t('Remove') + '">✕</button>' +
         '</div></li>';
     }).join('');
   }
@@ -38,7 +39,7 @@
         return CZ.canvasToBlob(c, 'image/jpeg', 0.8).then(function (b) {
           return { file: file, decoded: d, url: URL.createObjectURL(b), width: d.width, height: d.height };
         });
-      }).catch(function () { CZ.toast("Couldn't read " + file.name); return null; });
+      }).catch(function () { CZ.toast(t("Couldn't read") + ' ' + file.name); return null; });
     });
     Promise.all(jobs).then(function (list) {
       list.forEach(function (it) { if (it) items.push(it); });
@@ -49,7 +50,7 @@
   function makePdf() {
     makeBtn.disabled = true;
     var label = makeBtn.textContent;
-    makeBtn.textContent = 'Creating…';
+    makeBtn.textContent = t('Creating…');
     var size = $('#page-size').value, orient = $('#orientation').value, margin = Number($('#margin').value);
     var qual = QUALITY[$('#img-quality').value];
     CZ.loadPdfLib().then(function (PDFLib) {
@@ -75,7 +76,7 @@
               else {
                 pw = SIZES[size][0]; ph = SIZES[size][1];
                 var wantLandscape = orient === 'landscape' || (orient === 'auto' && landscape);
-                if (wantLandscape) { var t = pw; pw = ph; ph = t; }
+                if (wantLandscape) { var tmp = pw; pw = ph; ph = tmp; }
               }
               var page = doc.addPage([pw, ph]);
               var aw = pw - margin * 2, ah = ph - margin * 2;
@@ -90,10 +91,10 @@
     }).then(function (bytes) {
       var name = items.length === 1 ? CZ.baseName(items[0].file.name) + '.pdf' : 'images.pdf';
       CZ.download(new Blob([bytes], { type: 'application/pdf' }), name);
-      CZ.toast('PDF created · ' + CZ.formatBytes(bytes.length));
+      CZ.toast(t('PDF created') + ' · ' + CZ.formatBytes(bytes.length));
     }).catch(function (e) {
       console.error(e);
-      CZ.toast('Could not create the PDF');
+      CZ.toast(t('Could not create the PDF'));
     }).then(function () { makeBtn.disabled = !items.length; makeBtn.textContent = label; });
   }
 
@@ -109,5 +110,5 @@
   CZ.sortable(grid, function (from, to) { CZ.move(items, from, to); render(); });
   $('#clear-btn').addEventListener('click', function () { items.forEach(function (it) { URL.revokeObjectURL(it.url); }); items = []; render(); });
   makeBtn.addEventListener('click', makePdf);
-  CZ.setupDrop({ zone: zone, input: $('#file-input'), accept: CZ.isImage, onFiles: add, rejectMessage: 'Please choose image files' });
+  CZ.setupDrop({ zone: zone, input: $('#file-input'), accept: CZ.isImage, onFiles: add, rejectMessage: t('Please choose image files') });
 })();

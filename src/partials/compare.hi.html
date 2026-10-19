@@ -1,0 +1,16 @@
+  <!-- Before/after comparison dialog -->
+  <dialog class="compare" id="compare">
+    <div class="compare-head">
+      <strong id="compare-title">तुलना</strong>
+      <span class="compare-legend"><span>असली <b id="cmp-orig"></b></span><span>कंप्रेस्ड <b id="cmp-new"></b></span></span>
+      <button type="button" class="icon-btn" id="compare-close" aria-label="तुलना बंद करें">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="compare-stage" id="compare-stage">
+      <img id="cmp-img-before" alt="असली फ़ोटो">
+      <div class="cmp-after" id="cmp-after"><img id="cmp-img-after" alt="कंप्रेस्ड फ़ोटो"></div>
+      <div class="cmp-handle" id="cmp-handle" aria-hidden="true"><span></span></div>
+      <input type="range" id="cmp-range" min="0" max="100" value="50" aria-label="असली और कंप्रेस्ड की तुलना के लिए खींचें">
+    </div>
+  </dialog>

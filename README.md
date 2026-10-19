@@ -24,24 +24,20 @@ npx http-server -p 8080 -c-1 .     # or: python3 -m http.server 8080
 ```
 Open http://localhost:8080. A web server is required because Web Workers don't run from `file://`.
 
-## Deploy
+## Deploy (Cloudflare Workers)
 
-Live at **https://compresszone.com**. The repo deploys automatically on every push to `main`, to either of two hosts. Only one of them should serve the `compresszone.com` domain; the other can stay on its free subdomain.
+Live at **https://compresszone.com**, served by Cloudflare Workers static assets. Every push to `main` deploys automatically.
 
-### Cloudflare Workers (static assets)
-- `wrangler.jsonc` publishes the folder as static assets. No server code runs.
-- `.assetsignore` keeps config and docs files private.
+- `wrangler.jsonc` publishes the folder as static assets. No server code runs. The `name` must match the Worker's name in the Cloudflare dashboard.
+- `.assetsignore` keeps the sources, scripts and config files private.
 - `_headers` sets the cache and security headers.
 - Unknown URLs get the branded `404.html`.
-- The `name` in `wrangler.jsonc` **must match the Worker's name** in the Cloudflare dashboard, or Workers Builds will fail.
-- The build command can be left empty. The deploy command is `npx wrangler deploy`.
+- To test locally, run `npx wrangler dev`.
 
-### Railway (Docker + Caddy)
-- The `Dockerfile` and `Caddyfile` serve the same files with gzip/zstd compression, the same headers, clean URLs and the 404 page.
-- `railway.json` tells Railway to build from that Dockerfile.
-
-### Test locally
-`npx wrangler dev` runs the Cloudflare version, and `docker build -t cz . && docker run -p 8080:8080 cz` runs the Railway version.
+**Cloudflare dashboard settings (one-time):**
+- **Rules → Redirect Rules:** redirect `www.compresszone.com/*` to `https://compresszone.com/${1}` (301).
+- **Caching → Configuration → Crawler Hints:** on. This notifies Bing and other search engines of changes through IndexNow.
+- **Analytics & Logs → Web Analytics:** add the site, then either enable automatic setup or paste the token into `CF_ANALYTICS_TOKEN` in `js/site.js`.
 
 ## Editing pages (SEO build)
 
@@ -49,7 +45,12 @@ The HTML pages are generated from `src/` by a small dependency-free script. **Ed
 
 ```bash
 python3 scripts/build.py      # regenerates *.html, sitemap.xml and llms.txt
+node scripts/og_images.mjs    # optional: regenerate per-page share images (needs Playwright)
 ```
+
+- **Languages:** pages in `src/pages/hi/` set `lang: hi` and `alt:`, which names the English page they translate. The build adds `hreflang` links in both directions, the Hindi header and footer (`src/nav.hi.html`, `src/footer.hi.html`) and the Hindi tool UI (`src/partials/*.hi.html`). Tool messages are translated in the `DICT` table in `js/site.js`.
+- **Guides:** article pages with `parent: /guides|Guides`. They get Article, HowTo and FAQPage schema. Tool pages link their guides with `guide:` and `guide2:`.
+- **Data:** `/image-compression-test` publishes the JPG vs WebP benchmark, with `data/compression-test-2026.csv` (CC BY 4.0) and Dataset schema.
 
 - `src/layout.html`: the shared `<head>`, header and footer.
 - `src/partials/`: the compressor UI and the comparison dialog.

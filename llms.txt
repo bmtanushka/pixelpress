@@ -66,12 +66,35 @@ Key facts:
 
 ## Guides
 
+- [Best image sizes for websites: dimensions, file size and format](https://compresszone.com/best-image-size-for-website): Recommended pixel dimensions, file sizes and formats for website images — hero banners, blog images, product photos and thumbnails — for fast-loading pages.
+- [How to reduce a photo to 20 KB, 50 KB or 100 KB for online forms](https://compresszone.com/reduce-photo-size-for-online-forms): Step-by-step: shrink a photo or signature below an upload limit like 20 KB, 50 KB or 100 KB for exam, job and government forms — without making it blurry.
+- [How to compress photos for email so they always send](https://compresszone.com/compress-images-for-email): Email attachment limits explained, plus how to shrink photos so they send quickly and still look great — for Gmail, Outlook and Yahoo Mail.
+- [KB, MB, pixels and DPI explained: what "image size" really means](https://compresszone.com/image-size-kb-pixels-dpi-explained): File size (KB/MB), dimensions (pixels) and print resolution (DPI) are different things. A clear, simple explanation with examples and conversion tables.
+- [How to open HEIC photos on Windows — and convert them to JPG](https://compresszone.com/how-to-open-heic-on-windows): Can't open iPhone HEIC photos on Windows? Three fixes: install Microsoft's extensions, convert HEIC to JPG in your browser, or change iPhone settings.
+- [JPG vs WebP compression test](https://compresszone.com/image-compression-test): Our test of JPG and WebP at quality 30–95 on nine public-domain photos, measured with SSIM. WebP was 24% smaller at the same setting. Full data inside.
+- [How to remove location data from photos before you share them](https://compresszone.com/remove-location-from-photos): Photos can reveal exactly where they were taken. Learn how to check for GPS data and remove it on iPhone, Android and your computer — free and private.
+- [How to turn photos and scans into a single PDF](https://compresszone.com/convert-images-to-pdf): Turn phone photos, receipts and document scans into one tidy PDF on iPhone, Android, Windows or Mac — with the right page size and file size.
+- [How to merge PDF files without uploading them anywhere](https://compresszone.com/merge-pdf-without-uploading): Combine PDFs privately: merge contracts, statements and scans in your browser with no upload, or use Preview on a Mac. Step-by-step guide.
 - [JPG vs PNG vs WebP vs AVIF](https://compresszone.com/image-formats-guide): A clear comparison of JPG, PNG, WebP and AVIF — file size, quality, transparency and browser support — with simple rules for choosing the right format.
 
 ## About and policies
 
 - [Image tools](https://compresszone.com/image-tools): All CompressZone image tools in one place: compress, resize, convert HEIC, PNG, JPG and WebP, crop, rotate, remove EXIF and make favicons. Free and private.
 - [PDF tools](https://compresszone.com/pdf-tools): Free, private PDF tools that run in your browser: merge, split, rotate, organize and delete pages, and convert between PDF and JPG or PNG. No uploads.
+- [Guides](https://compresszone.com/guides): Practical guides to image and PDF tasks: shrinking photos for online forms, the best image sizes for websites, HEIC on Windows, removing photo location and more.
 - [About CompressZone](https://compresszone.com/about): CompressZone is a free set of image and PDF tools that run in your browser. Learn how it works, the technology behind it, and why your files stay private.
+- [What's new](https://compresszone.com/changelog): The latest CompressZone updates: new image and PDF tools, guides and improvements. Every tool stays free and private, running entirely in your browser.
 - [Privacy Policy](https://compresszone.com/privacy): CompressZone processes images and PDFs entirely in your browser — files are never uploaded. Read how we handle preferences, cookies and advertising.
 - [Terms of Use](https://compresszone.com/terms): The terms for using CompressZone, the free image and PDF tools that run entirely in your browser without uploading your files.
+
+## हिन्दी (Hindi)
+
+- [इमेज कंप्रेसर](https://compresszone.com/hi): फ़ोटो का साइज़ मुफ़्त में कम करें — JPG, PNG, WebP और iPhone HEIC। सब कुछ आपके ब्राउज़र में होता है, फ़ोटो कहीं अपलोड नहीं होती।
+- [फ़ोटो को KB में कम करें](https://compresszone.com/hi/compress-image-to-kb): फ़ोटो का साइज़ अपनी ज़रूरत के KB में कम करें — 20 KB, 50 KB, 100 KB या कोई भी। सबसे अच्छी क्वालिटी अपने-आप चुनी जाती है। मुफ़्त और प्राइवेट।
+- [फ़ोटो 20 KB में](https://compresszone.com/hi/compress-image-to-20kb): परीक्षा, एडमिशन और सरकारी फ़ॉर्म के लिए फ़ोटो या सिग्नेचर को 20 KB से कम करें। मुफ़्त, तुरंत और प्राइवेट — फ़ोटो अपलोड नहीं होती।
+- [फ़ोटो 50 KB में](https://compresszone.com/hi/compress-image-to-50kb): नौकरी पोर्टल, वीज़ा और ऑनलाइन एप्लीकेशन के लिए फ़ोटो को 50 KB से कम करें, सबसे अच्छी क्वालिटी के साथ। मुफ़्त और प्राइवेट — कोई अपलोड नहीं।
+- [पासपोर्ट साइज़ फ़ोटो](https://compresszone.com/hi/passport-photo-size): फ़ोटो को पासपोर्ट और वीज़ा साइज़ में बदलें: 2×2 इंच (600×600 px) या 35×45 मिमी (413×531 px)। KB सीमा भी सेट करें। मुफ़्त और प्राइवेट।
+- [फ़ोटो 100 KB में](https://compresszone.com/hi/compress-image-to-100kb): किसी भी फ़ोटो को मुफ़्त में 100 KB से कम करें। फ़ॉर्म, ईमेल और प्रोफ़ाइल फ़ोटो के लिए बढ़िया। प्राइवेट — ब्राउज़र में चलता है, कोई अपलोड नहीं।
+- [पिक्सेल में साइज़ बदलें](https://compresszone.com/hi/resize-image-to-pixels): फ़ोटो को सटीक पिक्सेल साइज़ में बदलें, जैसे 600 × 600 या 1920 × 1080। क्रॉप करें या किनारे जोड़ें। मुफ़्त और प्राइवेट — ब्राउज़र में चलता है।
+- [HEIC से JPG](https://compresszone.com/hi/heic-to-jpg): iPhone की HEIC और HEIF फ़ोटो को मुफ़्त में JPG में बदलें, एक साथ कई। Chrome, Edge, Firefox और Safari में चलता है। फ़ोटो अपलोड नहीं होती।
+- [JPG से PDF](https://compresszone.com/hi/jpg-to-pdf): JPG, PNG और HEIC फ़ोटो को मुफ़्त में PDF में बदलें। पेज का क्रम बदलें, A4 या Letter और मार्जिन चुनें। प्राइवेट — फ़ोटो अपलोड नहीं होती।

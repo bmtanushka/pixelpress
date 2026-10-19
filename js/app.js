@@ -1,6 +1,7 @@
 /* CompressZone — client-side image compressor. Nothing is ever uploaded. */
 (function () {
   'use strict';
+  var t = window.czT || function (s) { return s; };
 
   /* ============ Configuration ============ */
   var CONFIG = {
@@ -231,7 +232,7 @@
         return;
       }
       item.status = 'error';
-      item.error = r.error === 'decode' ? "This browser can't read this image format" : 'Could not compress this image';
+      item.error = r.error === 'decode' ? t("This browser can't read this image format") : t('Could not compress this image');
       render(item); updateSummary();
       return;
     }
@@ -266,7 +267,7 @@
     var files = Array.prototype.filter.call(fileList, function (f) {
       return /^image\//.test(f.type) || /\.(heic|heif|avif|jfif|bmp|ico|tiff?)$/i.test(f.name);
     });
-    if (!files.length) { toast('Please choose image files'); return; }
+    if (!files.length) { toast(t('Please choose image files')); return; }
     resultsEl.hidden = false;
     dropzone.classList.add('compact');
     detected.then(function () {
@@ -293,9 +294,9 @@
       '<img class="thumb" alt="" loading="lazy" decoding="async">' +
       '<div class="file-meta"><div class="file-name"></div><div class="file-sizes"></div></div>' +
       '<div class="file-actions">' +
-        '<button type="button" class="icon-btn" data-act="compare" title="Compare before & after" aria-label="Compare before and after">' + ICON_CMP + '</button>' +
-        '<a class="dl-btn" data-act="download">' + ICON_DL + '<span>Download</span></a>' +
-        '<button type="button" class="icon-btn" data-act="remove" title="Remove" aria-label="Remove">' + ICON_X + '</button>' +
+        '<button type="button" class="icon-btn" data-act="compare" title="' + t('Compare before & after') + '" aria-label="' + t('Compare before & after') + '">' + ICON_CMP + '</button>' +
+        '<a class="dl-btn" data-act="download">' + ICON_DL + '<span>' + t('Download') + '</span></a>' +
+        '<button type="button" class="icon-btn" data-act="remove" title="' + t('Remove') + '" aria-label="' + t('Remove') + '">' + ICON_X + '</button>' +
       '</div>';
     li.querySelector('.file-name').textContent = item.file.name;
     li.querySelector('.file-name').title = item.file.name;
@@ -315,7 +316,7 @@
     var orig = formatBytes(item.file.size);
 
     if (item.status === 'working') {
-      sizes.innerHTML = '<span>' + orig + '</span><span class="arrow">→</span><span>Compressing…</span><div class="progress"></div>';
+      sizes.innerHTML = '<span>' + orig + '</span><span class="arrow">→</span><span>' + t('Compressing…') + '</span><div class="progress"></div>';
       dl.setAttribute('aria-disabled', 'true'); dl.removeAttribute('href');
       cmp.disabled = true;
       return;
@@ -329,14 +330,14 @@
 
     var saved = 1 - item.blob.size / item.file.size;
     var badge = item.kept
-      ? '<span class="badge neutral">Already optimized</span>'
+      ? '<span class="badge neutral">' + t('Already optimized') + '</span>'
       : saved > 0
         ? '<span class="badge">−' + Math.round(saved * 100) + '%</span>'
         : '<span class="badge neutral">+' + Math.round(-saved * 100) + '%</span>';
     if (item.target) {
       badge += item.reachedTarget
-        ? '<span class="badge">✓ Under ' + formatBytes(item.target) + '</span>'
-        : '<span class="badge error">Couldn\'t reach ' + formatBytes(item.target) + '</span>';
+        ? '<span class="badge">✓ ' + t('Under') + ' ' + formatBytes(item.target) + '</span>'
+        : '<span class="badge error">' + t("Couldn't reach") + ' ' + formatBytes(item.target) + '</span>';
     }
     sizes.innerHTML =
       '<span>' + orig + '</span><span class="arrow">→</span>' +
@@ -358,12 +359,12 @@
     });
     if (!count) { resultsEl.hidden = true; dropzone.classList.remove('compact'); return; }
     var pct = total ? Math.round((1 - totalNew / total) * 100) : 0;
-    var html = '<strong>' + count + ' image' + (count > 1 ? 's' : '') + '</strong>';
-    if (done) html += ' · ' + formatBytes(total) + ' → <strong>' + formatBytes(totalNew) + '</strong> · <span class="saved">Saved ' + Math.max(0, pct) + '%</span>';
-    if (done < count) html += ' · ' + (count - done) + ' in progress';
+    var html = '<strong>' + count + ' ' + t(count > 1 ? 'images' : 'image') + '</strong>';
+    if (done) html += ' · ' + formatBytes(total) + ' → <strong>' + formatBytes(totalNew) + '</strong> · <span class="saved">' + t('Saved') + ' ' + Math.max(0, pct) + '%</span>';
+    if (done < count) html += ' · ' + (count - done) + ' ' + t('in progress');
     statsEl.innerHTML = html;
     zipBtn.disabled = done === 0;
-    zipBtn.lastChild.textContent = done > 1 ? ' Download all (ZIP)' : ' Download';
+    zipBtn.lastChild.textContent = ' ' + t(done > 1 ? 'Download all (ZIP)' : 'Download');
   }
 
   function removeItem(id) {
@@ -452,7 +453,7 @@
         document.body.appendChild(a); a.click(); a.remove();
         setTimeout(function () { URL.revokeObjectURL(a.href); }, 10000);
       })
-      .catch(function () { toast('Could not create ZIP file'); })
+      .catch(function () { toast(t('Could not create ZIP file')); })
       .then(function () { zipBtn.disabled = false; });
   });
 

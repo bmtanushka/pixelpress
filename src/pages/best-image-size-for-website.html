@@ -1,0 +1,94 @@
+---
+path: /best-image-size-for-website
+title: Best Image Size for Websites: Pixels, KB & Format | CompressZone
+headline: Best image sizes for websites: dimensions, file size and format
+description: Recommended pixel dimensions, file sizes and formats for website images — hero banners, blog images, product photos and thumbnails — for fast-loading pages.
+type: article
+category: compress
+parent: /guides|Guides
+breadcrumb: Best image sizes for websites: dimensions,…
+nav: Best image sizes for websites: dimensions, file size and format
+card: Pixel sizes, KB budgets and formats for fast-loading web pages.
+howto: How to optimize images for a website
+priority: 0.8
+published: 2026-10-19
+updated: 2026-10-19
+---
+    <article class="container content legal guide">
+      <h1>Best image sizes for websites: dimensions, file size and format</h1>
+      <p class="updated">Updated October 19, 2026 · 2 min read</p>
+
+      <div class="answer-box">
+        <p><strong>Short answer:</strong> Use WebP, size images to the largest width they're displayed at (about 1920 px for full-width banners, 1200–1600 px for content images, 300–600 px for thumbnails), and keep large images under about 200 KB and thumbnails under about 50 KB.</p>
+      </div>
+
+      <h2>Why image size matters</h2>
+      <p>Images are usually the heaviest part of a web page. Oversized images slow down <strong>Largest Contentful Paint (LCP)</strong>, a Core Web Vitals metric Google uses for page experience — a good LCP is 2.5 seconds or less. Resizing and compressing images is often the single biggest speed improvement you can make.</p>
+
+      <h2>Choosing a format</h2>
+      <p><strong>WebP</strong> is the best default: it's supported by all modern browsers and is typically 25–34% smaller than JPG. Use <strong>AVIF</strong> for even smaller files if your platform supports it, <strong>PNG</strong> only for graphics that need lossless quality, and <strong>SVG</strong> for logos and icons. See the <a href="/image-formats-guide">format comparison guide</a> for details.</p>
+
+      <h2>Serve the right size to each screen</h2>
+      <p>A phone doesn't need a 1920 px image. Use the HTML <code>srcset</code> attribute to offer a few widths (for example 640, 1280 and 1920 px) and let the browser pick. Add <code>loading="lazy"</code> to images below the fold, and always set <code>width</code> and <code>height</code> to prevent layout shift.</p>
+
+      <h2>Step by step: how to optimize images for a website</h2>
+      <div class="steps">
+        <article class="step">
+          <span class="step-num">1</span>
+          <h3>Resize to the display size</h3>
+          <p>Use Resize image with a maximum dimension of 1920 px for banners, or 1280 px for content images.</p>
+        </article>
+        <article class="step">
+          <span class="step-num">2</span>
+          <h3>Convert to WebP</h3>
+          <p>Choose WebP as the output format, with 75–85% quality for photos.</p>
+        </article>
+        <article class="step">
+          <span class="step-num">3</span>
+          <h3>Check the file size</h3>
+          <p>Aim for under 200 KB for large images and under 50 KB for thumbnails. If a file is still too big, use a target file size.</p>
+        </article>
+      </div>
+
+      <h2>Recommended sizes</h2>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th scope="col">Image type</th><th scope="col">Width (px)</th><th scope="col">Target file size</th><th scope="col">Format</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Full-width hero / banner</th><td>1920–2560</td><td>Under 200–300 KB</td><td>WebP / AVIF</td></tr>
+            <tr><th scope="row">Blog or content image</th><td>1200–1600</td><td>Under 100–150 KB</td><td>WebP</td></tr>
+            <tr><th scope="row">Product photo</th><td>1000–2000 (square)</td><td>Under 150 KB</td><td>WebP</td></tr>
+            <tr><th scope="row">Thumbnail</th><td>300–600</td><td>Under 30–50 KB</td><td>WebP</td></tr>
+            <tr><th scope="row">Logo / icon</th><td>Vector</td><td>Under 10 KB</td><td>SVG</td></tr>
+            <tr><th scope="row">Social share image (Open Graph)</th><td>1200 × 630</td><td>Under 300 KB</td><td>JPG or PNG</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">These are practical starting points, not hard rules — always test your own pages.</p>
+
+{{ad:middle}}
+      <h2>Frequently asked questions</h2>
+      <details>
+        <summary>What is the best image format for websites?</summary>
+        <p>WebP for most images, AVIF where supported for the smallest files, SVG for logos and icons.</p>
+      </details>
+      <details>
+        <summary>How many KB should a website image be?</summary>
+        <p>As a guide, under 200 KB for large hero images, under 100 KB for content images and under 50 KB for thumbnails.</p>
+      </details>
+      <details>
+        <summary>Does image size affect SEO?</summary>
+        <p>Indirectly, yes. Smaller images make pages load faster, which improves Core Web Vitals and user experience. Descriptive file names and alt text also help images appear in Google Images.</p>
+      </details>
+
+      <h2>Free tools for this</h2>
+      <nav class="tool-links" aria-label="Tools for this guide">
+        <a href="/resize-image">Resize image</a>
+        <a href="/jpg-to-webp">JPG to WebP</a>
+        <a href="/png-to-webp">PNG to WebP</a>
+        <a href="/compress-image-to-200kb">Compress to 200 KB</a>
+      </nav>
+      <p class="cta-line"><a class="btn btn-primary" href="/resize-image">Open Resize image — free &amp; private</a></p>
+    </article>
+
+{{related}}

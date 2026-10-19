@@ -1,0 +1,55 @@
+    <section class="container tool" aria-label="फ़ोटो से PDF">
+      <label class="dropzone" id="dropzone" tabindex="0">
+        <input type="file" id="file-input" accept="image/*,.heic,.heif" multiple hidden>
+        <span class="dz-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        <span class="dz-title">फ़ोटो यहाँ छोड़ें या <u>चुनें</u></span>
+        <span class="dz-sub">JPG, PNG, WebP, HEIC, GIF, BMP · पेज का क्रम बदलने के लिए खींचें</span>
+      </label>
+
+      <div class="settings" role="group" aria-label="PDF सेटिंग">
+        <div class="field">
+          <label class="field-label" for="page-size">पेज साइज़</label>
+          <select id="page-size">
+            <option value="a4" selected>A4 (210 × 297 mm)</option>
+            <option value="letter">US Letter (8.5 × 11 इंच)</option>
+            <option value="legal">US Legal (8.5 × 14 इंच)</option>
+            <option value="fit">फ़ोटो जितना</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="orientation">दिशा</label>
+          <select id="orientation">
+            <option value="auto" selected>अपने-आप</option>
+            <option value="portrait">खड़ा (Portrait)</option>
+            <option value="landscape">आड़ा (Landscape)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="margin">किनारा (मार्जिन)</label>
+          <select id="margin">
+            <option value="0">कोई नहीं</option>
+            <option value="18" selected>छोटा</option>
+            <option value="40">बड़ा</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="img-quality">फ़ोटो क्वालिटी</label>
+          <select id="img-quality">
+            <option value="high">हाई (बड़ी फ़ाइल)</option>
+            <option value="balanced" selected>संतुलित</option>
+            <option value="small">छोटी फ़ाइल</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results" id="results" hidden>
+        <div class="summary">
+          <div class="summary-stats" aria-live="polite" id="summary-stats"></div>
+          <div class="summary-actions">
+            <button type="button" class="btn btn-ghost" id="clear-btn">साफ़ करें</button>
+            <button type="button" class="btn btn-primary" id="make-btn" disabled>PDF बनाएँ</button>
+          </div>
+        </div>
+        <ul class="page-grid" id="page-grid"></ul>
+      </div>
+    </section>

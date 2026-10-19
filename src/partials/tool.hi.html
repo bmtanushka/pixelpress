@@ -1,0 +1,108 @@
+    <section class="container tool" aria-label="इमेज कंप्रेसर">
+      <label class="dropzone" id="dropzone" tabindex="0">
+        <input type="file" id="file-input" accept="image/*,.heic,.heif,.avif" multiple hidden>
+        <span class="dz-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span class="dz-title">फ़ोटो यहाँ छोड़ें या <u>चुनें</u></span>
+        <span class="dz-sub"><kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>V</kbd> से पेस्ट भी कर सकते हैं · JPG, PNG, WebP, HEIC, GIF, BMP, AVIF, SVG</span>
+      </label>
+
+      <div class="settings" role="group" aria-label="कंप्रेशन सेटिंग">
+        <div class="field">
+          <span class="field-label" id="fmt-label">आउटपुट फ़ॉर्मेट</span>
+          <div class="segmented" role="radiogroup" aria-labelledby="fmt-label" id="format-group">
+            <label><input type="radio" name="format" value="original" checked><span>जैसा था वैसा</span></label>
+            <label><input type="radio" name="format" value="image/webp"><span>WebP</span></label>
+            <label><input type="radio" name="format" value="image/jpeg"><span>JPG</span></label>
+            <label><input type="radio" name="format" value="image/png"><span>PNG</span></label>
+            <label hidden id="avif-option"><input type="radio" name="format" value="image/avif"><span>AVIF</span></label>
+          </div>
+        </div>
+
+        <div class="field field-quality">
+          <div class="field-row">
+            <label class="field-label" for="quality">क्वालिटी</label>
+            <output id="quality-out" for="quality">80%</output>
+          </div>
+          <input type="range" id="quality" min="10" max="100" step="1" value="80">
+          <div class="presets quality-presets" role="group" aria-label="क्वालिटी प्रीसेट">
+            <button type="button" data-q="60">सबसे छोटी</button>
+            <button type="button" data-q="80" class="active">संतुलित <small>(सुझाया गया)</small></button>
+            <button type="button" data-q="92">हाई क्वालिटी</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="resize">अधिकतम साइज़</label>
+          <select id="resize">
+            <option value="0" selected>असली साइज़ रखें</option>
+            <option value="3840">3840 px (4K)</option>
+            <option value="2560">2560 px</option>
+            <option value="1920">1920 px (Full HD)</option>
+            <option value="1280">1280 px</option>
+            <option value="800">800 px</option>
+            <option value="exact">सटीक साइज़ (चौड़ाई × ऊँचाई)…</option>
+          </select>
+        </div>
+
+        <div class="field field-wide exact-panel" id="exact-panel" hidden>
+          <div class="exact-row">
+            <label class="mini-field"><span>चौड़ाई</span><input type="number" id="exact-w" min="1" max="10000" inputmode="numeric" value="1080"></label>
+            <span class="times" aria-hidden="true">×</span>
+            <label class="mini-field"><span>ऊँचाई</span><input type="number" id="exact-h" min="1" max="10000" inputmode="numeric" value="1080"></label>
+            <span class="unit">px</span>
+            <label class="mini-field grow"><span>फ़िट</span>
+              <select id="exact-fit">
+                <option value="cover">भरने के लिए क्रॉप करें</option>
+                <option value="contain">अंदर फ़िट करें (किनारे जोड़ें)</option>
+              </select>
+            </label>
+            <label class="mini-field grow"><span>आम साइज़</span>
+              <select id="exact-preset">
+                <option value="">चुनें…</option>
+                <option value="600x600">पासपोर्ट / वीज़ा 2×2 इंच (600×600)</option>
+                <option value="413x531">पासपोर्ट 35×45 मिमी (413×531)</option>
+                <option value="1080x1080">Instagram square (1080×1080)</option>
+                <option value="1080x1350">Instagram portrait (1080×1350)</option>
+                <option value="1080x1920">Story / Reel (1080×1920)</option>
+                <option value="1280x720">YouTube thumbnail (1280×720)</option>
+                <option value="1200x630">Facebook / link preview (1200×630)</option>
+                <option value="1500x500">X / Twitter header (1500×500)</option>
+                <option value="1920x1080">Full HD (1920×1080)</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="field field-wide target-panel">
+          <label class="switch"><input type="checkbox" id="target-on"><span class="switch-ui" aria-hidden="true"></span><span class="switch-label">फ़ाइल साइज़ की सीमा</span></label>
+          <div class="target-row" id="target-row" hidden>
+            <label class="mini-field"><span>अधिकतम साइज़</span><span class="kb-input"><input type="number" id="target-kb" min="5" max="50000" step="1" inputmode="numeric" value="100"><b>KB</b></span></label>
+            <div class="presets" role="group" aria-label="साइज़ प्रीसेट">
+              <button type="button" data-kb="20">20 KB</button>
+              <button type="button" data-kb="50">50 KB</button>
+              <button type="button" data-kb="100">100 KB</button>
+              <button type="button" data-kb="200">200 KB</button>
+              <button type="button" data-kb="500">500 KB</button>
+              <button type="button" data-kb="1024">1 MB</button>
+            </div>
+            <p class="hint">क्वालिटी अपने-आप चुनी जाती है — सीमा के अंदर सबसे अच्छी। बहुत छोटी सीमा पर फ़ोटो की लंबाई-चौड़ाई भी कम हो सकती है।</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="results" id="results" hidden>
+        <div class="summary">
+          <div class="summary-stats" aria-live="polite" id="summary-stats"></div>
+          <div class="summary-actions">
+            <button type="button" class="btn btn-ghost" id="clear-btn">साफ़ करें</button>
+            <button type="button" class="btn btn-primary" id="zip-btn" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              सभी डाउनलोड करें
+            </button>
+          </div>
+        </div>
+        <ul class="file-list" id="file-list"></ul>
+      </div>
+    </section>

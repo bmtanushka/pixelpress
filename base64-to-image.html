@@ -152,6 +152,22 @@
       "@type": "Answer",
       "text": "No. Decoding happens entirely in your browser."
      }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I decode an SVG data URI?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Both Base64-encoded and URL-encoded SVG data URIs are supported and saved as .svg files."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What if the Base64 string has line breaks?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Line breaks and spaces are removed automatically, so you can paste Base64 copied from emails or code."
+     }
     }
    ]
   },
@@ -313,6 +329,14 @@
         <summary>Is my data sent anywhere?</summary>
         <p>No. Decoding happens entirely in your browser.</p>
       </details>
+      <details>
+        <summary>Can I decode an SVG data URI?</summary>
+        <p>Yes. Both Base64-encoded and URL-encoded SVG data URIs are supported and saved as .svg files.</p>
+      </details>
+      <details>
+        <summary>What if the Base64 string has line breaks?</summary>
+        <p>Line breaks and spaces are removed automatically, so you can paste Base64 copied from emails or code.</p>
+      </details>
     </section>
 
     <section class="container content" aria-labelledby="related-h">
@@ -346,6 +370,8 @@
         <a href="/flip-image">Flip image</a>
         <a class="more" href="/image-tools">All image tools →</a>
         <a class="more" href="/pdf-tools">PDF tools →</a>
+        <a class="more" href="/image-formats-guide">Guide: JPG vs PNG vs WebP vs AVIF</a>
+        <a class="more" href="/about">How CompressZone keeps files private</a>
       </nav>
     </section>
   </main>

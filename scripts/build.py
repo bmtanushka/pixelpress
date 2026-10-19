@@ -193,6 +193,10 @@ def related(page, pages):
     items = "\n".join(f'        <a href="{p["path"]}">{html.escape(p["nav"])}</a>' for p in links)
     items += (f'\n        <a class="more" href="{HUB_PATH[hub]}">All {"PDF" if hub == "pdf" else "image"} tools →</a>'
               f'\n        <a class="more" href="{HUB_PATH[other]}">{"PDF" if other == "pdf" else "Image"} tools →</a>')
+    if hub == "image" and page["path"] != "/image-formats-guide":
+        items += '\n        <a class="more" href="/image-formats-guide">Guide: JPG vs PNG vs WebP vs AVIF</a>'
+    if page["type"] == "tool" and page["path"] != "/about":
+        items += '\n        <a class="more" href="/about">How CompressZone keeps files private</a>'
     label = "PDF" if hub == "pdf" else "image"
     return ('    <section class="container content" aria-labelledby="related-h">\n'
             f'      <h2 id="related-h">More free {label} tools</h2>\n'

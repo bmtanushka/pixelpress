@@ -1,8 +1,8 @@
 /* CompressZone service worker: cache the app shell so it loads instantly and works offline. */
-var CACHE = 'compresszone-v3';
+var CACHE = 'compresszone-v4';
 var ASSETS = [
   './', 'privacy', 'terms', 'css/styles.css', 'icon.svg', 'manifest.webmanifest', 'img/apple-touch-icon.png', 'img/icon-192.png',
-  'js/app.js', 'js/worker.js', 'js/encoder.js', 'js/zip.js', 'js/vendor/upng-bundle.js'
+  'js/site.js', 'js/app.js', 'js/worker.js', 'js/encoder.js', 'js/zip.js', 'js/vendor/upng-bundle.js'
 ];
 
 self.addEventListener('install', function (e) {

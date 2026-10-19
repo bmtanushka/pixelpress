@@ -4,16 +4,10 @@
 
   /* ============ Configuration ============ */
   var CONFIG = {
-    adsense: {
-      // Replace with your AdSense publisher ID and ad unit slot IDs.
-      client: 'ca-pub-3088214716790750',
-      // Ad unit slot IDs from AdSense → Ads → By ad unit. Leave empty to rely on Auto ads.
-      slots: { top: '', middle: '' }
-    },
     defaultQuality: 80 // industry-standard balance of size vs. quality
   };
 
-  var BASE = new URL('js/', document.baseURI).href;
+  var BASE = new URL('/js/', location.href).href;
   var EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/avif': 'avif' };
   var LABEL = { 'image/jpeg': 'JPG', 'image/png': 'PNG', 'image/webp': 'WebP', 'image/avif': 'AVIF' };
 
@@ -28,6 +22,9 @@
   var items = new Map();
   var nextId = 1;
   var support = { webp: true, avif: false, offscreen: typeof OffscreenCanvas !== 'undefined' && typeof Worker !== 'undefined' };
+  // Landing pages (e.g. /jpg-to-webp) preset the format and size via <body data-format data-maxdim>.
+  // There, only the quality is remembered, so a preset never leaks into the home page.
+  var preset = document.body.dataset.format ? { format: document.body.dataset.format, maxDim: Number(document.body.dataset.maxdim) || 0 } : null;
   var settings = loadSettings();
 
   function loadSettings() {
@@ -36,10 +33,18 @@
       var saved = JSON.parse(localStorage.getItem('pp-settings') || 'null');
       if (saved) Object.assign(s, saved);
     } catch (e) { /* storage unavailable */ }
+    if (preset) Object.assign(s, preset);
     return s;
   }
   function saveSettings() {
-    try { localStorage.setItem('pp-settings', JSON.stringify(settings)); } catch (e) { /* ignore */ }
+    try {
+      var data = settings;
+      if (preset) {
+        data = JSON.parse(localStorage.getItem('pp-settings') || '{}') || {};
+        data.quality = settings.quality;
+      }
+      localStorage.setItem('pp-settings', JSON.stringify(data));
+    } catch (e) { /* ignore */ }
   }
 
   /* ============ Helpers ============ */
@@ -98,7 +103,7 @@
   function getWorker() {
     for (var i = 0; i < pool.length; i++) if (!pool[i].busy) return pool[i];
     if (pool.length < POOL_SIZE) {
-      var w = { worker: new Worker('js/worker.js'), busy: false, job: null };
+      var w = { worker: new Worker('/js/worker.js'), busy: false, job: null };
       w.worker.onmessage = function (e) { w.busy = false; w.job = null; onResult(e.data); pump(); };
       w.worker.onerror = function (e) {
         // Worker unusable in this browser: fall back to the main thread.
@@ -443,43 +448,4 @@
     b.addEventListener('click', function () { settings.quality = Number(b.dataset.q); syncPresets(); saveSettings(); recompressAll(); });
   });
   resizeEl.addEventListener('change', function () { settings.maxDim = Number(resizeEl.value); saveSettings(); recompressAll(); });
-
-  /* ============ Ads (loaded after the page is interactive) ============ */
-  function initAds() {
-    var slots = document.querySelectorAll('.ad-slot');
-    var configured = !/X{6,}/.test(CONFIG.adsense.client);
-    if (!configured) {
-      slots.forEach(function (s) { s.classList.add('is-placeholder'); s.textContent = 'Advertisement'; });
-      return;
-    }
-    var s = document.createElement('script');
-    s.async = true;
-    s.crossOrigin = 'anonymous';
-    s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + CONFIG.adsense.client;
-    document.head.appendChild(s);
-    slots.forEach(function (slot) {
-      var id = CONFIG.adsense.slots[slot.dataset.adSlotName];
-      if (!/^\d{6,}$/.test(id || '')) { slot.parentNode.hidden = true; return; } // no unit yet: collapse
-      var ins = document.createElement('ins');
-      ins.className = 'adsbygoogle';
-      ins.style.display = 'block';
-      ins.setAttribute('data-ad-client', CONFIG.adsense.client);
-      ins.setAttribute('data-ad-slot', id);
-      ins.setAttribute('data-ad-format', 'auto');
-      ins.setAttribute('data-full-width-responsive', 'true');
-      slot.appendChild(ins);
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    });
-  }
-
-  window.addEventListener('load', function () {
-    var idle = window.requestIdleCallback || function (fn) { setTimeout(fn, 1200); };
-    idle(initAds, { timeout: 3000 });
-    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-      navigator.serviceWorker.register('sw.js').catch(function () { /* offline support is optional */ });
-    }
-  });
-
-  var yearEl = $('#year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
 })();

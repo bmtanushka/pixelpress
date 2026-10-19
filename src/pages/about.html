@@ -1,0 +1,43 @@
+---
+path: /about
+title: About CompressZone – Private, In-Browser Image Compression
+description: CompressZone is a free image compressor that runs entirely in your browser. Learn how it works, the technology behind it, and why your images stay private.
+type: page
+breadcrumb: About
+nav: About CompressZone
+priority: 0.5
+updated: 2026-10-19
+---
+    <div class="container legal">
+      <h1>About CompressZone</h1>
+      <p class="updated">Updated October 19, 2026</p>
+
+      <p><strong>CompressZone is a free online tool for compressing, resizing and converting images, built so that your images never leave your device.</strong> Most online compressors upload your files to a server. CompressZone does all the work inside your web browser, so it's faster, works offline, and keeps your photos private.</p>
+
+      <h2>How it works</h2>
+      <ul>
+        <li><strong>Decoding and resizing:</strong> your browser's built-in image engine reads each file and scales it with high-quality, multi-step downsampling.</li>
+        <li><strong>JPG, WebP and AVIF:</strong> encoded with the browser's native encoders in background threads (Web Workers), so the page stays responsive.</li>
+        <li><strong>PNG:</strong> optimized with color quantization (UPNG.js) and DEFLATE compression, keeping transparency.</li>
+        <li><strong>WebP on Safari:</strong> Safari can't save WebP natively, so CompressZone uses Google's libwebp encoder compiled to WebAssembly.</li>
+        <li><strong>Never bigger:</strong> if re-encoding would make a file larger, the original is kept.</li>
+      </ul>
+
+      <h2>Privacy</h2>
+      <p>Images are processed in memory on your device and discarded when you close the page. They are never uploaded, stored or seen by us. The site is supported by advertising from Google AdSense, which never has access to your images. Read the full <a href="/privacy">privacy policy</a>.</p>
+
+      <h2>Key facts</h2>
+      <ul>
+        <li>Price: free, with no account or sign-up</li>
+        <li>Supported input: JPG, PNG, WebP, AVIF, GIF, BMP and SVG (HEIC in Safari)</li>
+        <li>Output: JPG, PNG, WebP, and AVIF where supported</li>
+        <li>Default quality: 80%</li>
+        <li>Limits: none, apart from your device's memory</li>
+        <li>Works on: Chrome, Edge, Firefox and Safari, on desktop and mobile</li>
+      </ul>
+
+      <h2>Contact</h2>
+      <p>Questions, feedback or bug reports: <a href="mailto:contact@compresszone.com">contact@compresszone.com</a>.</p>
+    </div>
+
+{{related}}

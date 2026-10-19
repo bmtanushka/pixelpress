@@ -16,9 +16,9 @@
 		-Server
 	}
 
-	# HTML and the service worker must always be fresh; other assets cache for an hour
+	# Pages, the service worker and text files must always be fresh; static assets cache for an hour
 	# (the service worker also refreshes them in the background).
-	@fresh path / /privacy /terms /*.html /sw.js /manifest.webmanifest
+	@fresh not path /css/* /js/* /img/* /icon.svg
 	header @fresh Cache-Control "no-cache"
 	@assets path /css/* /js/* /icon.svg
 	header @assets Cache-Control "public, max-age=3600"

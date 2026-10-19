@@ -10,3 +10,5 @@ Dockerfile
 Caddyfile
 railway.json
 README.md
+src
+scripts

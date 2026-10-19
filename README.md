@@ -39,14 +39,51 @@ Live at **https://compresszone.com**. The repo deploys automatically on every pu
 ### Test locally
 `npx wrangler dev` runs the Cloudflare version, and `docker build -t cz . && docker run -p 8080:8080 cz` runs the Railway version.
 
+## Editing pages (SEO build)
+
+The HTML pages are generated from `src/` by a small dependency-free script. **Edit the sources, not the root `.html` files.**
+
+```bash
+python3 scripts/build.py      # regenerates *.html, sitemap.xml and llms.txt
+```
+
+- `src/layout.html`: the shared `<head>`, header and footer.
+- `src/partials/`: the compressor UI and the comparison dialog.
+- `src/pages/*.html`: one file per page. Each starts with front matter for the URL, title, description, preset format and so on. See the top of `scripts/build.py` for the fields.
+- `src/llms-intro.md`: the key facts at the top of `llms.txt`.
+
+The build turns each page's FAQ (`<details>`) and steps (`<article class="step">`) into FAQPage and HowTo structured data, so the schema always matches the visible content. Commit the generated files: the hosts serve them as-is, with no build step.
+
+To add a page, copy a file in `src/pages/`, change its front matter and content, add a link in the `src/layout.html` footer, and run the build.
+
+## SEO and AI search (AIEO)
+
+| What | Where |
+|---|---|
+| One page per search intent (compress JPEG/PNG, resize, JPG/PNG→WebP, WebP→JPG/PNG) with the tool preset | `src/pages/` |
+| Unique title, meta description, canonical URL, Open Graph and Twitter tags on every page | `src/layout.html` |
+| JSON-LD `@graph`: Organization, WebSite, WebPage, BreadcrumbList, WebApplication, FAQPage, HowTo, Article | `scripts/build.py` |
+| Visible breadcrumbs, related-tool links and a footer sitemap for internal linking | layout and build |
+| A format comparison guide with a short "answer box" and tables (often quoted by AI answers) | `/image-formats-guide` |
+| `llms.txt`: a plain-text site summary for AI assistants | generated |
+| `robots.txt` explicitly allows AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended and others) | `robots.txt` |
+| `sitemap.xml` with `lastmod` dates | generated |
+| Lighthouse: SEO 100, Performance 100, Accessibility 100 | |
+
+After deploying:
+
+1. **Google Search Console:** add `compresszone.com` (a Domain property, verified by DNS in Cloudflare) and submit `https://compresszone.com/sitemap.xml`.
+2. **Bing Webmaster Tools:** import the site from Search Console. Bing also powers ChatGPT search and DuckDuckGo.
+3. Check structured data with Google's Rich Results Test: https://search.google.com/test/rich-results
+
 ## Set up Google AdSense
 
 1. Sign up at https://adsense.google.com and add your site.
 2. The publisher ID `ca-pub-3088214716790750` is already set in:
-   - `index.html`: the `google-adsense-account` meta tag
-   - `js/app.js`: `CONFIG.adsense.client`
+   - `src/layout.html`: the `google-adsense-account` meta tag (every page)
+   - `js/site.js`: `ADSENSE.client`
    - `ads.txt` (as `pub-…`, without the `ca-` prefix)
-3. The site works with **Auto ads** (AdSense → Ads → turn on Auto ads for compresszone.com). For fixed placements, create two **Display → Responsive** ad units and put their slot IDs in `CONFIG.adsense.slots` (`top`, `middle`).
+3. The site works with **Auto ads** (AdSense → Ads → turn on Auto ads for compresszone.com). For fixed placements, create two **Display → Responsive** ad units and put their slot IDs in `ADSENSE.slots` in `js/site.js` (`top`, `middle`).
 4. **EU, EEA, UK and Switzerland visitors:** Google requires a certified consent banner (CMP). The easiest option is AdSense → Privacy & messaging → enable the Google CMP.
 
 Fixed ad slots stay collapsed until they have a unit ID. The AdSense script loads only after the page becomes idle, so it never slows down the tool. Ad slots reserve their height to prevent layout shift.
@@ -64,10 +101,12 @@ EXIF and GPS metadata are removed. Orientation is applied.
 ## Files
 
 ```
-index.html            App page and SEO content
-privacy.html, terms.html
+src/, scripts/build.py  Page sources and the build script (see above)
+*.html                Generated pages: home, 7 tool pages, guide, about, privacy, terms, 404
+llms.txt, sitemap.xml Generated
 css/styles.css
-js/app.js             UI, queue, settings, ads, and CONFIG
+js/site.js            Every page: AdSense, service worker, footer year
+js/app.js             Tool pages: UI, queue, settings and landing-page presets
 js/worker.js          Worker: decode → resize → encode
 js/encoder.js         Shared encoder (worker and main-thread fallback)
 js/zip.js             Tiny ZIP writer (loads on demand)

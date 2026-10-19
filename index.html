@@ -3,61 +3,230 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CompressZone — Free Private Image Compressor &amp; WebP Converter</title>
-  <meta name="description" content="Compress JPG, PNG, WebP, GIF, BMP and AVIF images and convert them to WebP for free. Everything runs in your browser — your images are never uploaded.">
+  <title>Free Image Compressor – Compress JPG, PNG &amp; WebP Online | CompressZone</title>
+  <meta name="description" content="Compress JPG, PNG, WebP, GIF and AVIF images online for free, or convert them to WebP. Runs 100% in your browser — your images are never uploaded.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <meta name="theme-color" content="#5b5bf6" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0e0e14" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
   <link rel="canonical" href="https://compresszone.com/">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-friendly summary">
 
   <!-- Google AdSense site verification -->
   <meta name="google-adsense-account" content="ca-pub-3088214716790750">
 
-  <!-- Open Graph -->
+  <!-- Open Graph / social -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="CompressZone — Private Image Compressor">
-  <meta property="og:description" content="Shrink images and convert to WebP right in your browser. No uploads, no sign-up.">
-  <meta property="og:url" content="https://compresszone.com/">
   <meta property="og:site_name" content="CompressZone">
+  <meta property="og:title" content="CompressZone — Free, Private Image Compressor &amp; WebP Converter">
+  <meta property="og:description" content="Compress JPG, PNG, WebP, GIF and AVIF images online for free, or convert them to WebP. Runs 100% in your browser — your images are never uploaded.">
+  <meta property="og:url" content="https://compresszone.com/">
   <meta property="og:image" content="https://compresszone.com/img/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="CompressZone — compress images and convert to WebP, free and private">
+  <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CompressZone — Free, Private Image Compressor &amp; WebP Converter">
+  <meta name="twitter:description" content="Compress JPG, PNG, WebP, GIF and AVIF images online for free, or convert them to WebP. Runs 100% in your browser — your images are never uploaded.">
   <meta name="twitter:image" content="https://compresszone.com/img/og-image.png">
 
-  <script type="application/ld+json">
+  <script type="application/ld+json">{
+ "@context": "https://schema.org",
+ "@graph": [
   {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "CompressZone",
-    "url": "https://compresszone.com/",
-    "applicationCategory": "MultimediaApplication",
-    "operatingSystem": "Any",
-    "browserRequirements": "Requires a modern web browser",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-    "description": "Free in-browser image compressor and WebP converter. Images never leave your device."
+   "@type": "Organization",
+   "@id": "https://compresszone.com/#org",
+   "name": "CompressZone",
+   "url": "https://compresszone.com/",
+   "logo": {
+    "@type": "ImageObject",
+    "url": "https://compresszone.com/img/icon-512.png",
+    "width": 512,
+    "height": 512
+   }
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://compresszone.com/#website",
+   "name": "CompressZone",
+   "url": "https://compresszone.com/",
+   "description": "Free, private, in-browser image compressor and WebP converter.",
+   "publisher": {
+    "@id": "https://compresszone.com/#org"
+   },
+   "inLanguage": "en"
+  },
+  {
+   "@type": "WebPage",
+   "@id": "https://compresszone.com/#webpage",
+   "url": "https://compresszone.com/",
+   "name": "Free Image Compressor – Compress JPG, PNG & WebP Online | CompressZone",
+   "description": "Compress JPG, PNG, WebP, GIF and AVIF images online for free, or convert them to WebP. Runs 100% in your browser — your images are never uploaded.",
+   "isPartOf": {
+    "@id": "https://compresszone.com/#website"
+   },
+   "inLanguage": "en",
+   "primaryImageOfPage": {
+    "@type": "ImageObject",
+    "url": "https://compresszone.com/img/og-image.png"
+   },
+   "dateModified": "2026-10-19",
+   "mainEntity": {
+    "@id": "https://compresszone.com/#app"
+   }
+  },
+  {
+   "@type": "WebApplication",
+   "@id": "https://compresszone.com/#app",
+   "name": "CompressZone Image Compressor",
+   "url": "https://compresszone.com/",
+   "applicationCategory": "MultimediaApplication",
+   "applicationSubCategory": "Image compression",
+   "operatingSystem": "Any (runs in a web browser)",
+   "browserRequirements": "Requires JavaScript and a modern browser (Chrome, Edge, Firefox, Safari)",
+   "isAccessibleForFree": true,
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+   },
+   "featureList": [
+    "Compress JPG, PNG, WebP, GIF, BMP, AVIF and SVG images",
+    "Convert images to WebP, JPG, PNG or AVIF",
+    "Adjustable quality (default 80%)",
+    "Optional resize to a maximum dimension",
+    "Batch processing and ZIP download",
+    "Runs 100% in the browser; images are never uploaded",
+    "Works offline after the first visit"
+   ],
+   "publisher": {
+    "@id": "https://compresszone.com/#org"
+   }
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://compresszone.com/#faq",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Are my images uploaded to a server?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. CompressZone runs entirely in your browser. Your images are read, compressed and saved on your own device — they are never sent anywhere."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What quality should I choose?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The default of 80% is the standard balance and works well for photos on websites and social media. Use 90% or higher for print or archiving, and 60% when the smallest file size matters most."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does compressing an image reduce its quality?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "JPG, WebP and AVIF compression is lossy, but at 80% quality the difference is usually invisible to the eye while the file is often 50–80% smaller. Use the before/after slider to check any image."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Why convert images to WebP?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "WebP images are typically 25–34% smaller than JPG at the same visual quality, support transparency like PNG, and work in all modern browsers. They make websites load faster."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How does PNG compression work?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "PNG is a lossless format, so CompressZone reduces the number of colors (color quantization) to shrink the file — often by 50–80% — while keeping transparency. At 95% quality or higher, PNGs are re-encoded losslessly."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is there a file size or count limit?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "There are no artificial limits on file size or the number of images. Very large images (over about 100 megapixels) may be limited by your device's memory."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does it remove EXIF and location data?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Metadata such as camera details and GPS location is removed during compression, which is good for privacy. The image orientation is applied automatically first."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does CompressZone work on iPhone and Android?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. It works in any modern mobile browser, including Safari on iPhone and Chrome on Android, and can be added to your home screen like an app."
+     }
+    }
+   ]
+  },
+  {
+   "@type": "HowTo",
+   "@id": "https://compresszone.com/#howto",
+   "name": "How to compress images online with CompressZone",
+   "totalTime": "PT1M",
+   "tool": {
+    "@type": "HowToTool",
+    "name": "A web browser"
+   },
+   "step": [
+    {
+     "@type": "HowToStep",
+     "position": 1,
+     "name": "Add your images",
+     "text": "Drag and drop, click to browse, or paste images. Add one or a hundred — they're processed in parallel."
+    },
+    {
+     "@type": "HowToStep",
+     "position": 2,
+     "name": "Pick a format and quality",
+     "text": "Keep the original format or convert to WebP, JPG or PNG. The default 80% quality gives much smaller files with no visible difference."
+    },
+    {
+     "@type": "HowToStep",
+     "position": 3,
+     "name": "Download",
+     "text": "Save each file, or download everything at once as a ZIP. Use the before/after slider to check quality."
+    }
+   ]
   }
-  </script>
+ ]
+}</script>
 
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="js/app.js" defer></script>
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="/js/site.js" defer></script>
+  <script src="/js/app.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="./" aria-label="CompressZone home">
+      <a class="brand" href="/" aria-label="CompressZone home">
         <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="cz-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b5bf6"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#cz-g)"/><path d="M8.5 8.5 14 14m0-5v5H9M23.5 23.5 18 18m0 5v-5h5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span class="wordmark">Compress<b>Zone</b></span>
       </a>
       <nav class="nav" aria-label="Main">
-        <a href="#how">How it works</a>
-        <a href="#faq">FAQ</a>
-        <a href="/privacy">Privacy</a>
+        <a href="/compress-png">Compress PNG</a>
+        <a href="/jpg-to-webp">JPG to WebP</a>
+        <a href="/image-formats-guide">Guide</a>
       </nav>
     </div>
   </header>
@@ -65,7 +234,7 @@
   <main id="main">
     <section class="hero container">
       <p class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m8.5 12 2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>100% private — images never leave your device</p>
-      <h1>Compress images.<br><span class="grad">Keep the quality.</span></h1>
+      <h1>Free Image Compressor<br><span class="grad">Smaller files. Same quality.</span></h1>
       <p class="lede">Shrink JPG, PNG, WebP, GIF &amp; more — or convert to WebP — instantly, right in your browser.</p>
     </section>
 
@@ -132,28 +301,27 @@
       </div>
     </section>
 
-    <!-- Ad slot: below tool (reserved height avoids layout shift) -->
     <aside class="container ad-wrap" aria-label="Advertisement">
       <div class="ad-slot" data-ad-slot-name="top"></div>
     </aside>
 
     <section class="container content" id="how">
-      <h2>How it works</h2>
+      <h2>How to compress an image</h2>
       <div class="steps">
         <article class="step">
           <span class="step-num">1</span>
           <h3>Add your images</h3>
-          <p>Drag and drop, browse, or paste. Add one or a hundred — they're processed in parallel.</p>
+          <p>Drag and drop, click to browse, or paste images. Add one or a hundred — they're processed in parallel.</p>
         </article>
         <article class="step">
           <span class="step-num">2</span>
-          <h3>Pick a format &amp; quality</h3>
-          <p>80% quality is the sweet spot for most photos: much smaller files with no visible difference.</p>
+          <h3>Pick a format and quality</h3>
+          <p>Keep the original format or convert to WebP, JPG or PNG. The default 80% quality gives much smaller files with no visible difference.</p>
         </article>
         <article class="step">
           <span class="step-num">3</span>
           <h3>Download</h3>
-          <p>Save files one by one or grab everything as a single ZIP. Compare before &amp; after anytime.</p>
+          <p>Save each file, or download everything at once as a ZIP. Use the before/after slider to check quality.</p>
         </article>
       </div>
 
@@ -161,7 +329,34 @@
         <div class="feature"><strong>Private by design</strong><span>Compression happens on your device using your browser's built-in image engine. Nothing is uploaded.</span></div>
         <div class="feature"><strong>Fast</strong><span>Multi-threaded processing with Web Workers keeps the page smooth, even with large batches.</span></div>
         <div class="feature"><strong>Works offline</strong><span>After the first visit, CompressZone keeps working without an internet connection.</span></div>
-        <div class="feature"><strong>Never bigger</strong><span>If an image is already well optimised, we keep your original instead of making it larger.</span></div>
+        <div class="feature"><strong>Never bigger</strong><span>If an image is already well optimized, we keep your original instead of making it larger.</span></div>
+      </div>
+    </section>
+
+    <section class="container content" id="about-tool">
+      <h2>What is CompressZone?</h2>
+      <div class="prose">
+        <p><strong>CompressZone is a free online image compressor and converter that runs entirely in your web browser.</strong> It reduces the file size of JPG, PNG, WebP, GIF, BMP, AVIF and SVG images, and can convert them to WebP, JPG or PNG. Because processing happens on your own device, your photos are never uploaded to a server, there is no sign-up, and there are no file limits.</p>
+      </div>
+      <ul class="facts">
+        <li><strong>Typical savings</strong><span>50–80% smaller files</span></li>
+        <li><strong>Default quality</strong><span>80% (recommended)</span></li>
+        <li><strong>Uploads</strong><span>None — 100% local</span></li>
+        <li><strong>Price</strong><span>Free, no account</span></li>
+      </ul>
+
+      <h3 class="table-title">Supported formats</h3>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th scope="col">Format</th><th scope="col">Can open</th><th scope="col">Can save as</th><th scope="col">How it's compressed</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">JPG / JPEG</th><td>Yes</td><td>Yes</td><td>Lossy re-encoding at your chosen quality</td></tr>
+            <tr><th scope="row">PNG</th><td>Yes</td><td>Yes</td><td>Smart color reduction, keeps transparency</td></tr>
+            <tr><th scope="row">WebP</th><td>Yes</td><td>Yes</td><td>Lossy WebP with transparency</td></tr>
+            <tr><th scope="row">AVIF</th><td>Yes</td><td>In supported browsers</td><td>Lossy AVIF</td></tr>
+            <tr><th scope="row">GIF, BMP, SVG</th><td>Yes</td><td>Converted to WebP</td><td>First frame only for animated GIFs</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -177,34 +372,81 @@
       </details>
       <details>
         <summary>What quality should I choose?</summary>
-        <p>The default of 80% is the industry-standard balance and works well for photos on websites and social media. Use 90%+ for print or archiving, and 60% when file size matters most.</p>
+        <p>The default of 80% is the standard balance and works well for photos on websites and social media. Use 90% or higher for print or archiving, and 60% when the smallest file size matters most.</p>
       </details>
       <details>
-        <summary>Why convert to WebP?</summary>
-        <p>WebP files are typically 25–35% smaller than JPG at the same visual quality, support transparency like PNG, and are supported by all modern browsers. They're ideal for faster websites.</p>
+        <summary>Does compressing an image reduce its quality?</summary>
+        <p>JPG, WebP and AVIF compression is lossy, but at 80% quality the difference is usually invisible to the eye while the file is often 50–80% smaller. Use the before/after slider to check any image.</p>
+      </details>
+      <details>
+        <summary>Why convert images to WebP?</summary>
+        <p>WebP images are typically 25–34% smaller than JPG at the same visual quality, support transparency like PNG, and work in all modern browsers. They make websites load faster.</p>
       </details>
       <details>
         <summary>How does PNG compression work?</summary>
-        <p>PNG is lossless, so CompressZone reduces the number of colours (smart quantisation) to shrink the file — often by 50–80% — while keeping transparency. At 95%+ quality, PNGs are re-encoded losslessly.</p>
+        <p>PNG is a lossless format, so CompressZone reduces the number of colors (color quantization) to shrink the file — often by 50–80% — while keeping transparency. At 95% quality or higher, PNGs are re-encoded losslessly.</p>
       </details>
       <details>
         <summary>Is there a file size or count limit?</summary>
-        <p>There are no artificial limits. Very large images (over ~100 megapixels) may be limited by your device's memory.</p>
+        <p>There are no artificial limits on file size or the number of images. Very large images (over about 100 megapixels) may be limited by your device's memory.</p>
       </details>
       <details>
-        <summary>Does it keep EXIF / location data?</summary>
-        <p>No. Metadata such as camera details and GPS location is removed during compression — a nice bonus for privacy. Image orientation is applied automatically.</p>
+        <summary>Does it remove EXIF and location data?</summary>
+        <p>Yes. Metadata such as camera details and GPS location is removed during compression, which is good for privacy. The image orientation is applied automatically first.</p>
       </details>
+      <details>
+        <summary>Does CompressZone work on iPhone and Android?</summary>
+        <p>Yes. It works in any modern mobile browser, including Safari on iPhone and Chrome on Android, and can be added to your home screen like an app.</p>
+      </details>
+    </section>
+
+    <section class="container content" aria-labelledby="related-h">
+      <h2 id="related-h">More free image tools</h2>
+      <nav class="tool-links" aria-label="Image tools">
+        <a href="/compress-jpeg">Compress JPEG</a>
+        <a href="/compress-png">Compress PNG</a>
+        <a href="/jpg-to-webp">JPG to WebP</a>
+        <a href="/png-to-webp">PNG to WebP</a>
+        <a href="/resize-image">Resize image</a>
+        <a href="/webp-to-jpg">WebP to JPG</a>
+        <a href="/webp-to-png">WebP to PNG</a>
+      </nav>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year">2026</span> CompressZone. Free, private image compression.</p>
-      <nav aria-label="Footer">
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms</a>
-      </nav>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a class="brand" href="/" aria-label="CompressZone home">
+            <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="url(#cz-g)"/><path d="M8.5 8.5 14 14m0-5v5H9M23.5 23.5 18 18m0 5v-5h5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="wordmark">Compress<b>Zone</b></span>
+          </a>
+          <p>Free, private image compression and conversion. Your images never leave your device.</p>
+        </div>
+        <nav aria-label="Compress">
+          <h2>Compress</h2>
+          <a href="/">Image compressor</a>
+          <a href="/compress-jpeg">Compress JPEG</a>
+          <a href="/compress-png">Compress PNG</a>
+          <a href="/resize-image">Resize image</a>
+        </nav>
+        <nav aria-label="Convert">
+          <h2>Convert</h2>
+          <a href="/jpg-to-webp">JPG to WebP</a>
+          <a href="/png-to-webp">PNG to WebP</a>
+          <a href="/webp-to-jpg">WebP to JPG</a>
+          <a href="/webp-to-png">WebP to PNG</a>
+        </nav>
+        <nav aria-label="Learn">
+          <h2>Learn</h2>
+          <a href="/image-formats-guide">JPG vs PNG vs WebP vs AVIF</a>
+          <a href="/about">About</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms</a>
+        </nav>
+      </div>
+      <p class="footer-copy">© <span id="year">2026</span> CompressZone · compresszone.com</p>
     </div>
   </footer>
 
@@ -224,7 +466,6 @@
       <input type="range" id="cmp-range" min="0" max="100" value="50" aria-label="Drag to compare original and compressed">
     </div>
   </dialog>
-
-  <noscript><p class="noscript">CompressZone needs JavaScript to compress images in your browser.</p></noscript>
+  <noscript><p class="noscript">The CompressZone tool needs JavaScript to compress images in your browser.</p></noscript>
 </body>
 </html>

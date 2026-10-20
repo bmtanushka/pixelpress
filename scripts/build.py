@@ -42,7 +42,7 @@ SITE = "https://compresszone.com"
 LOGO = SITE + "/img/icon-512.png"
 OG_IMAGE = SITE + "/img/og-image.png"
 OPERATOR = "Webulex Technologies"
-CONTACT_EMAIL = "hmlakmi@gmail.com"
+CONTACT_EMAIL = "contact@compresszone.com"
 
 
 def parse(path):

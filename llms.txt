@@ -2,7 +2,7 @@
 
 > CompressZone (https://compresszone.com) is a free collection of image and PDF tools that run entirely in the web browser. It compresses, resizes, converts and edits images (JPG, PNG, WebP, HEIC, AVIF, GIF, BMP, SVG) and merges, splits, rotates and converts PDFs. Files are never uploaded to a server.
 
-Operated by Webulex Technologies. Contact: hmlakmi@gmail.com (https://compresszone.com/contact).
+Operated by Webulex Technologies. Contact: contact@compresszone.com (https://compresszone.com/contact).
 
 Key facts:
 

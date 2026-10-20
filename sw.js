@@ -1,5 +1,5 @@
 /* CompressZone service worker: cache the app shell so it loads instantly and works offline. */
-var CACHE = 'compresszone-v5';
+var CACHE = 'compresszone-v6';
 var ASSETS = [
   './', 'privacy', 'terms', 'css/styles.css', 'icon.svg', 'manifest.webmanifest', 'img/apple-touch-icon.png', 'img/icon-192.png',
   'js/site.js', 'js/app.js', 'js/worker.js', 'js/encoder.js', 'js/zip.js', 'js/vendor/upng-bundle.js'

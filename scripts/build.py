@@ -284,6 +284,13 @@ def ad(name):
             f'      <div class="ad-slot" data-ad-slot-name="{name}"></div>\n    </aside>\n')
 
 
+def ads_allowed(page):
+    """AdSense policy: no ads on screens without publisher content — 404, navigation hubs, legal pages."""
+    if page.get("ads") in ("off", "false", "no"):
+        return False
+    return page["type"] in ("tool", "article") and not page.get("noindex")
+
+
 def render(page, all_pages, layout, partials, snippets):
     lang = page["lang"]
     L = LANGS[lang]
@@ -296,7 +303,7 @@ def render(page, all_pages, layout, partials, snippets):
     body = body.replace("{{hub:pdf}}", tool_cards(pages, HUBS["pdf"]))
     body = body.replace("{{hub:all}}", tool_cards(pages, [c for c, _ in CATEGORIES]))
     body = body.replace("{{guides}}", '        <div class="tool-cards">\n' + guide_cards(pages) + '\n        </div>')
-    body = re.sub(r"\{\{ad:(\w+)\}\}", lambda m: ad(m.group(1)), body)
+    body = re.sub(r"\{\{ad:(\w+)\}\}\n?", lambda m: ad(m.group(1)) if ads_allowed(page) else "", body)
     body = body.replace("{{related}}", related_hi(page, pages) if lang == "hi" else related(page, pages))
 
     crumbs = ""
@@ -323,6 +330,8 @@ def render(page, all_pages, layout, partials, snippets):
                 if page.get(k):
                     data[k] = page[k]
         attrs = "".join(f' data-{k}="{html.escape(v)}"' for k, v in data.items())
+    if not ads_allowed(page):
+        attrs += ' data-ads="off"'
     alts = page.get("alts", {})
     hreflang = ""
     if alts:

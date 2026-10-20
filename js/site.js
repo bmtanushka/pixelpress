@@ -32,6 +32,7 @@
 
   /* ============ Ads (loaded after the page is interactive) ============ */
   function initAds() {
+    if (document.body.dataset.ads === 'off') return; // no ads on 404, hubs and legal pages (AdSense policy)
     var s = document.createElement('script');
     s.async = true;
     s.crossOrigin = 'anonymous';

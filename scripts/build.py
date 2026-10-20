@@ -41,6 +41,8 @@ SRC = ROOT / "src"
 SITE = "https://compresszone.com"
 LOGO = SITE + "/img/icon-512.png"
 OG_IMAGE = SITE + "/img/og-image.png"
+OPERATOR = "Webulex Technologies"
+CONTACT_EMAIL = "hmlakmi@gmail.com"
 
 
 def parse(path):
@@ -151,7 +153,10 @@ def jsonld(page, pages):
     L = LANGS[lang]
     graph = [
         {"@type": "Organization", "@id": SITE + "/#org", "name": "CompressZone", "url": SITE + "/",
-         "logo": {"@type": "ImageObject", "url": LOGO, "width": 512, "height": 512}},
+         "logo": {"@type": "ImageObject", "url": LOGO, "width": 512, "height": 512},
+         "email": CONTACT_EMAIL,
+         "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": CONTACT_EMAIL, "url": SITE + "/contact"},
+         "parentOrganization": {"@type": "Organization", "name": OPERATOR}},
         {"@type": "WebSite", "@id": SITE + "/#website", "name": "CompressZone", "url": SITE + "/",
          "description": "Free, private image and PDF tools that run in the browser: compress, resize, convert and edit images; merge, split and convert PDFs.",
          "publisher": {"@id": SITE + "/#org"}, "inLanguage": "en"},

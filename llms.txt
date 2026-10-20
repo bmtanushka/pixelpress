@@ -2,6 +2,8 @@
 
 > CompressZone (https://compresszone.com) is a free collection of image and PDF tools that run entirely in the web browser. It compresses, resizes, converts and edits images (JPG, PNG, WebP, HEIC, AVIF, GIF, BMP, SVG) and merges, splits, rotates and converts PDFs. Files are never uploaded to a server.
 
+Operated by Webulex Technologies. Contact: hmlakmi@gmail.com (https://compresszone.com/contact).
+
 Key facts:
 
 - Price: free. No account, sign-up, watermark or usage limits.
@@ -84,7 +86,7 @@ Key facts:
 - [Guides](https://compresszone.com/guides): Practical guides to image and PDF tasks: shrinking photos for online forms, the best image sizes for websites, HEIC on Windows, removing photo location and more.
 - [About CompressZone](https://compresszone.com/about): CompressZone is a free set of image and PDF tools that run in your browser. Learn how it works, the technology behind it, and why your files stay private.
 - [What's new](https://compresszone.com/changelog): The latest CompressZone updates: new image and PDF tools, guides and improvements. Every tool stays free and private, running entirely in your browser.
-- [Contact](https://compresszone.com/contact): Get in touch with the CompressZone team about feedback, bug reports, tool suggestions, privacy questions or advertising. We read every message.
+- [Contact](https://compresszone.com/contact): Contact Webulex Technologies, the team behind CompressZone, about feedback, bug reports, tool suggestions, privacy questions or partnerships.
 - [Privacy Policy](https://compresszone.com/privacy): CompressZone processes images and PDFs entirely in your browser — files are never uploaded. Read how we handle preferences, cookies and advertising.
 - [Terms of Use](https://compresszone.com/terms): The terms for using CompressZone, the free image and PDF tools that run entirely in your browser without uploading your files.
 

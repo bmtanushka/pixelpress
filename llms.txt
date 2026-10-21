@@ -101,3 +101,17 @@ Key facts:
 - [पिक्सेल में साइज़ बदलें](https://compresszone.com/hi/resize-image-to-pixels): फ़ोटो को सटीक पिक्सेल साइज़ में बदलें, जैसे 600 × 600 या 1920 × 1080। क्रॉप करें या किनारे जोड़ें। मुफ़्त और प्राइवेट — ब्राउज़र में चलता है।
 - [HEIC से JPG](https://compresszone.com/hi/heic-to-jpg): iPhone की HEIC और HEIF फ़ोटो को मुफ़्त में JPG में बदलें, एक साथ कई। Chrome, Edge, Firefox और Safari में चलता है। फ़ोटो अपलोड नहीं होती।
 - [JPG से PDF](https://compresszone.com/hi/jpg-to-pdf): JPG, PNG और HEIC फ़ोटो को मुफ़्त में PDF में बदलें। पेज का क्रम बदलें, A4 या Letter और मार्जिन चुनें। प्राइवेट — फ़ोटो अपलोड नहीं होती।
+
+## Español (Spanish)
+
+- [Comprimir imagen](https://compresszone.com/es): Comprime imágenes JPG, PNG, WebP y HEIC gratis, o conviértelas a WebP. Todo ocurre en tu navegador: tus fotos nunca se suben a ningún servidor.
+- [Comprimir imagen a KB](https://compresszone.com/es/comprimir-imagen-a-kb): Comprime una imagen a un tamaño exacto en KB: 50 KB, 100 KB, 200 KB o el que necesites. Se elige automáticamente la mejor calidad que cabe. Gratis y privado.
+- [Comprimir a 100 KB](https://compresszone.com/es/comprimir-imagen-a-100kb): Reduce cualquier imagen a menos de 100 KB gratis. Ideal para formularios, correo electrónico y fotos de perfil. Privado: funciona en tu navegador, sin subidas.
+- [Foto tamaño pasaporte](https://compresszone.com/es/foto-tamano-pasaporte): Redimensiona una foto a tamaño pasaporte o visado: 35×45 mm (413×531 px) o 2×2 pulgadas (600×600 px). Fija también un límite de KB. Gratis y privado.
+- [Redimensionar imagen](https://compresszone.com/es/redimensionar-imagen): Redimensiona imágenes online gratis: reduce fotos a 1920, 1280 u 800 px y comprímelas en un solo paso. Privado: funciona en tu navegador, sin subidas.
+- [Comprimir a 200 KB](https://compresszone.com/es/comprimir-imagen-a-200kb): Comprime fotos a menos de 200 KB sin perder nitidez: ideal para webs, blogs, tiendas online y formularios. Gratis y privado, sin subir tus imágenes.
+- [HEIC a JPG](https://compresszone.com/es/heic-a-jpg): Convierte fotos HEIC y HEIF de iPhone a JPG online gratis y por lotes. Funciona en Chrome, Edge, Firefox y Safari. Privado: las fotos nunca se suben.
+- [JPG a WebP](https://compresszone.com/es/jpg-a-webp): Convierte imágenes JPG y JPEG a WebP online gratis. Los archivos WebP suelen pesar un 25–34% menos. Convierte por lotes en tu navegador, sin subidas.
+- [PNG a JPG](https://compresszone.com/es/png-a-jpg): Convierte imágenes PNG a JPG online gratis y obtén archivos mucho más ligeros para fotos y capturas. Convierte por lotes en tu navegador, sin subidas.
+- [JPG a PDF](https://compresszone.com/es/jpg-a-pdf): Convierte imágenes JPG, PNG y HEIC a PDF gratis. Ordena las páginas y elige A4 o Carta y los márgenes. Privado: tus imágenes nunca se suben.
+- [Unir PDF](https://compresszone.com/es/unir-pdf): Une varios archivos PDF en uno solo gratis. Arrastra para elegir el orden. Privado: los archivos se combinan en tu navegador y nunca se suben.

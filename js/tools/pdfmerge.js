@@ -1,6 +1,7 @@
 /* CompressZone — merge PDFs (pdf-lib). Files are combined in the order shown. */
 (function () {
   'use strict';
+  var t = window.czT || function (s) { return s; };
   var CZ = window.CZ, $ = CZ.$;
   var zone = $('#dropzone'), results = $('#results'), list = $('#file-list'), stats = $('#summary-stats');
   var mergeBtn = $('#merge-btn');
@@ -14,18 +15,18 @@
     var ok = items.filter(function (it) { return it.pages > 0; });
     var pages = ok.reduce(function (s, it) { return s + it.pages; }, 0);
     var size = items.reduce(function (s, it) { return s + it.file.size; }, 0);
-    stats.innerHTML = '<strong>' + items.length + ' PDF' + (items.length === 1 ? '' : 's') + '</strong> · ' + pages + ' pages · ' + CZ.formatBytes(size);
+    stats.innerHTML = '<strong>' + items.length + ' ' + t(items.length === 1 ? 'PDF' : 'PDFs') + '</strong> · ' + pages + ' ' + t('pages') + ' · ' + CZ.formatBytes(size);
     mergeBtn.disabled = ok.length < 2;
     list.innerHTML = items.map(function (it, i) {
       var meta = it.error ? '<span class="badge error">' + CZ.escapeHtml(it.error) + '</span>'
-        : it.pages ? it.pages + ' page' + (it.pages === 1 ? '' : 's') + ' · ' + CZ.formatBytes(it.file.size) : 'Reading…';
+        : it.pages ? it.pages + ' ' + t(it.pages === 1 ? 'page' : 'pages') + ' · ' + CZ.formatBytes(it.file.size) : t('Reading…');
       return '<li class="file-item" draggable="true" data-index="' + i + '">' +
         '<span class="thumb file-icon">' + ICON + '</span>' +
         '<div class="file-meta"><div class="file-name" title="' + CZ.escapeHtml(it.file.name) + '">' + (i + 1) + '. ' + CZ.escapeHtml(it.file.name) + '</div><div class="file-sizes">' + meta + '</div></div>' +
         '<div class="file-actions">' +
-          '<button type="button" class="icon-btn" data-act="up" aria-label="Move up" title="Move up"' + (i === 0 ? ' disabled' : '') + '>↑</button>' +
-          '<button type="button" class="icon-btn" data-act="down" aria-label="Move down" title="Move down"' + (i === items.length - 1 ? ' disabled' : '') + '>↓</button>' +
-          '<button type="button" class="icon-btn" data-act="remove" aria-label="Remove" title="Remove">✕</button>' +
+          '<button type="button" class="icon-btn" data-act="up" aria-label="' + t('Move up') + '" title="' + t('Move up') + '"' + (i === 0 ? ' disabled' : '') + '>↑</button>' +
+          '<button type="button" class="icon-btn" data-act="down" aria-label="' + t('Move down') + '" title="' + t('Move down') + '"' + (i === items.length - 1 ? ' disabled' : '') + '>↓</button>' +
+          '<button type="button" class="icon-btn" data-act="remove" aria-label="' + t('Remove') + '" title="' + t('Remove') + '">✕</button>' +
         '</div></li>';
     }).join('');
   }
@@ -39,9 +40,9 @@
           it.bytes = buf;
           return PDFLib.PDFDocument.load(buf, { ignoreEncryption: true });
         }).then(function (doc) {
-          if (doc.isEncrypted) it.error = 'Password-protected — unlock it first';
+          if (doc.isEncrypted) it.error = t('Password-protected — unlock it first');
           else it.pages = doc.getPageCount();
-        }).catch(function () { it.error = "Couldn't read this PDF"; }).then(render);
+        }).catch(function () { it.error = t("Couldn't read this PDF"); }).then(render);
       });
       render();
     });
@@ -49,7 +50,7 @@
 
   function merge() {
     var label = mergeBtn.textContent;
-    mergeBtn.disabled = true; mergeBtn.textContent = 'Merging…';
+    mergeBtn.disabled = true; mergeBtn.textContent = t('Merging…');
     CZ.loadPdfLib().then(function (PDFLib) {
       return PDFLib.PDFDocument.create().then(function (out) {
         out.setProducer('CompressZone (compresszone.com)');
@@ -65,8 +66,8 @@
       });
     }).then(function (bytes) {
       CZ.download(new Blob([bytes], { type: 'application/pdf' }), 'merged.pdf');
-      CZ.toast('Merged PDF ready · ' + CZ.formatBytes(bytes.length));
-    }).catch(function (e) { console.error(e); CZ.toast('Could not merge these PDFs'); })
+      CZ.toast(t('Merged PDF ready') + ' · ' + CZ.formatBytes(bytes.length));
+    }).catch(function (e) { console.error(e); CZ.toast(t('Could not merge these PDFs')); })
       .then(function () { mergeBtn.textContent = label; render(); });
   }
 
@@ -82,5 +83,5 @@
   CZ.sortable(list, function (from, to) { CZ.move(items, from, to); render(); });
   $('#clear-btn').addEventListener('click', function () { items = []; render(); });
   mergeBtn.addEventListener('click', merge);
-  CZ.setupDrop({ zone: zone, input: $('#file-input'), accept: CZ.isPdf, onFiles: add, rejectMessage: 'Please choose PDF files' });
+  CZ.setupDrop({ zone: zone, input: $('#file-input'), accept: CZ.isPdf, onFiles: add, rejectMessage: t('Please choose PDF files') });
 })();

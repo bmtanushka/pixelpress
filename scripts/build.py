@@ -92,10 +92,18 @@ HUBS = {"image": ["compress", "convert", "edit"], "pdf": ["pdf"]}
 # Languages. Pages in src/pages/<lang>/ set `lang:` and `alt:` (the English page they translate);
 # hreflang links are generated in both directions.
 LANGS = {
-    "en": {"home": "/", "home_name": "Home", "locale": "en_US", "name": "English",
+    "en": {"home": "/", "home_name": "Home", "locale": "en_US", "name": "English", "view": "View in English",
            "skip": "Skip to content", "noscript": "CompressZone tools need JavaScript to process files in your browser."},
-    "hi": {"home": "/hi", "home_name": "होम", "locale": "hi_IN", "name": "हिन्दी",
-           "skip": "मुख्य सामग्री पर जाएँ", "noscript": "CompressZone टूल चलाने के लिए ब्राउज़र में JavaScript चालू होना ज़रूरी है।"},
+    "hi": {"home": "/hi", "home_name": "होम", "locale": "hi_IN", "name": "हिन्दी", "view": "हिन्दी में देखें",
+           "skip": "मुख्य सामग्री पर जाएँ", "noscript": "CompressZone टूल चलाने के लिए ब्राउज़र में JavaScript चालू होना ज़रूरी है।",
+           "more": "और मुफ़्त टूल", "more_aria": "और टूल",
+           "extra": [("/image-tools", "All image tools (English) →"), ("/pdf-tools", "PDF tools (English) →"),
+                     ("/reduce-photo-size-for-online-forms", "Guide: photo size for online forms")]},
+    "es": {"home": "/es", "home_name": "Inicio", "locale": "es_ES", "name": "Español", "view": "Ver en español",
+           "skip": "Saltar al contenido", "noscript": "Las herramientas de CompressZone necesitan JavaScript para procesar tus archivos en el navegador.",
+           "more": "Más herramientas gratis", "more_aria": "Más herramientas",
+           "extra": [("/image-tools", "All image tools (English) →"), ("/pdf-tools", "All PDF tools (English) →"),
+                     ("/image-compression-test", "JPG vs WebP test (English)")]},
 }
 HUB_PATH = {"image": "/image-tools", "pdf": "/pdf-tools"}
 
@@ -250,15 +258,14 @@ def related(page, pages):
             '    </section>\n')
 
 
-def related_hi(page, pages):
+def related_local(page, pages, L):
+    """Related tools for a translated page: the other pages in the same language, then English hubs."""
     links = [p for p in pages if p["type"] == "tool" and p["path"] != page["path"]]
     items = "\n".join(f'        <a href="{p["path"]}">{html.escape(p["nav"])}</a>' for p in links)
-    items += ('\n        <a class="more" href="/image-tools" lang="en">All image tools (English) →</a>'
-              '\n        <a class="more" href="/pdf-tools" lang="en">PDF tools (English) →</a>'
-              '\n        <a class="more" href="/reduce-photo-size-for-online-forms" lang="en">Guide: photo size for online forms</a>')
+    items += "".join(f'\n        <a class="more" href="{u}" lang="en">{html.escape(n)}</a>' for u, n in L["extra"])
     return ('    <section class="container content" aria-labelledby="related-h">\n'
-            '      <h2 id="related-h">और मुफ़्त टूल</h2>\n'
-            f'      <nav class="tool-links" aria-label="और टूल">\n{items}\n      </nav>\n'
+            f'      <h2 id="related-h">{html.escape(L["more"])}</h2>\n'
+            f'      <nav class="tool-links" aria-label="{html.escape(L["more_aria"])}">\n{items}\n      </nav>\n'
             '    </section>\n')
 
 
@@ -309,7 +316,7 @@ def render(page, all_pages, layout, partials, snippets):
     body = body.replace("{{hub:all}}", tool_cards(pages, [c for c, _ in CATEGORIES]))
     body = body.replace("{{guides}}", '        <div class="tool-cards">\n' + guide_cards(pages) + '\n        </div>')
     body = re.sub(r"\{\{ad:(\w+)\}\}\n?", lambda m: ad(m.group(1)) if ads_allowed(page) else "", body)
-    body = body.replace("{{related}}", related_hi(page, pages) if lang == "hi" else related(page, pages))
+    body = body.replace("{{related}}", related_local(page, pages, L) if lang != "en" else related(page, pages))
 
     crumbs = ""
     if page.get("breadcrumb"):
@@ -364,10 +371,10 @@ def render(page, all_pages, layout, partials, snippets):
         "jsonld": jsonld(page, pages),
         "scripts": scripts,
         "body_attrs": attrs,
-        "breadcrumbs": (f'    <div class="container lang-bar"><a href="{alts["hi"]}" hreflang="hi" lang="hi">हिन्दी में देखें</a></div>\n'
-                        if lang == "en" and "hi" in alts else
-                        f'    <div class="container lang-bar"><a href="{alts["en"]}" hreflang="en" lang="en">View in English</a></div>\n'
-                        if lang != "en" and "en" in alts else "") + crumbs,
+        "breadcrumbs": ('    <div class="container lang-bar">'
+                        + "".join(f'<a href="{u}" hreflang="{l}" lang="{l}">{LANGS[l]["view"]}</a>'
+                                  for l, u in sorted(alts.items(), key=lambda x: x[0] != "en"))
+                        + '</div>\n' if alts else "") + crumbs,
         "content": body.rstrip("\n"),
         "after": ("\n" + partials.get("compare." + lang, partials["compare"])) if eng and eng.get("dialog") else "",
     }
@@ -404,11 +411,12 @@ def llms(all_pages):
         for p in pages:
             if p["type"] in types and not p.get("noindex"):
                 out.append(f"- [{p.get('nav', p['title'])}]({url_of(p)}): {p['description']}")
-    hi = [p for p in all_pages if p["lang"] == "hi" and not p.get("noindex")]
-    if hi:
-        out.append("\n## हिन्दी (Hindi)\n")
-        for p in hi:
-            out.append(f"- [{p.get('nav', p['title'])}]({url_of(p)}): {p['description']}")
+    for code, title in (("hi", "हिन्दी (Hindi)"), ("es", "Español (Spanish)")):
+        local = [p for p in all_pages if p["lang"] == code and not p.get("noindex")]
+        if local:
+            out.append(f"\n## {title}\n")
+            for p in local:
+                out.append(f"- [{p.get('nav', p['title'])}]({url_of(p)}): {p['description']}")
     return "\n".join(out) + "\n"
 
 
@@ -420,11 +428,14 @@ def main():
     for p in pages:
         p.setdefault("lang", "en")
     by_path = {p["path"]: p for p in pages}
+    groups = {}  # English path → {lang: path} for the page and all its translations
     for p in pages:
         if p.get("alt"):
-            en = by_path[p["alt"]]
-            en.setdefault("alts", {})[p["lang"]] = p["path"]
-            p.setdefault("alts", {})["en"] = en["path"]
+            g = groups.setdefault(p["alt"], {"en": p["alt"]})
+            g[p["lang"]] = p["path"]
+    for g in groups.values():
+        for l, path in g.items():
+            by_path[path]["alts"] = {k: v for k, v in g.items() if k != l}
     order = {"tool": 0, "hub": 1, "article": 2, "page": 3}
     cat_order = {c: i for i, (c, _) in enumerate(CATEGORIES)}
     pages.sort(key=lambda p: (order[p["type"]], cat_order.get(p.get("category"), 9), -float(p.get("priority", 0.5)), p["path"]))

@@ -17,6 +17,21 @@
       'Free, private image & PDF tools — files never leave your device.': 'मुफ़्त, प्राइवेट फ़ोटो और PDF टूल — फ़ाइलें आपके डिवाइस से बाहर नहीं जातीं।'
     }
   };
+  DICT.es = {
+    'Compressing…': 'Comprimiendo…', 'Already optimized': 'Ya optimizada', 'Under': 'Menos de', "Couldn't reach": 'No se pudo llegar a',
+    'Download': 'Descargar', 'Download all (ZIP)': 'Descargar todo (ZIP)', 'Remove': 'Quitar', 'Compare before & after': 'Comparar antes y después',
+    'image': 'imagen', 'images': 'imágenes', 'Saved': 'Ahorro', 'in progress': 'en proceso',
+    "This browser can't read this image format": 'Este navegador no puede leer este formato de imagen', 'Could not compress this image': 'No se pudo comprimir esta imagen',
+    'Please choose image files': 'Elige archivos de imagen', 'Please choose a supported file': 'Elige un archivo compatible', 'Could not create ZIP file': 'No se pudo crear el archivo ZIP',
+    'Drag thumbnails to reorder': 'Arrastra las miniaturas para ordenarlas', 'Move earlier': 'Mover antes', 'Move later': 'Mover después',
+    "Couldn't read": 'No se pudo leer', 'Creating…': 'Creando…', 'PDF created': 'PDF creado', 'Could not create the PDF': 'No se pudo crear el PDF',
+    'PDF': 'PDF', 'PDFs': 'PDF', 'page': 'página', 'pages': 'páginas', 'Reading…': 'Leyendo…', 'Move up': 'Subir', 'Move down': 'Bajar',
+    'Password-protected — unlock it first': 'Protegido con contraseña: desbloquéalo primero', "Couldn't read this PDF": 'No se pudo leer este PDF',
+    'Merging…': 'Uniendo…', 'Merged PDF ready': 'PDF unido listo', 'Could not merge these PDFs': 'No se pudieron unir estos PDF', 'Please choose PDF files': 'Elige archivos PDF',
+    'Done! Was this helpful?': '¡Listo! ¿Te ha servido?', 'CompressZone is free and private. Sharing it helps keep it that way.': 'CompressZone es gratis y privado. Compartirlo nos ayuda a que siga así.',
+    'Share': 'Compartir', 'Install app': 'Instalar app', 'Link copied ✓': 'Enlace copiado ✓', 'Close': 'Cerrar',
+    'Free, private image & PDF tools — files never leave your device.': 'Herramientas gratis y privadas para imágenes y PDF: tus archivos nunca salen de tu dispositivo.'
+  };
   var LANG = (document.documentElement.lang || 'en').slice(0, 2);
   var t = window.czT = function (s) { return (DICT[LANG] && DICT[LANG][s]) || s; };
 

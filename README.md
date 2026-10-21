@@ -48,7 +48,7 @@ python3 scripts/build.py      # regenerates *.html, sitemap.xml and llms.txt
 node scripts/og_images.mjs    # optional: regenerate per-page share images (needs Playwright)
 ```
 
-- **Languages:** pages in `src/pages/hi/` set `lang: hi` and `alt:`, which names the English page they translate. The build adds `hreflang` links in both directions, the Hindi header and footer (`src/nav.hi.html`, `src/footer.hi.html`) and the Hindi tool UI (`src/partials/*.hi.html`). Tool messages are translated in the `DICT` table in `js/site.js`.
+- **Languages:** pages in `src/pages/hi/` (Hindi) and `src/pages/es/` (Spanish, with Spanish URL slugs) set `lang:` and `alt:`, which names the English page they translate. The build adds `hreflang` links in both directions, each language's header and footer (`src/nav.<lang>.html`, `src/footer.<lang>.html`) and translated tool UI (`src/partials/*.<lang>.html`). Add a language in `LANGS` in `scripts/build.py`. Tool messages are translated in the `DICT` table in `js/site.js`.
 - **Guides:** article pages with `parent: /guides|Guides`. They get Article, HowTo and FAQPage schema. Tool pages link their guides with `guide:` and `guide2:`.
 - **Data:** `/image-compression-test` publishes the JPG vs WebP benchmark, with `data/compression-test-2026.csv` (CC BY 4.0) and Dataset schema.
 

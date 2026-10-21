@@ -23,14 +23,16 @@ const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&
 const KICKER = {
   en: { tool: 'Free · Private · Runs in your browser', article: 'Guide', hub: 'Free tools', page: 'CompressZone' },
   hi: { tool: 'मुफ़्त · प्राइवेट · ब्राउज़र में चलता है', article: 'गाइड', hub: 'मुफ़्त टूल', page: 'CompressZone' },
+  es: { tool: 'Gratis · Privado · Funciona en tu navegador', article: 'Guía', hub: 'Herramientas gratis', page: 'CompressZone' },
 };
 const MARK = '<svg viewBox="0 0 32 32"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b5bf6"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#g)"/><path d="M8.5 8.5 14 14m0-5v5H9M23.5 23.5 18 18m0 5v-5h5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function card(p) {
   const lang = p.lang || 'en';
-  const title = p.path === '/' ? 'Free image &amp; PDF tools' : esc(p.headline || p.nav || p.title);
+  const home = { '/': 'Free image &amp; PDF tools', '/es': 'Herramientas gratis de imagen y PDF', '/hi': 'मुफ़्त फ़ोटो और PDF टूल' };
+  const title = home[p.path] || esc(p.headline || p.nav || p.title);
   const big = title.length > 46 ? 58 : title.length > 28 ? 72 : 88;
-  const pill = lang === 'hi' ? '100% प्राइवेट · फ़ाइलें अपलोड नहीं होतीं' : '100% private · files never leave your device';
+  const pill = { hi: '100% प्राइवेट · फ़ाइलें अपलोड नहीं होतीं', es: '100% privado · tus archivos no se suben' }[lang] || '100% private · files never leave your device';
   return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><style>
 *{margin:0;box-sizing:border-box}
 body{width:1200px;height:630px;font-family:Inter,ui-sans-serif,system-ui,"Segoe UI",Roboto,"Noto Sans Devanagari",Arial,sans-serif;background:#f6f6fa;color:#15151f;position:relative;overflow:hidden;padding:72px 88px;display:flex;flex-direction:column}
